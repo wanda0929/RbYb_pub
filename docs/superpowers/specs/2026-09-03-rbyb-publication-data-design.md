@@ -23,7 +23,8 @@ The Förster gate is the paper's only gate construction.
 
 Publish:
 
-- the dense all-magnetic-sublevel pair track, zero-field C6 calculation, magnetic-sector values, and magnetic-field scan behind Figure 4;
+- the dense all-magnetic-sublevel pair track, zero-field C6 calculation, and magnetic-sector values behind Figure 4;
+- the magnetic-field scan supporting the prose discussion of finite-field behavior;
 - the database and solver provenance needed to reproduce those values;
 - the reduced two-level sequential-pulse feasibility estimate reported only in Appendix A and Table III.
 
