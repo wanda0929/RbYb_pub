@@ -42,65 +42,60 @@ Python dependencies are locked with [`uv`](https://docs.astral.sh/uv/):
 uv sync
 ```
 
-The calculations require PairInteraction 2.5.0 and two database profiles:
-
-- **Primary profile:** Rb v1.2 and Yb171_mqdt v1.4 for transition identities,
-  all-\(m\) Förster characterization, the Förster gate, and all vdW results.
-- **Archived Figure 1 fixed-\(m\) profile:** Rb v1.2 and Yb171_mqdt v1.2 in a
-  separate database root.
+The calculations require PairInteraction 2.5.0 and one database profile: Rb
+v1.2, Yb171_mqdt v1.4, and the common `misc` v1.4 Wigner table. This profile is
+used consistently for the transition identities, fixed- and all-\(m\) Förster
+characterization, the Förster gate, and all vdW results.
 
 The database files are not redistributed here. Download and verify them using
-the release URLs and SHA-256 values in the two database manifests under
-`provenance/`.
-Extract the primary profile under PairInteraction's active `tables` directory,
-which can be printed with:
+the release URLs and SHA-256 values in
+`provenance/pairinteraction_database_manifest.json`. PairInteraction's active
+database directory can be printed with:
 
 ```bash
 uv run python -c \
   'import pairinteraction as p; print(p.Database(download_missing=False).database_dir)'
 ```
 
-Create an isolated directory for the archived profile. Each downloaded ZIP
-contains its versioned directory, so extraction is:
+Install the three archived releases with PairInteraction's database command:
 
 ```bash
-FIXED_M_DB=/path/to/figure1-v1p2
-mkdir -p "$FIXED_M_DB/tables"
-unzip Rb_v1.2.zip -d "$FIXED_M_DB/tables"
-unzip Yb171_mqdt_v1.2.zip -d "$FIXED_M_DB/tables"
+uv run pairinteraction database download \
+  https://github.com/pairinteraction/database-sqdt/releases/download/v1.2/Rb_v1.2.zip \
+  https://github.com/pairinteraction/database-mqdt/releases/download/v1.4/Yb171_mqdt_v1.4.zip \
+  https://github.com/pairinteraction/database-sqdt/releases/download/v1.4/misc_v1.4.zip
 ```
 
-After extraction, verify every required database table before calculating:
+Then verify every required database table before calculating:
 
 ```bash
 uv run python scripts/verify_pairinteraction_databases.py
-uv run python scripts/verify_pairinteraction_databases.py \
-  --manifest provenance/pairinteraction_database_manifest_figure1_fixed_m.json \
-  --database-dir "$FIXED_M_DB"
 ```
 
 The lockfile uses NumPy 2.3.5 because it is compatible with PairInteraction
 2.5.0 on all supported platforms. The NumPy patch/minor version recorded in
 each JSON is retained as provenance.
 
-### Figure 1 database provenance
+### Figure 1 consistency provenance
 
-A provenance audit found that the archived fixed-\(m\) distance, field, and
-angle scans in Figure 1 are reproduced exactly with Yb171_mqdt v1.2, rather
-than v1.4. For example, v1.2 gives the reported 30.799763 MHz splitting and
-99.689270% transfer at 3.4 µm; the otherwise identical v1.4 recalculation gives
-31.109927 MHz and 97.286139%. `forster_characterization.json` preserves the
-reported v1.2 scans, includes the current-v1.4 operating-point recalculation,
-and identifies both manifests. The transition identities, all-\(m\) data,
-Förster gate, and vdW calculations use v1.4.
+`forster_characterization.json` now derives the projected two-state model,
+finite-basis bright-state weights and splitting, propagated populations,
+distance/field/angle scans, and convergence checks from explicit complex
+\(PP\) and \(SS\) amplitudes in the same Yb171_mqdt v1.4 Hamiltonian. At
+\(R=3.4\,\mu\mathrm{m}\), the direct projection gives
+\(|V|/h=15.401772\,\mathrm{MHz}\) and a generalized splitting of
+30.813011 MHz. The 2411-state calculation gives a 31.109926 MHz bright-state
+splitting and 97.286387% first-maximum transfer at 15.989779 ns, below its
+97.309617% phase-independent unitarity bound. The record also contains the
+three basis-convergence checks used to set the manuscript's reporting
+precision.
 
-The Figure 1(b) percentages require a second distinction. The displayed
-54.4/45.2 and 45.4/54.3 percent PP/SS weights reproduce the archived v1.2
-calculation at 3.0 µm, although the manuscript caption assigns them to 3.4 µm.
-At the captioned distance the reconstructed weights are approximately
-50.74/49.11 and 49.18/50.66 percent. The JSON retains the displayed values and
-both full-precision reconstructions, and flags the distance mismatch rather
-than presenting the displayed values as a 3.4 µm recalculation.
+The static all-\(m\) exchange scan and the driven-gate scan answer different
+questions. The sampled static transfer is largest at 5 G (99.5437%), whereas
+the fixed composite pulse was optimized at 3.10 G and its phase-recalibrated
+gate scan peaks at 3.15 G (99.92953%); the same pulse gives 99.69967% at 5 G.
+The latter scan reoptimizes local phases, not pulse parameters, so it does not
+claim a global joint field-and-pulse optimum.
 
 ## Reproduction
 
@@ -108,8 +103,7 @@ Quick checks validate database hashes, state identities, basis construction,
 and one operating point without overwriting committed data:
 
 ```bash
-uv run python scripts/reproduce_forster_characterization.py \
-  --fixed-m-database-dir "$FIXED_M_DB" --quick-check
+uv run python scripts/reproduce_forster_characterization.py --quick-check
 uv run python scripts/reproduce_forster_gate.py --quick-check
 uv run python scripts/reproduce_vdw_dense.py --quick-check
 ```
@@ -117,8 +111,7 @@ uv run python scripts/reproduce_vdw_dense.py --quick-check
 Regenerate all committed numerical records:
 
 ```bash
-uv run python scripts/reproduce_forster_characterization.py \
-  --fixed-m-database-dir "$FIXED_M_DB"
+uv run python scripts/reproduce_forster_characterization.py
 uv run python scripts/reproduce_forster_gate.py
 uv run python scripts/reproduce_vdw_dense.py
 uv run python scripts/reproduce_vdw_feasibility.py

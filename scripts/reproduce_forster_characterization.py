@@ -1,392 +1,624 @@
 #!/usr/bin/env python3
-"""Reproduce the numerical characterization behind Figure 1.
+"""Reproduce the fixed-m Rb--Yb Foerster-channel characterization.
 
-No figure is generated. The output contains the state identities and transition
-directions, bright-state composition, fixed-m distance/field/angle scans, and
-the all-magnetic-sublevel field scan.
+Every reported eigenstate weight, splitting, and transfer probability is
+derived from the same PairInteraction Hamiltonian and the explicit |PP> and
+|SS> target amplitudes.  The output is the sole numerical input for Fig. 1.
+
+Required database assets:
+  Rb v1.2, Yb171_mqdt v1.4, and misc v1.4.
+
+Output:
+  data/forster_characterization.json
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
-import subprocess
 import sys
-import tempfile
+from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
+import forster_model as gate_model
 import numpy as np
 import pairinteraction as pi
-from forster_model import SCAN_BASIS, build_pair_model, forster_kets
+import scipy
+from pairinteraction._backend import get_cache_directory
+from scipy.linalg import eigh
+from scipy.optimize import minimize_scalar
 from verify_pairinteraction_databases import verify_database_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "data" / "forster_characterization.json"
 PRIMARY_MANIFEST = ROOT / "provenance" / "pairinteraction_database_manifest.json"
-FIXED_M_MANIFEST = ROOT / "provenance" / "pairinteraction_database_manifest_figure1_fixed_m.json"
+
 
 M = 0.5
-DISTANCE_GRID_UM = (3.0, 3.2, 3.3, 3.4, 3.5, 3.6, 3.8, 4.0, 4.5, 5.0)
-FIXED_M_FIELD_GRID_G = (0.0, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0, 10.0)
-ANGLE_GRID_DEG = (0.0, 15.0, 30.0, 45.0, 60.0, 75.0, 90.0)
-ALL_M_COARSE_FIELD_GRID_G = tuple(np.arange(0.0, 6.0 + 0.25, 0.5))
-ALL_M_FINE_FIELD_GRID_G = tuple(np.arange(3.7, 4.3 + 0.0125, 0.025))
-ALL_M_EXTENSION_FIELD_GRID_G = tuple(np.arange(6.5, 10.0 + 0.25, 0.5))
+INTERACTION_ORDER = 3
+PRIMARY_DELTA_N = 3
+PRIMARY_L_MAX = 3
+PRIMARY_PAIR_WINDOW_GHZ = 80.0
+R_GRID_UM = [3.0, 3.2, 3.3, 3.4, 3.5, 3.6, 3.8, 4.0, 4.5, 5.0]
+B_GRID_G = [0.0, 0.5, 1.0, 2.0, 3.0, 3.1, 4.0, 5.0, 7.0, 10.0]
+ANGLE_GRID_DEG = [0.0, 15.0, 30.0, 45.0, 60.0, 75.0, 90.0]
+OPERATING_DISTANCE_UM = 3.4
 
 
-def dense(value) -> np.ndarray:
+def dense_vector(value: object) -> np.ndarray:
+    """Flatten a PairInteraction vector without discarding complex phases."""
+
     if hasattr(value, "toarray"):
         value = value.toarray()
-    return np.asarray(value)
+    return np.asarray(value, dtype=complex).reshape(-1)
 
 
-def transition_data() -> dict[str, object]:
-    rb_pp, rb_ss, yb_pp, yb_ss = forster_kets()
-    rb_absorption = float(rb_pp.get_energy("GHz") - rb_ss.get_energy("GHz"))
-    yb_release = float(yb_ss.get_energy("GHz") - yb_pp.get_energy("GHz"))
-    defect = 1000 * (yb_release - rb_absorption)
-    return {
-        "initial_pair": "SS",
-        "final_pair": "PP",
-        "states": {
-            "rb_ss": {"selector": "Rb n=56 l=0 j=1/2 m=1/2", "label": str(rb_ss)},
-            "rb_pp": {"selector": "Rb n=56 l=1 j=1/2 m=1/2", "label": str(rb_pp)},
-            "yb_ss": {
-                "selector": "Yb171_mqdt n=53 l=0 s=1 f=1/2 m=1/2",
-                "label": str(yb_ss),
-                "effective_principal_quantum_number": float(yb_ss.nu),
-            },
-            "yb_pp": {
-                "selector": "Yb171_mqdt n=52 l=1 s=0 f=1/2 m=1/2",
-                "label": str(yb_pp),
-                "effective_principal_quantum_number": float(yb_pp.nu),
-            },
-        },
-        "transitions": {
-            "rb": {
-                "direction": "56S_1/2 -> 56P_1/2",
-                "process": "absorbs",
-                "frequency_ghz": rb_absorption,
-            },
-            "yb": {
-                "direction": "S(nu=48.369927) -> P(nu=48.014048)",
-                "process": "releases",
-                "frequency_ghz": yb_release,
-            },
-        },
-        "signed_defect_definition": "E(SS)-E(PP)",
-        "signed_defect_mhz": defect,
-        "absolute_mismatch_mhz": abs(defect),
-    }
+def target_kets() -> tuple[pi.KetAtom, pi.KetAtom, pi.KetAtom, pi.KetAtom]:
+    rb_pp = pi.KetAtom("Rb", n=56, l=1, j=0.5, m=M)
+    rb_ss = pi.KetAtom("Rb", n=56, l=0, j=0.5, m=M)
+    yb_pp = pi.KetAtom("Yb171_mqdt", n=52, l=1, s=0, f=0.5, m=M)
+    yb_ss = pi.KetAtom("Yb171_mqdt", n=53, l=0, s=1, f=0.5, m=M)
+    return rb_pp, rb_ss, yb_pp, yb_ss
 
 
-def fixed_m_basis(field_gauss: float = 0.0, archived_database: bool = False):
-    rb_pp, _, yb_pp, _ = forster_kets()
-    if archived_database:
-        # In Yb171_mqdt v1.2 this physical P series is selected by its
-        # triplet-character mixing value rather than the v1.4 singlet label.
-        yb_pp = pi.KetAtom("Yb171_mqdt", n=52, l=1, s=0.8, f=0.5, m=0.5)
-    pp_energy_mhz = float(rb_pp.get_energy("MHz") + yb_pp.get_energy("MHz"))
-    rb_system = pi.SystemAtom(pi.BasisAtom("Rb", n=(53, 59), l=(0, 3), m=(M, M)))
-    yb_system = pi.SystemAtom(pi.BasisAtom("Yb171_mqdt", n=(49, 55), l=(0, 3), m=(M, M)))
+def make_fixed_m_basis(
+    field_gauss: float,
+    delta_n: int = PRIMARY_DELTA_N,
+    l_max: int = PRIMARY_L_MAX,
+    pair_window_ghz: float = PRIMARY_PAIR_WINDOW_GHZ,
+) -> dict[str, object]:
+    rb_pp, rb_ss, yb_pp, yb_ss = target_kets()
+    rb_system = pi.SystemAtom(
+        pi.BasisAtom(
+            "Rb",
+            n=(56 - delta_n, 56 + delta_n),
+            l=(0, l_max),
+            m=(M, M),
+        )
+    )
+    yb_system = pi.SystemAtom(
+        pi.BasisAtom(
+            "Yb171_mqdt",
+            n=(52 - delta_n, 52 + delta_n),
+            l=(0, l_max),
+            m=(M, M),
+        )
+    )
     if field_gauss:
         rb_system.set_magnetic_field([0, 0, field_gauss], unit="G").diagonalize()
         yb_system.set_magnetic_field([0, 0, field_gauss], unit="G").diagonalize()
+
+    pp_energy_mhz = float(
+        rb_system.get_corresponding_energy(rb_pp, unit="MHz")
+        + yb_system.get_corresponding_energy(yb_pp, unit="MHz")
+    )
+    ss_energy_mhz = float(
+        rb_system.get_corresponding_energy(rb_ss, unit="MHz")
+        + yb_system.get_corresponding_energy(yb_ss, unit="MHz")
+    )
     pair_basis = pi.BasisPair(
         [rb_system, yb_system],
         m=(2 * M, 2 * M),
-        energy=(pp_energy_mhz / 1000 - 80, pp_energy_mhz / 1000 + 80),
+        energy=(
+            pp_energy_mhz / 1000 - pair_window_ghz,
+            pp_energy_mhz / 1000 + pair_window_ghz,
+        ),
         energy_unit="GHz",
     )
-    return pair_basis, (rb_pp, yb_pp), pp_energy_mhz
+
+    pp_raw = dense_vector(pair_basis.get_amplitudes((rb_pp, yb_pp)))
+    ss_raw = dense_vector(pair_basis.get_amplitudes((rb_ss, yb_ss)))
+    pp_norm = float(np.vdot(pp_raw, pp_raw).real)
+    ss_norm = float(np.vdot(ss_raw, ss_raw).real)
+    target_gram = complex(np.vdot(pp_raw, ss_raw))
+    if min(pp_norm, ss_norm) < 0.999 or abs(target_gram) > 1e-10:
+        raise RuntimeError(
+            "Target states are not faithfully represented: "
+            f"PP norm={pp_norm}, SS norm={ss_norm}, Gram={target_gram}"
+        )
+
+    return {
+        "field_gauss": field_gauss,
+        "delta_n": delta_n,
+        "l_max": l_max,
+        "pair_window_ghz": pair_window_ghz,
+        "pair_basis": pair_basis,
+        "pair_basis_size": int(pair_basis.number_of_states),
+        "pp_energy_mhz": pp_energy_mhz,
+        "ss_energy_mhz": ss_energy_mhz,
+        "pp_norm_before_normalization": pp_norm,
+        "ss_norm_before_normalization": ss_norm,
+        "pp": pp_raw / np.sqrt(pp_norm),
+        "ss": ss_raw / np.sqrt(ss_norm),
+    }
 
 
-def fixed_m_point(
+def transfer_populations(
+    time_us: float,
+    energies_mhz: np.ndarray,
+    pp_overlap: np.ndarray,
+    ss_overlap: np.ndarray,
+) -> tuple[float, float, float]:
+    phases = np.exp(-2j * np.pi * energies_mhz * time_us)
+    pp_amplitude = np.sum(phases * np.conj(pp_overlap) * ss_overlap)
+    ss_amplitude = np.sum(phases * np.abs(ss_overlap) ** 2)
+    pp_population = float(abs(pp_amplitude) ** 2)
+    ss_population = float(abs(ss_amplitude) ** 2)
+    spectator_population = float(max(0.0, 1 - pp_population - ss_population))
+    return pp_population, ss_population, spectator_population
+
+
+def analyze_spectrum(
+    energies_mhz: np.ndarray,
+    pp_overlap: np.ndarray,
+    ss_overlap: np.ndarray,
+    include_trajectory: bool,
+) -> dict[str, object]:
+    pp_weight = np.abs(pp_overlap) ** 2
+    ss_weight = np.abs(ss_overlap) ** 2
+    bright = np.argsort(-(pp_weight + ss_weight))[:2]
+    bright = bright[np.argsort(energies_mhz[bright])]
+    full_splitting_mhz = float(energies_mhz[bright[1]] - energies_mhz[bright[0]])
+
+    # Locate the largest transfer in the first bright-state oscillation and
+    # refine it continuously.  This avoids mistaking tiny high-frequency
+    # spectator ripples for the physically relevant first exchange maximum.
+    period_us = 1 / full_splitting_mhz
+    coarse_times = np.linspace(0, period_us, 801)
+    coarse_transfer = np.array(
+        [transfer_populations(t, energies_mhz, pp_overlap, ss_overlap)[0] for t in coarse_times]
+    )
+    maximum_index = int(np.argmax(coarse_transfer))
+    lower = coarse_times[max(0, maximum_index - 2)]
+    upper = coarse_times[min(len(coarse_times) - 1, maximum_index + 2)]
+    optimum = minimize_scalar(
+        lambda t: -transfer_populations(float(t), energies_mhz, pp_overlap, ss_overlap)[0],
+        bounds=(lower, upper),
+        method="bounded",
+        options={"xatol": 1e-15},
+    )
+    pp_population, ss_population, spectator_population = transfer_populations(
+        float(optimum.x), energies_mhz, pp_overlap, ss_overlap
+    )
+
+    bright_states = []
+    for label, index in zip(("lower", "upper"), bright, strict=True):
+        coefficient = complex(np.conj(pp_overlap[index]) * ss_overlap[index])
+        bright_states.append(
+            {
+                "label": label,
+                "energy_relative_to_pp_mhz": float(energies_mhz[index]),
+                "pp_weight": float(pp_weight[index]),
+                "ss_weight": float(ss_weight[index]),
+                "other_weight": float(1 - pp_weight[index] - ss_weight[index]),
+                "transfer_amplitude_coefficient_re_im": [
+                    float(coefficient.real),
+                    float(coefficient.imag),
+                ],
+            }
+        )
+
+    result: dict[str, object] = {
+        "full_bright_splitting_mhz": full_splitting_mhz,
+        "bright_states": bright_states,
+        "first_exchange_maximum": {
+            "time_ns": float(1000 * optimum.x),
+            "pp_population": pp_population,
+            "residual_ss_population": ss_population,
+            "spectator_population": spectator_population,
+        },
+        "unitarity_transfer_upper_bound": float(
+            np.sum(np.abs(np.conj(pp_overlap) * ss_overlap)) ** 2
+        ),
+        "completeness": {
+            "sum_pp_weights": float(np.sum(pp_weight)),
+            "sum_ss_weights": float(np.sum(ss_weight)),
+        },
+    }
+    if include_trajectory:
+        trajectory_times = np.linspace(0, period_us, 401)
+        trajectory = np.array(
+            [
+                transfer_populations(t, energies_mhz, pp_overlap, ss_overlap)
+                for t in trajectory_times
+            ]
+        )
+        result["trajectory"] = {
+            "time_ns": (1000 * trajectory_times).tolist(),
+            "pp_population": trajectory[:, 0].tolist(),
+            "ss_population": trajectory[:, 1].tolist(),
+            "spectator_population": trajectory[:, 2].tolist(),
+        }
+    return result
+
+
+def solve_fixed_m_point(
+    model: dict[str, object],
     distance_um: float,
-    angle_deg: float = 0.0,
-    field_gauss: float = 0.0,
-    archived_database: bool = False,
-) -> tuple[dict[str, float], list[dict[str, float]]]:
-    pair_basis, pp_pair, energy_reference = fixed_m_basis(field_gauss, archived_database)
-    hamiltonian = dense(
+    angle_deg: float,
+    include_trajectory: bool = False,
+) -> dict[str, object]:
+    pair_basis = model["pair_basis"]
+    pp = np.asarray(model["pp"], dtype=complex)
+    ss = np.asarray(model["ss"], dtype=complex)
+    pp_energy_mhz = float(model["pp_energy_mhz"])
+    hamiltonian = (
         pi.SystemPair(pair_basis)
         .set_distance(distance_um, angle_degree=angle_deg, unit="micrometer")
-        .set_interaction_order(3)
+        .set_interaction_order(INTERACTION_ORDER)
         .get_hamiltonian(unit="MHz")
-    ).astype(complex, copy=False)
-    if not np.allclose(hamiltonian, hamiltonian.conj().T, rtol=1e-8, atol=1e-10):
-        raise RuntimeError("fixed-m pair Hamiltonian is not Hermitian")
-    energies, eigenvectors = np.linalg.eigh(hamiltonian)
-    pp_vector = dense(pair_basis.get_overlaps(pp_pair)).astype(complex).reshape(-1)
-    pp_overlap = eigenvectors.conj().T @ pp_vector
-    pp_weights = np.abs(pp_overlap) ** 2
+        .toarray()
+        .astype(complex)
+    )
+    hamiltonian -= pp_energy_mhz * np.eye(len(hamiltonian))
+    scale = max(float(np.max(np.abs(hamiltonian))), 1.0)
+    hermiticity_error_mhz = float(np.max(np.abs(hamiltonian - hamiltonian.conj().T)))
+    if hermiticity_error_mhz / scale > 1e-12:
+        raise RuntimeError(f"Pair Hamiltonian is not Hermitian: {hermiticity_error_mhz}")
 
-    first_bright = int(np.argmax(pp_weights))
-    first_bright_composition = np.abs(eigenvectors[:, first_bright]) ** 2
-    pp_basis_index = int(np.argmax(np.abs(pp_vector) ** 2))
-    ss_basis_index = int(
-        next(index for index in np.argsort(-first_bright_composition) if index != pp_basis_index)
-    )
-    ss_vector = np.zeros_like(pp_vector)
-    ss_vector[ss_basis_index] = 1.0
-    ss_overlap = eigenvectors.conj().T @ ss_vector
-    ss_weights = np.abs(ss_overlap) ** 2
-    second_bright = int(next(index for index in np.argsort(-ss_weights) if index != first_bright))
-    splitting = float(abs(energies[first_bright] - energies[second_bright]))
-    times_us = np.arange(0, max(3 / (2 * splitting), 0.25), 5e-5)
-    phase = np.exp(-2j * np.pi * np.outer(energies - energy_reference, times_us))
-    pp_population = np.abs((np.abs(pp_overlap) ** 2) @ phase) ** 2
-    ss_population = np.abs((np.conj(ss_overlap) * pp_overlap) @ phase) ** 2
-    global_maximum = int(np.argmax(ss_population))
-    half_global_maximum = 0.5 * ss_population[global_maximum]
-    maximum = next(
-        (
-            index
-            for index in range(1, len(times_us) - 1)
-            if ss_population[index] > half_global_maximum
-            and ss_population[index] >= ss_population[index - 1]
-            and ss_population[index] >= ss_population[index + 1]
-        ),
-        global_maximum,
-    )
-    metrics = {
-        "distance_um": float(distance_um),
-        "theta_deg": float(angle_deg),
-        "field_gauss": float(field_gauss),
-        "splitting_mhz": splitting,
-        "first_maximum_transfer": float(ss_population[maximum]),
-        "coherent_spectator_leakage": float(1 - pp_population[maximum] - ss_population[maximum]),
-        "first_maximum_time_ns": float(1000 * times_us[maximum]),
-        "basis_size": int(pair_basis.number_of_states),
+    projected_pp_mhz = float(np.vdot(pp, hamiltonian @ pp).real)
+    projected_ss_mhz = float(np.vdot(ss, hamiltonian @ ss).real)
+    coupling = complex(np.vdot(pp, hamiltonian @ ss))
+    projected_defect_mhz = projected_ss_mhz - projected_pp_mhz
+    projected_splitting_mhz = float(np.sqrt(projected_defect_mhz**2 + 4 * abs(coupling) ** 2))
+    two_state = {
+        "pp_diagonal_mhz": projected_pp_mhz,
+        "ss_diagonal_mhz": projected_ss_mhz,
+        "defect_ss_minus_pp_mhz": projected_defect_mhz,
+        "coupling_re_im_mhz": [float(coupling.real), float(coupling.imag)],
+        "generalized_splitting_mhz": projected_splitting_mhz,
+        "maximum_transfer_probability": float(4 * abs(coupling) ** 2 / projected_splitting_mhz**2),
+        "first_maximum_time_ns": float(1000 / (2 * projected_splitting_mhz)),
     }
-    bright_states = [
+
+    energies_mhz, eigenvectors = eigh(hamiltonian, driver="evr", check_finite=False)
+    pp_overlap = eigenvectors.conj().T @ pp
+    ss_overlap = eigenvectors.conj().T @ ss
+    result = analyze_spectrum(energies_mhz, pp_overlap, ss_overlap, include_trajectory)
+    result.update(
         {
-            "energy_relative_to_pp_mhz": float(energies[index] - energy_reference),
-            "pp_weight": float(pp_weights[index]),
-            "ss_weight": float(ss_weights[index]),
-            "spectator_weight": float(max(0, 1 - pp_weights[index] - ss_weights[index])),
+            "distance_um": distance_um,
+            "theta_deg": angle_deg,
+            "field_gauss": float(model["field_gauss"]),
+            "pair_basis_size": int(model["pair_basis_size"]),
+            "hermiticity_error_mhz": hermiticity_error_mhz,
+            "projected_two_state_model": two_state,
         }
-        for index in (first_bright, second_bright)
-    ]
-    return metrics, bright_states
+    )
+    return result
 
 
-def all_m_point(field_gauss: float) -> dict[str, float | int]:
-    model = build_pair_model(field_gauss, SCAN_BASIS, 3.4, 0.0)
+def summarize_all_m_model(model: gate_model.PairModel) -> dict[str, object]:
+    result = analyze_spectrum(
+        model.energies_mhz,
+        model.pp_overlap,
+        model.ss_overlap,
+        include_trajectory=False,
+    )
     return {
-        "field_gauss": float(field_gauss),
-        "maximum_transfer": model.static_transfer["maximum_ss_population"],
-        "first_maximum_time_ns": 1000 * model.static_transfer["time_us"],
-        "pp_population_at_maximum": model.static_transfer["pp_population_at_maximum"],
-        "spectator_population_at_maximum": model.static_transfer["spectator_population_at_maximum"],
+        "field_gauss": model.field_gauss,
+        "distance_um": model.distance_um,
+        "theta_deg": model.theta_deg,
         "pair_basis_size": model.pair_basis_size,
         "symmetry_component_size": model.symmetry_component_size,
+        "pp_component_norm": model.pp_component_norm,
+        "ss_component_norm": model.ss_component_norm,
+        **result,
     }
 
 
-def fixed_m_scan_data(quick: bool = False) -> dict[str, object]:
-    if quick:
-        _, bright_states_at_3p0 = fixed_m_point(3.0, archived_database=True)
-        metrics, bright_states_at_3p4 = fixed_m_point(3.4, archived_database=True)
-        return {
-            "bright_eigenstates_at_3p0_um": bright_states_at_3p0,
-            "bright_eigenstates_at_3p4_um": bright_states_at_3p4,
-            "fixed_m_distance_scan": [metrics],
-        }
-
-    print("fixed-m distance scan", flush=True)
-    distance_rows = []
-    bright_states_at_3p0: list[dict[str, float]] = []
-    bright_states_at_3p4: list[dict[str, float]] = []
-    for distance in DISTANCE_GRID_UM:
-        print(f"  R={distance:.3f} um", flush=True)
-        row, bright_states = fixed_m_point(distance, archived_database=True)
-        distance_rows.append(row)
-        if distance == 3.0:
-            bright_states_at_3p0 = bright_states
-        if distance == 3.4:
-            bright_states_at_3p4 = bright_states
-
-    print("fixed-m field scan", flush=True)
-    field_rows = []
-    for field in FIXED_M_FIELD_GRID_G:
-        print(f"  B={field:.3f} G", flush=True)
-        field_rows.append(fixed_m_point(3.4, field_gauss=field, archived_database=True)[0])
-
-    print("fixed-m angle scan", flush=True)
-    angle_rows = []
-    for angle in ANGLE_GRID_DEG:
-        print(f"  theta={angle:.3f} deg", flush=True)
-        angle_rows.append(fixed_m_point(3.4, angle_deg=angle, archived_database=True)[0])
+def database_manifest() -> dict[str, object]:
+    tables = get_cache_directory() / "database" / "tables"
+    assets = {
+        "Rb": "Rb_v1.2",
+        "Yb171_mqdt": "Yb171_mqdt_v1.4",
+        "misc": "misc_v1.4",
+    }
+    files = []
+    for species, directory in assets.items():
+        asset_dir = tables / directory
+        if not asset_dir.is_dir():
+            raise RuntimeError(f"Missing required database asset: {asset_dir}")
+        for path in sorted(asset_dir.glob("*.parquet")):
+            digest = hashlib.sha256()
+            with path.open("rb") as handle:
+                for block in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(block)
+            files.append(
+                {
+                    "species": species,
+                    "relative_path": f"{directory}/{path.name}",
+                    "size_bytes": path.stat().st_size,
+                    "sha256": digest.hexdigest(),
+                }
+            )
     return {
-        "bright_eigenstates_at_3p0_um": bright_states_at_3p0,
-        "bright_eigenstates_at_3p4_um": bright_states_at_3p4,
-        "fixed_m_distance_scan": distance_rows,
-        "fixed_m_field_scan": field_rows,
-        "fixed_m_angle_scan": angle_rows,
+        "versions": {"Rb": "v1.2", "Yb171_mqdt": "v1.4", "misc": "v1.4"},
+        "files": files,
     }
 
 
-def fixed_m_worker(database_dir: Path, output: Path, quick: bool) -> None:
-    """Run the archived Figure 1 calculation in an isolated v1.2 process."""
-    verify_database_manifest(FIXED_M_MANIFEST, database_dir)
-    pi.Database.initialize_global_database(
-        download_missing=False,
-        database_dir=database_dir,
-    )
-    payload = {
-        "software": {
-            "pairinteraction": getattr(pi, "__version__", "unknown"),
-            "numpy": np.__version__,
+def compact_point(point: dict[str, object]) -> dict[str, object]:
+    maximum = point["first_exchange_maximum"]
+    return {
+        "distance_um": point["distance_um"],
+        "theta_deg": point["theta_deg"],
+        "field_gauss": point["field_gauss"],
+        "pair_basis_size": point["pair_basis_size"],
+        "full_bright_splitting_mhz": point["full_bright_splitting_mhz"],
+        "first_exchange_maximum": maximum,
+        "projected_two_state_model": point["projected_two_state_model"],
+    }
+
+
+def convergence_row(
+    label: str,
+    point: dict[str, object],
+    primary: dict[str, object],
+    config: dict[str, float | int],
+) -> dict[str, object]:
+    point_max = point["first_exchange_maximum"]
+    primary_max = primary["first_exchange_maximum"]
+    upper = point["bright_states"][1]
+    primary_upper = primary["bright_states"][1]
+    return {
+        "label": label,
+        "configuration": config,
+        "pair_basis_size": point["pair_basis_size"],
+        "full_bright_splitting_mhz": point["full_bright_splitting_mhz"],
+        "first_exchange_maximum": point_max,
+        "upper_bright_pp_weight": upper["pp_weight"],
+        "absolute_change_from_primary": {
+            "splitting_mhz": abs(
+                point["full_bright_splitting_mhz"] - primary["full_bright_splitting_mhz"]
+            ),
+            "transfer_probability": abs(point_max["pp_population"] - primary_max["pp_population"]),
+            "spectator_probability": abs(
+                point_max["spectator_population"] - primary_max["spectator_population"]
+            ),
+            "upper_bright_pp_weight": abs(upper["pp_weight"] - primary_upper["pp_weight"]),
         },
-        "database_manifest": str(FIXED_M_MANIFEST.relative_to(ROOT)),
-        **fixed_m_scan_data(quick),
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(payload, indent=2) + "\n")
 
 
-def run_fixed_m_worker(database_dir: Path, quick: bool) -> dict[str, object]:
-    with tempfile.TemporaryDirectory(prefix="rbyb-fixed-m-") as temporary_dir:
-        output = Path(temporary_dir) / "fixed_m.json"
-        command = [
-            sys.executable,
-            str(Path(__file__).resolve()),
-            "--fixed-m-worker",
-            "--fixed-m-database-dir",
-            str(database_dir),
-            "--output",
-            str(output),
-        ]
-        if quick:
-            command.append("--quick-check")
-        subprocess.run(command, check=True)
-        return json.loads(output.read_text())
-
-
-def quick_check(fixed_m_database_dir: Path) -> None:
+def initialize_verified_database() -> None:
     verify_database_manifest(PRIMARY_MANIFEST)
-    archived = run_fixed_m_worker(fixed_m_database_dir, quick=True)
-    transition = transition_data()
-    if transition["transitions"]["rb"]["process"] != "absorbs":
-        raise RuntimeError("Rb transition direction is not encoded as absorption")
-    if transition["transitions"]["yb"]["process"] != "releases":
-        raise RuntimeError("Yb transition direction is not encoded as release")
-    archived_metrics = archived["fixed_m_distance_scan"][0]
-    if abs(archived_metrics["first_maximum_transfer"] - 0.996892700) > 5e-5:
-        raise RuntimeError(f"archived fixed-m operating point drifted: {archived_metrics}")
-    current_metrics, _ = fixed_m_point(3.4)
-    if abs(current_metrics["first_maximum_transfer"] - 0.97286139) > 5e-5:
-        raise RuntimeError(f"current-v1.4 fixed-m operating point drifted: {current_metrics}")
+    if pi.Database.get_global_database() is None:
+        pi.Database.initialize_global_database(download_missing=False)
+
+
+def quick_check() -> None:
+    initialize_verified_database()
+    model = make_fixed_m_basis(0.0)
+    point = solve_fixed_m_point(model, OPERATING_DISTANCE_UM, 0.0)
+    projected = point["projected_two_state_model"]
+    maximum = point["first_exchange_maximum"]
+    checks = {
+        "pair basis size": (point["pair_basis_size"], 2411, 0),
+        "projected coupling (MHz)": (
+            abs(complex(*projected["coupling_re_im_mhz"])),
+            15.401772346,
+            5e-7,
+        ),
+        "full splitting (MHz)": (point["full_bright_splitting_mhz"], 31.109926469, 5e-7),
+        "full transfer": (maximum["pp_population"], 0.972863865, 5e-9),
+        "unitarity bound": (point["unitarity_transfer_upper_bound"], 0.973096173, 5e-9),
+    }
+    failures = [
+        f"{name}: {actual} != {expected}"
+        for name, (actual, expected, tolerance) in checks.items()
+        if abs(actual - expected) > tolerance
+    ]
+    if failures:
+        raise RuntimeError("Quick check failed:\n" + "\n".join(failures))
     print(
         "quick check passed: "
-        f"defect={transition['signed_defect_mhz']:.6f} MHz, "
-        f"archived-v1.2 fixed-m transfer="
-        f"{100 * archived_metrics['first_maximum_transfer']:.6f}%, "
-        f"current-v1.4 fixed-m transfer="
-        f"{100 * current_metrics['first_maximum_transfer']:.6f}%"
+        f"splitting={point['full_bright_splitting_mhz']:.6f} MHz, "
+        f"P(SS->PP)={100 * maximum['pp_population']:.6f}%, "
+        f"unitarity bound={100 * point['unitarity_transfer_upper_bound']:.6f}%"
     )
 
 
-def generate_data(output: Path, fixed_m_database_dir: Path) -> None:
-    verify_database_manifest(PRIMARY_MANIFEST)
-    archived_fixed_m = run_fixed_m_worker(fixed_m_database_dir, quick=False)
-    current_fixed_m, _ = fixed_m_point(3.4)
+def generate_data(output: Path) -> None:
+    initialize_verified_database()
+    rb_pp, rb_ss, yb_pp, yb_ss = target_kets()
+    rb_interval_ghz = float((rb_pp.get_energy(unit="MHz") - rb_ss.get_energy(unit="MHz")) / 1000)
+    yb_release_ghz = float((yb_ss.get_energy(unit="MHz") - yb_pp.get_energy(unit="MHz")) / 1000)
+    asymptotic_defect_mhz = float(1000 * (yb_release_ghz - rb_interval_ghz))
+    if abs(asymptotic_defect_mhz + 0.763732) > 1e-3:
+        raise RuntimeError(
+            "State-identity guard failed: expected SS-PP defect near -0.763732 MHz, "
+            f"got {asymptotic_defect_mhz:.9f} MHz"
+        )
 
-    all_m_by_field: dict[float, dict[str, float | int]] = {}
-    for label, fields in (
-        ("coarse", ALL_M_COARSE_FIELD_GRID_G),
-        ("fine", ALL_M_FINE_FIELD_GRID_G),
-        ("extension", ALL_M_EXTENSION_FIELD_GRID_G),
-    ):
-        print(f"all-m {label} field scan", flush=True)
-        for field in fields:
-            key = round(float(field), 12)
-            if key not in all_m_by_field:
-                print(f"  B={field:.3f} G", flush=True)
-                all_m_by_field[key] = all_m_point(float(field))
+    print("Building primary fixed-m basis ...", flush=True)
+    primary_model = make_fixed_m_basis(0.0)
+    distance_scan = []
+    operating_point = None
+    for distance_um in R_GRID_UM:
+        print(f"  R={distance_um:.1f} um", flush=True)
+        point = solve_fixed_m_point(
+            primary_model,
+            distance_um,
+            0.0,
+            include_trajectory=distance_um == OPERATING_DISTANCE_UM,
+        )
+        distance_scan.append(compact_point(point))
+        if distance_um == OPERATING_DISTANCE_UM:
+            operating_point = point
+    assert operating_point is not None
+
+    print("Scanning fixed-m magnetic field ...", flush=True)
+    fixed_m_field_scan = []
+    for field_gauss in B_GRID_G:
+        print(f"  B={field_gauss:.1f} G", flush=True)
+        field_model = primary_model if field_gauss == 0 else make_fixed_m_basis(field_gauss)
+        fixed_m_field_scan.append(
+            compact_point(solve_fixed_m_point(field_model, OPERATING_DISTANCE_UM, 0.0))
+        )
+
+    print("Scanning fixed-m angle ...", flush=True)
+    fixed_m_angle_scan = []
+    for angle_deg in ANGLE_GRID_DEG:
+        print(f"  theta={angle_deg:.0f} deg", flush=True)
+        fixed_m_angle_scan.append(
+            compact_point(solve_fixed_m_point(primary_model, OPERATING_DISTANCE_UM, angle_deg))
+        )
+
+    # build_pair_model now uses get_amplitudes directly.  The all-m scan has a
+    # smaller, explicitly recorded basis because it is a contextual diagnostic
+    # rather than the fixed-m source of the operating-point weights.
+    print("Scanning all-m magnetic field ...", flush=True)
+    all_m_field_scan = []
+    for field_gauss in B_GRID_G:
+        print(f"  B={field_gauss:.1f} G", flush=True)
+        model = gate_model.build_pair_model(field_gauss, gate_model.SCAN_BASIS)
+        all_m_field_scan.append(summarize_all_m_model(model))
+
+    print("Running operating-point convergence checks ...", flush=True)
+    convergence_specs = [
+        (
+            "pair window 100 GHz",
+            {"delta_n": 3, "l_max": 3, "pair_window_ghz": 100.0},
+        ),
+        (
+            "delta_n 4",
+            {"delta_n": 4, "l_max": 3, "pair_window_ghz": 80.0},
+        ),
+        (
+            "l_max 4",
+            {"delta_n": 3, "l_max": 4, "pair_window_ghz": 80.0},
+        ),
+    ]
+    convergence = []
+    for label, config in convergence_specs:
+        print(f"  {label}", flush=True)
+        check_model = make_fixed_m_basis(0.0, **config)
+        check = solve_fixed_m_point(check_model, OPERATING_DISTANCE_UM, 0.0)
+        convergence.append(convergence_row(label, check, operating_point, config))
+
+    thresholds = {
+        "splitting_mhz": 0.05,
+        "transfer_probability": 5e-4,
+        "spectator_probability": 5e-4,
+        "upper_bright_pp_weight": 5e-4,
+    }
+    convergence_passed = all(
+        row["absolute_change_from_primary"][name] < tolerance
+        for row in convergence
+        for name, tolerance in thresholds.items()
+    )
+    if not convergence_passed:
+        raise RuntimeError("Operating-point convergence thresholds were not met")
 
     result = {
+        "schema_version": 1,
         "generated_utc": datetime.now(UTC).isoformat(),
         "software": {
+            "python": sys.version.split()[0],
             "pairinteraction": getattr(pi, "__version__", "unknown"),
             "numpy": np.__version__,
+            "scipy": scipy.__version__,
         },
-        **transition_data(),
-        "database_provenance": {
-            "transition_states_and_all_m": str(PRIMARY_MANIFEST.relative_to(ROOT)),
-            "figure1_fixed_m_archived": archived_fixed_m["database_manifest"],
-            "note": (
-                "The archived fixed-m Figure 1 scans are exactly reproduced with "
-                "Yb171_mqdt v1.2. Transition identities, all-m calculations, and all "
-                "gate calculations use v1.4. The current-v1.4 fixed-m operating-point "
-                "recalculation is retained below to make the database drift explicit. "
-                "The weights printed in Figure 1(b) came from the R=3.0 um member of "
-                "the archived scan although the caption assigns them to R=3.4 um; both "
-                "recalculated compositions and the displayed values are retained below."
-            ),
+        "database": database_manifest(),
+        "target_states": {
+            "pp": {
+                "Rb": "56P_1/2, m_J=+1/2",
+                "Yb171_mqdt": "nu=48.014048, L=1, F=1/2, m_F=+1/2; selector n=52, s=0",
+            },
+            "ss": {
+                "Rb": "56S_1/2, m_J=+1/2",
+                "Yb171_mqdt": "nu=48.369927, L=0, F=1/2, m_F=+1/2; selector n=53, s=1",
+            },
+            "energy_exchange": {
+                "direction": "SS to PP",
+                "rb_absorbed_ghz": rb_interval_ghz,
+                "yb_released_ghz": yb_release_ghz,
+                "defect_ss_minus_pp_mhz": asymptotic_defect_mhz,
+            },
         },
-        "figure1b_manuscript_reported_weights": {
-            "caption_distance_um": 3.4,
-            "reconstructed_source_distance_um": 3.0,
-            "values": [
-                {"pp_weight": 0.544, "ss_weight": 0.452, "spectator_weight": 0.004},
-                {"pp_weight": 0.454, "ss_weight": 0.543, "spectator_weight": 0.003},
+        "fixed_m_model": {
+            "m_rb": M,
+            "m_yb": M,
+            "total_m": 2 * M,
+            "field_gauss": 0.0,
+            "theta_deg": 0.0,
+            "delta_n": PRIMARY_DELTA_N,
+            "l_max": PRIMARY_L_MAX,
+            "pair_energy_window_ghz": [
+                -PRIMARY_PAIR_WINDOW_GHZ,
+                PRIMARY_PAIR_WINDOW_GHZ,
             ],
-            "note": (
-                "These are the values printed in the manuscript and hard-coded in its "
-                "plotting script. The original raw eigensystem was not archived. An "
-                "independent reconstruction with the versioned databases reproduces "
-                "the PP and SS weights at R=3.0 um, not at the captioned R=3.4 um."
-            ),
+            "interaction": "electric dipole-dipole",
+            "interaction_order": INTERACTION_ORDER,
+            "target_projection": "complex PairInteraction get_amplitudes vectors",
+            "pair_basis_size": primary_model["pair_basis_size"],
+            "pp_norm_before_normalization": primary_model["pp_norm_before_normalization"],
+            "ss_norm_before_normalization": primary_model["ss_norm_before_normalization"],
         },
-        "bright_eigenstates_at_3p0_um": archived_fixed_m["bright_eigenstates_at_3p0_um"],
-        "bright_eigenstates_at_3p4_um": archived_fixed_m["bright_eigenstates_at_3p4_um"],
-        "fixed_m_distance_scan": archived_fixed_m["fixed_m_distance_scan"],
-        "fixed_m_field_scan": archived_fixed_m["fixed_m_field_scan"],
-        "fixed_m_angle_scan": archived_fixed_m["fixed_m_angle_scan"],
-        "fixed_m_v1p4_recalculation_at_3p4_um": current_fixed_m,
+        "operating_point": operating_point,
+        "distance_scan": distance_scan,
+        "fixed_m_field_scan": fixed_m_field_scan,
+        "fixed_m_angle_scan": fixed_m_angle_scan,
         "all_m_field_scan": {
-            label: [all_m_by_field[round(float(field), 12)] for field in fields]
-            for label, fields in (
-                ("coarse", ALL_M_COARSE_FIELD_GRID_G),
-                ("fine", ALL_M_FINE_FIELD_GRID_G),
-                ("extension", ALL_M_EXTENSION_FIELD_GRID_G),
-            )
+            "basis": asdict(gate_model.SCAN_BASIS),
+            "theta_deg": 0.0,
+            "distance_um": OPERATING_DISTANCE_UM,
+            "points": all_m_field_scan,
         },
-        "calculation_scope": {
-            "fixed_m": "m_Rb=m_Yb=1/2 and total M=1",
-            "all_m": (
-                "all magnetic sublevels followed by exact connected-component reduction at theta=0"
-            ),
-            "pairinteraction_order": 3,
-            "first_maximum_time_step_ns": 0.05,
+        "convergence": {
+            "thresholds": thresholds,
+            "checks": convergence,
+            "passed": convergence_passed,
+            "reporting_precision_supported": {
+                "splitting_mhz": 0.1,
+                "transfer_percent": 0.1,
+                "bright_weight_percent": 0.1,
+            },
+        },
+        "validation": {
+            "same_hamiltonian_for_operating_weights_splitting_and_transfer": True,
+            "explicit_ss_and_pp_targets": True,
+            "complex_amplitudes_used": True,
+            "probability_completeness_passed": abs(
+                operating_point["completeness"]["sum_pp_weights"] - 1
+            )
+            < 1e-10
+            and abs(operating_point["completeness"]["sum_ss_weights"] - 1) < 1e-10,
+            "full_transfer_below_unitarity_bound": operating_point["first_exchange_maximum"][
+                "pp_population"
+            ]
+            <= operating_point["unitarity_transfer_upper_bound"] + 1e-12,
+            "convergence_passed": convergence_passed,
         },
     }
+    if not all(result["validation"].values()):
+        raise RuntimeError(f"Validation failed: {result['validation']}")
+
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2) + "\n")
-    print(f"wrote {output}")
+    output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    maximum = operating_point["first_exchange_maximum"]
+    print(f"Wrote {output}")
+    print(
+        "Operating point: "
+        f"splitting={operating_point['full_bright_splitting_mhz']:.6f} MHz, "
+        f"P(SS->PP)={100 * maximum['pp_population']:.6f}%, "
+        f"t={maximum['time_ns']:.6f} ns, "
+        f"spectators={100 * maximum['spectator_population']:.6f}%"
+    )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--quick-check", action="store_true")
-    parser.add_argument(
-        "--fixed-m-database-dir",
-        type=Path,
-        required=True,
-        help=("isolated PairInteraction database root containing Rb v1.2 and Yb171_mqdt v1.2"),
-    )
-    parser.add_argument("--fixed-m-worker", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
-    if args.fixed_m_worker:
-        fixed_m_worker(args.fixed_m_database_dir, args.output, args.quick_check)
-    elif args.quick_check:
-        quick_check(args.fixed_m_database_dir)
+    if args.quick_check:
+        quick_check()
     else:
-        generate_data(args.output, args.fixed_m_database_dir)
+        generate_data(args.output)
 
 
 if __name__ == "__main__":

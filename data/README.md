@@ -7,22 +7,32 @@ and source commit against which this map was prepared.
 
 ## `forster_characterization.json`
 
-- `states`, `transitions`, `signed_defect_mhz`: Figure 1(a). The transition
-  direction is from `SS` to `PP`: Rb absorbs and Yb releases energy.
-- `figure1b_manuscript_reported_weights`: the rounded bare-pair weights printed
-  in Figure 1(b), together with the captioned and reconstructed source
-  distances. The values came from the 3.0 µm calculation even though the
-  manuscript caption says 3.4 µm; the original raw eigensystem was not kept.
-- `bright_eigenstates_at_3p0_um`, `bright_eigenstates_at_3p4_um`: independent,
-  full-precision v1.2 reconstructions that expose that distance mismatch.
-- `fixed_m_distance_scan`: Figure 1(c) splitting, first-maximum transfer,
-  spectator leakage, and transfer time.
+- `target_states.energy_exchange`: Figure 1(a) transition direction and signed
+  `SS`-minus-`PP` defect; Rb absorbs and Yb releases energy.
+- `fixed_m_model`: the explicit fixed-\(m\) basis, pair-energy window, target
+  norms, and complex-amplitude projection convention.
+- `operating_point.projected_two_state_model`: direct \(PP/SS\) projection,
+  including \(V/h\), generalized detuned splitting, two-state transfer bound,
+  and first-maximum time.
+- `operating_point.bright_states`: Figure 1(b) full finite-basis bright-state
+  energies and \(PP/SS/\)other weights at the captioned 3.4 µm distance.
+- `operating_point.first_exchange_maximum`, `trajectory`, and
+  `unitarity_transfer_upper_bound`: the full-Hamiltonian transfer quantities
+  used to check that the weights and propagated population are consistent.
+- `distance_scan`: Figure 1(c) full bright splitting and simultaneous
+  first-maximum \(PP\), residual \(SS\), and spectator populations.
 - `fixed_m_field_scan`, `fixed_m_angle_scan`, `all_m_field_scan`: Figure 1(d).
-- `fixed_m_v1p4_recalculation_at_3p4_um`: a transparent recalculation of the
-  archived fixed-\(m\) operating point with the current Yb v1.4 database. The
-  plotted fixed-\(m\) scans themselves are the exactly reproduced v1.2 record.
-- `database_provenance`: the separate manifests used for the archived fixed-
-  \(m\) scans and for the v1.4 transition/all-\(m\) calculations.
+  `all_m_field_scan` is a static first-exchange diagnostic; its sampled 5 G
+  maximum is not the objective used to choose the driven composite-gate field.
+- `convergence`: pair-window, \(\Delta n\), and \(\ell_{\max}\) checks at the
+  operating point, with explicit thresholds and changes from the primary
+  calculation.
+- `database`: versions and SHA-256 hashes of every PairInteraction table used.
+- `validation`: machine-readable consistency conditions. All must be `true`.
+
+The projected model, bright-state weights and splitting, full propagation,
+and fixed-\(m\) scans all use the same Yb171_mqdt v1.4 Hamiltonian and explicit
+complex \(PP\) and \(SS\) target amplitudes.
 
 ## `forster_gate_results.json`
 
@@ -74,9 +84,7 @@ guide only.
 ## Database provenance
 
 `../provenance/pairinteraction_database_manifest.json` gives upstream release
-URLs, archive hashes, and installed-file hashes and sizes for the primary Rb
-v1.2 plus Yb171_mqdt v1.4 profile.
-`../provenance/pairinteraction_database_manifest_figure1_fixed_m.json` records
-the separate Rb v1.2 plus Yb171_mqdt v1.2 profile that exactly reproduces the
-archived fixed-\(m\) Figure 1 scans. The characterization JSON discloses the
-resulting version drift and includes a v1.4 recalculation at 3.4 µm.
+URLs, archive hashes, and installed-file hashes and sizes for the Rb v1.2,
+Yb171_mqdt v1.4, and `misc` v1.4 profile used by all current calculations. The
+characterization JSON embeds the same per-file hashes with each generated
+record.

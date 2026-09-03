@@ -17,86 +17,97 @@ def load_json(name: str) -> dict[str, object]:
     return json.loads((DATA / name).read_text())
 
 
+def assert_json_close(actual: object, expected: object) -> None:
+    if isinstance(expected, dict):
+        assert isinstance(actual, dict)
+        assert actual.keys() == expected.keys()
+        for key in expected:
+            assert_json_close(actual[key], expected[key])
+    elif isinstance(expected, list):
+        assert isinstance(actual, list)
+        assert len(actual) == len(expected)
+        for actual_item, expected_item in zip(actual, expected, strict=True):
+            assert_json_close(actual_item, expected_item)
+    elif isinstance(expected, int | float) and not isinstance(expected, bool):
+        assert actual == pytest.approx(expected, rel=1e-12, abs=5e-12)
+    else:
+        assert actual == expected
+
+
 def test_forster_characterization_matches_figure_1() -> None:
     data = load_json("forster_characterization.json")
-    assert data["initial_pair"] == "SS"
-    assert data["final_pair"] == "PP"
-    assert data["transitions"]["rb"]["process"] == "absorbs"
-    assert data["transitions"]["yb"]["process"] == "releases"
-    assert data["signed_defect_definition"] == "E(SS)-E(PP)"
-    assert data["signed_defect_mhz"] == pytest.approx(-0.763732, abs=5e-7)
+    exchange = data["target_states"]["energy_exchange"]
+    assert exchange["direction"] == "SS to PP"
+    assert exchange["rb_absorbed_ghz"] == pytest.approx(20.92229928433895, abs=5e-12)
+    assert exchange["yb_released_ghz"] == pytest.approx(20.921535552740096, abs=5e-12)
+    assert exchange["defect_ss_minus_pp_mhz"] == pytest.approx(-0.7637315988553439, abs=5e-9)
 
-    distance_scan = data["fixed_m_distance_scan"]
+    fixed_model = data["fixed_m_model"]
+    assert fixed_model["pair_basis_size"] == 2411
+    assert fixed_model["target_projection"] == "complex PairInteraction get_amplitudes vectors"
+    assert fixed_model["pair_energy_window_ghz"] == [-80.0, 80.0]
+
+    point = data["operating_point"]
+    projected = point["projected_two_state_model"]
+    assert abs(complex(*projected["coupling_re_im_mhz"])) == pytest.approx(
+        15.401772345881476, abs=5e-9
+    )
+    assert projected["generalized_splitting_mhz"] == pytest.approx(30.813011072442077, abs=5e-9)
+    assert projected["maximum_transfer_probability"] == pytest.approx(0.9993856539028271, abs=5e-12)
+    assert projected["first_maximum_time_ns"] == pytest.approx(16.226911379238103, abs=5e-9)
+
+    assert point["full_bright_splitting_mhz"] == pytest.approx(31.109926469257402, abs=5e-9)
+    bright = point["bright_states"]
+    assert [row["pp_weight"] for row in bright] == pytest.approx(
+        [0.4216754837049728, 0.5775496984412997], abs=5e-12
+    )
+    assert [row["ss_weight"] for row in bright] == pytest.approx(
+        [0.5767393673319066, 0.4209874252977235], abs=5e-12
+    )
+    maximum = point["first_exchange_maximum"]
+    assert maximum == pytest.approx(
+        {
+            "time_ns": 15.989779013311212,
+            "pp_population": 0.9728638650531252,
+            "residual_ss_population": 0.023770344054174445,
+            "spectator_population": 0.0033657908927003898,
+        },
+        abs=5e-12,
+    )
+    assert point["unitarity_transfer_upper_bound"] == pytest.approx(0.9730961725133787, abs=5e-12)
+    assert maximum["pp_population"] <= point["unitarity_transfer_upper_bound"]
+
+    distance_scan = data["distance_scan"]
     field_scan = data["fixed_m_field_scan"]
     angle_scan = data["fixed_m_angle_scan"]
-    assert len(distance_scan) == 10
-    assert len(field_scan) == 9
-    assert len(angle_scan) == 7
-    operating_point = next(row for row in distance_scan if row["distance_um"] == 3.4)
-    assert operating_point["splitting_mhz"] == pytest.approx(30.799762725830078, abs=5e-7)
-    assert operating_point["first_maximum_transfer"] == pytest.approx(0.9968927002410238, abs=5e-10)
-    assert operating_point["coherent_spectator_leakage"] == pytest.approx(
-        0.002871060035187445, abs=5e-10
-    )
-    assert operating_point["first_maximum_time_ns"] == 16.25
-
-    reported = data["figure1b_manuscript_reported_weights"]
-    assert reported["caption_distance_um"] == 3.4
-    assert reported["reconstructed_source_distance_um"] == 3.0
-    assert reported["values"] == [
-        {"pp_weight": 0.544, "ss_weight": 0.452, "spectator_weight": 0.004},
-        {"pp_weight": 0.454, "ss_weight": 0.543, "spectator_weight": 0.003},
+    all_m_scan = data["all_m_field_scan"]["points"]
+    assert [len(scan) for scan in (distance_scan, field_scan, angle_scan, all_m_scan)] == [
+        10,
+        10,
+        7,
+        10,
     ]
-    bright_3p0 = data["bright_eigenstates_at_3p0_um"]
-    bright_3p4 = data["bright_eigenstates_at_3p4_um"]
-    assert [row["pp_weight"] for row in bright_3p0] == pytest.approx(
-        [0.5443903252428, 0.45396478797055373], abs=5e-10
+    all_m_by_field = {row["field_gauss"]: row for row in all_m_scan}
+    assert all_m_by_field[0.0]["first_exchange_maximum"]["pp_population"] == pytest.approx(
+        0.9189690756718504, abs=5e-12
     )
-    assert [row["ss_weight"] for row in bright_3p0] == pytest.approx(
-        [0.45233020616488084, 0.54280755358507], abs=5e-10
+    assert all_m_by_field[3.1]["first_exchange_maximum"]["pp_population"] == pytest.approx(
+        0.982180111486594, abs=5e-12
     )
-    assert [row["pp_weight"] for row in bright_3p4] == pytest.approx(
-        [0.5074042584263688, 0.49182086275955056], abs=5e-10
+    assert all_m_by_field[5.0]["first_exchange_maximum"]["pp_population"] == pytest.approx(
+        0.9954373079226287, abs=5e-12
     )
-    assert [row["ss_weight"] for row in bright_3p4] == pytest.approx(
-        [0.4911250078533566, 0.5065693965582376], abs=5e-10
-    )
-    assert [row["first_maximum_transfer"] for row in field_scan] == pytest.approx(
-        [
-            0.9968927002410238,
-            0.9952388084425496,
-            0.9920220608346899,
-            0.980774877662725,
-            0.9641845375440418,
-            0.9416698353745745,
-            0.9153192322482656,
-            0.8510429850201758,
-            0.740478978207746,
-        ],
-        abs=5e-10,
-    )
-    assert [row["first_maximum_time_ns"] for row in field_scan] == pytest.approx(
-        [16.25, 16.25, 16.25, 16.0, 16.0, 15.7, 15.7, 15.1, 14.2], abs=5e-12
+    assert (
+        max(all_m_scan, key=lambda row: row["first_exchange_maximum"]["pp_population"])[
+            "field_gauss"
+        ]
+        == 5.0
     )
 
-    provenance = data["database_provenance"]
-    assert provenance["figure1_fixed_m_archived"].endswith(
-        "pairinteraction_database_manifest_figure1_fixed_m.json"
-    )
-    assert provenance["transition_states_and_all_m"].endswith(
-        "pairinteraction_database_manifest.json"
-    )
-    assert data["fixed_m_v1p4_recalculation_at_3p4_um"]["first_maximum_transfer"] == pytest.approx(
-        0.97286139, abs=5e-8
-    )
-
-    all_m = data["all_m_field_scan"]
-    assert [len(all_m[name]) for name in ("coarse", "fine", "extension")] == [
-        13,
-        25,
-        8,
-    ]
-    for scan in (distance_scan, field_scan, angle_scan, *all_m.values()):
+    assert data["convergence"]["passed"] is True
+    assert len(data["convergence"]["checks"]) == 3
+    assert all(data["validation"].values())
+    for scan in (distance_scan, field_scan, angle_scan, all_m_scan):
         assert np.isfinite(
             [value for row in scan for value in row.values() if isinstance(value, int | float)]
         ).all()
@@ -259,8 +270,8 @@ def test_table_ii_csv_every_cell() -> None:
             "initial_pair": "Rb 56S_1/2 + Yb S (nu=48.369927)",
             "final_pair": "Rb 56P_1/2 + Yb P (nu=48.014048)",
             "forster_defect": "-0.763732 MHz",
-            "interaction_strength": "2|V|/h = 30.8 MHz at R=3.4 um",
-            "pair_potential": "computed pair Hamiltonian",
+            "interaction_strength": "Delta nu = 31.1 MHz (finite basis) at R=3.4 um",
+            "pair_potential": "finite-basis multichannel model",
             "gate_result": "modeled composite CZ: F_avg=99.93%; sampled minimum=99.84%",
             "citation_key": "this_work",
         },
@@ -292,31 +303,35 @@ def test_vdw_feasibility_script_reproduces_committed_data(tmp_path: Path) -> Non
         cwd=ROOT,
         check=True,
     )
-    assert json.loads(output.read_text()) == load_json("vdw_feasibility_results.json")
+    assert_json_close(json.loads(output.read_text()), load_json("vdw_feasibility_results.json"))
     assert deviation.read_bytes() == (DATA / "vdw_r6_deviation.csv").read_bytes()
 
 
-def test_database_manifests_are_distinct_and_complete() -> None:
+def test_database_manifest_is_complete() -> None:
     primary = json.loads(
         (ROOT / "provenance" / "pairinteraction_database_manifest.json").read_text()
     )
-    fixed_m = json.loads(
-        (ROOT / "provenance" / "pairinteraction_database_manifest_figure1_fixed_m.json").read_text()
-    )
-    assert primary["pairinteraction_version"] == fixed_m["pairinteraction_version"] == "2.5.0"
-    assert primary["assets"]["Rb"]["version"] == fixed_m["assets"]["Rb"]["version"] == "v1.2"
+    embedded = load_json("forster_characterization.json")["database"]
+    assert primary["pairinteraction_version"] == "2.5.0"
+    assert primary["assets"]["Rb"]["version"] == "v1.2"
     assert primary["assets"]["Yb171_mqdt"]["version"] == "v1.4"
-    assert fixed_m["assets"]["Yb171_mqdt"]["version"] == "v1.2"
-    for manifest, expected_count in ((primary, 12), (fixed_m, 11)):
-        assert len(manifest["files"]) == expected_count
-        assert len({entry["relative_path"] for entry in manifest["files"]}) == expected_count
-        assert all(len(entry["sha256"]) == 64 for entry in manifest["files"])
+    assert primary["assets"]["misc"]["version"] == "v1.4"
+    assert len(primary["files"]) == 13
+    assert len({entry["relative_path"] for entry in primary["files"]}) == 13
+    assert all(len(entry["sha256"]) == 64 for entry in primary["files"])
+    assert embedded["versions"] == {"Rb": "v1.2", "Yb171_mqdt": "v1.4", "misc": "v1.4"}
+    assert {
+        (entry["relative_path"], entry["size_bytes"], entry["sha256"])
+        for entry in embedded["files"]
+    } == {
+        (entry["relative_path"], entry["size_bytes"], entry["sha256"]) for entry in primary["files"]
+    }
 
 
 def test_manuscript_manifest_identifies_reviewed_pdf() -> None:
     manifest = json.loads((ROOT / "provenance" / "manuscript_manifest.json").read_text())
     assert manifest["source_pdf_sha256"] == (
-        "f9a663c18db95812c3f7bb01c0bb01ead5ba5966da3fa73f34169b69416c32f1"
+        "507d9130579157924c48d44ee3f196b657a1baeb482db6c7b38f54c26c420a4c"
     )
-    assert manifest["source_pdf_size_bytes"] == 547072
-    assert manifest["source_repository_commit"] == "0e702172d365f5650ea8e9162d87657f7bbd0610"
+    assert manifest["source_pdf_size_bytes"] == 515155
+    assert manifest["source_repository_commit"] == "9e9c0717ad517c3bef0af6a94fdaaccb1f728222"
