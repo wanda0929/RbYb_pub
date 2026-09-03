@@ -61,9 +61,12 @@ RbYb_pub/
 │   ├── reproduce_forster_characterization.py
 │   ├── reproduce_forster_gate.py
 │   ├── reproduce_vdw_dense.py
-│   └── reproduce_vdw_feasibility.py
-└── provenance/
-    └── pairinteraction_database_manifest.json
+│   ├── reproduce_vdw_feasibility.py
+│   └── verify_pairinteraction_databases.py
+├── provenance/
+│   └── pairinteraction_database_manifest.json
+└── tests/
+    └── test_publication_data.py
 ```
 
 ## Code boundaries and data flow
@@ -88,19 +91,43 @@ PairInteraction databases
                                                └──▶ data/vdw_r6_deviation.csv
 ```
 
+## Paper-to-artifact traceability
+
+| Paper element | Machine-readable fields | Reproducing command |
+| --- | --- | --- |
+| Figure 1(a), state identities and transitions | `forster_characterization.json`: `states`, `transitions`, `asymptotic_defect_mhz` | `uv run python scripts/reproduce_forster_characterization.py` |
+| Figure 1(b), bright eigenstates | `forster_characterization.json`: `bright_eigenstates` | same command |
+| Figure 1(c), fixed-m distance scan | `forster_characterization.json`: `fixed_m_distance_scan` | same command |
+| Figure 1(d), fixed-m/all-m field scans and fixed-m angle scan | `forster_characterization.json`: `fixed_m_field_scan`, `all_m_field_scan`, `fixed_m_angle_scan` | same command |
+| Figure 2 | schematic; no numerical data | not applicable |
+| Figure 3(a), command and timing | `forster_gate_results.json`: `operating_point`, `assumptions`, `command_segments`, `short_minimax.target_duration_us`, `short_minimax.total_gate_time_us` | `uv run python scripts/reproduce_forster_gate.py` |
+| Figure 3(b), response/position/Rabi diagnostics | `forster_gate_results.json`: `response_time_scan`, `axial_position_scan`, `target_amplitude_scan` | same command |
+| Figure 3(c), phase-recalibrated field scan | `forster_gate_results.json`: `magnetic_field_scan` | same command |
+| Figure 3(d), no-jump populations | `forster_gate_results.json`: `population_trajectory` | same command |
+| Figure 4(a), dense pair shift, C6 guide, and four sector markers | `vdw_dense_data.json`: `configuration.zero_field_c6_ghz_um6`, `distance_track_b25_pp`, `sector_track_b25` | `uv run python scripts/reproduce_vdw_dense.py` |
+| Figure 4(b), bare-product weight | `vdw_dense_data.json`: `distance_track_b25_pp[].overlap` | same command |
+| Table I, Förster composite-CZ parameters and results | `forster_gate_results.json`: `operating_point`, `assumptions`, `command_segments`, `short_minimax`, `validation` | `uv run python scripts/reproduce_forster_gate.py` |
+| Table II, prior-work comparison | every row and column of `prior_work.csv` | curated from the cited sources; no simulation command |
+| Table III, reduced vdW feasibility estimate | `vdw_feasibility_results.json`: `model`, `four_magnetic_sectors` | `uv run python scripts/reproduce_vdw_feasibility.py` |
+
+The additional `vdw_dense_data.json.magnetic_field_track_r3p3_pp` record supports the prose statement that the selected finite-field interaction is stable across the sampled 15–40 G range. It is not described as data plotted in Figure 4.
+
 ## Reproducibility and provenance
 
 - Use `uv` with an exact lockfile.
 - Pin PairInteraction 2.5.0 and compatible Python, NumPy, and SciPy versions.
 - Record Rb v1.2 and Yb171 MQDT v1.4 database file sizes and SHA-256 hashes without redistributing the database files.
+- Document exact upstream release URLs for both database archives, extraction into PairInteraction's reported `Database.database_dir/tables` directory, and initialization with `download_missing=False`.
+- Provide `verify_pairinteraction_databases.py` to locate the active database directory, require the exact two asset versions, and compare every required file with the committed size and SHA-256 manifest before a PairInteraction calculation starts.
 - Make paths repository-relative.
 - Store units and model assumptions explicitly in each output.
 - Document which commands are quick and which require large sparse diagonalizations.
 - Preserve the manuscript's distinction between calculated values, model assumptions, and unmeasured experimental quantities.
+- Encode transition directions explicitly as Rb absorption and Yb release. Test the signed defect convention rather than copying the reversed labels currently present in the plotting source for Figure 1(a).
 
 ## Verification
 
-Automated checks will compare stored data against the manuscript's headline values, including:
+`uv run pytest` will execute `tests/test_publication_data.py`. Tests will load every committed JSON and CSV, require their documented fields and units, and compare deterministic numerical outputs with absolute tolerances chosen below the manuscript's displayed precision. In particular, the checks will cover:
 
 - Förster defect: −0.763732 MHz;
 - full pair splitting at 3.4 µm: 30.8 MHz;
@@ -112,7 +139,17 @@ Automated checks will compare stored data against the manuscript's headline valu
 - van der Waals working point: U/h = 57.072 MHz and bare-product weight 0.969718 at 3.3 µm;
 - Appendix A reduced estimate: Favg = 0.997699 in the (+1/2,+1/2) sector and 0.997696 as the worst of four sectors.
 
-The inexpensive van der Waals feasibility script will be rerun and its generated outputs compared with the committed records. The expensive PairInteraction calculations will receive targeted smoke checks plus schema and headline-value validation; full reruns will be attempted where local resources permit.
+Beyond those headline values, the tests will require:
+
+- every Table I state, field, geometry, pulse amplitude, detuning, segment duration, response time, gate duration, fidelity, and uncertainty bound in its displayed order and units;
+- every Table II cell and citation key, including explicit `not reported` entries;
+- all four Table III sectors in manuscript order and every displayed `U`, `Delta_eff`, `Favg`, mean-survival, and lossless-`Favg` value;
+- each plotted Figure 1, 3, and 4 scan array to have matching coordinate/value lengths, finite values, unique coordinates where required, and the stated operating point;
+- Rb absorption and Yb release to combine to the signed Förster defect used by the Hamiltonian.
+
+Displayed manuscript values will be checked after rounding to the published digits. Reproduction comparisons against committed full-precision records will use `numpy.testing.assert_allclose` with `rtol=10^-9` and `atol=10^-12` for the deterministic reduced model; PairInteraction reruns will use documented per-field tolerances no looser than one tenth of the paper's displayed precision. JSON timestamps are excluded from equality comparisons.
+
+The inexpensive van der Waals feasibility script will be rerun into a temporary directory and compared field-by-field with the committed record. A `--quick-check` mode on each PairInteraction entry point will validate database hashes, state identities, basis construction, and one operating point without overwriting committed data. The full commands above regenerate complete records and will be run where local resources permit; absence of resources will not be reported as full numerical reproduction.
 
 ## GitHub publication
 
