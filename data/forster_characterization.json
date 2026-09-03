@@ -1,0 +1,798 @@
+{
+  "generated_utc": "2026-09-03T08:27:48.186771+00:00",
+  "software": {
+    "pairinteraction": "2.5.0",
+    "numpy": "2.3.5"
+  },
+  "initial_pair": "SS",
+  "final_pair": "PP",
+  "states": {
+    "rb_ss": {
+      "selector": "Rb n=56 l=0 j=1/2 m=1/2",
+      "label": "|Rb:56,S_1/2,1/2\u27e9"
+    },
+    "rb_pp": {
+      "selector": "Rb n=56 l=1 j=1/2 m=1/2",
+      "label": "|Rb:56,P_1/2,1/2\u27e9"
+    },
+    "yb_ss": {
+      "selector": "Yb171_mqdt n=53 l=0 s=1 f=1/2 m=1/2",
+      "label": "|Yb171:S=0.9,nu=48.4,L=0.0,F=1/2,1/2\u27e9",
+      "effective_principal_quantum_number": 48.36992730686358
+    },
+    "yb_pp": {
+      "selector": "Yb171_mqdt n=52 l=1 s=0 f=1/2 m=1/2",
+      "label": "|Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2\u27e9",
+      "effective_principal_quantum_number": 48.014048114754914
+    }
+  },
+  "transitions": {
+    "rb": {
+      "direction": "56S_1/2 -> 56P_1/2",
+      "process": "absorbs",
+      "frequency_ghz": 20.922299284371547
+    },
+    "yb": {
+      "direction": "S(nu=48.369927) -> P(nu=48.014048)",
+      "process": "releases",
+      "frequency_ghz": 20.921535552479327
+    }
+  },
+  "signed_defect_definition": "E(SS)-E(PP)",
+  "signed_defect_mhz": -0.763731892220676,
+  "absolute_mismatch_mhz": 0.763731892220676,
+  "database_provenance": {
+    "transition_states_and_all_m": "provenance/pairinteraction_database_manifest.json",
+    "figure1_fixed_m_archived": "provenance/pairinteraction_database_manifest_figure1_fixed_m.json",
+    "note": "The archived fixed-m Figure 1 scans are exactly reproduced with Yb171_mqdt v1.2. Transition identities, all-m calculations, and all gate calculations use v1.4. The current-v1.4 fixed-m operating-point recalculation is retained below to make the database drift explicit. The weights printed in Figure 1(b) came from the R=3.0 um member of the archived scan although the caption assigns them to R=3.4 um; both recalculated compositions and the displayed values are retained below."
+  },
+  "figure1b_manuscript_reported_weights": {
+    "caption_distance_um": 3.4,
+    "reconstructed_source_distance_um": 3.0,
+    "values": [
+      {
+        "pp_weight": 0.544,
+        "ss_weight": 0.452,
+        "spectator_weight": 0.004
+      },
+      {
+        "pp_weight": 0.454,
+        "ss_weight": 0.543,
+        "spectator_weight": 0.003
+      }
+    ],
+    "note": "These are the values printed in the manuscript and hard-coded in its plotting script. The original raw eigensystem was not archived. An independent reconstruction with the versioned databases reproduces the PP and SS weights at R=3.0 um, not at the captioned R=3.4 um."
+  },
+  "bright_eigenstates_at_3p0_um": [
+    {
+      "energy_relative_to_pp_mhz": 22.858876705169678,
+      "pp_weight": 0.5443903252428,
+      "ss_weight": 0.45233020616488084,
+      "spectator_weight": 0.0032794685923192013
+    },
+    {
+      "energy_relative_to_pp_mhz": -22.033649444580078,
+      "pp_weight": 0.45396478797055373,
+      "ss_weight": 0.54280755358507,
+      "spectator_weight": 0.0032276584443762246
+    }
+  ],
+  "bright_eigenstates_at_3p4_um": [
+    {
+      "energy_relative_to_pp_mhz": -14.002004623413086,
+      "pp_weight": 0.5074042584263688,
+      "ss_weight": 0.4911250078533566,
+      "spectator_weight": 0.001470733720274564
+    },
+    {
+      "energy_relative_to_pp_mhz": 16.797758102416992,
+      "pp_weight": 0.49182086275955056,
+      "ss_weight": 0.5065693965582376,
+      "spectator_weight": 0.0016097406822117577
+    }
+  ],
+  "fixed_m_distance_scan": [
+    {
+      "distance_um": 3.0,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 44.892526149749756,
+      "first_maximum_transfer": 0.9849188926715746,
+      "coherent_spectator_leakage": 0.0060008308350069095,
+      "first_maximum_time_ns": 10.95,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.2,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 36.9223108291626,
+      "first_maximum_transfer": 0.9943809134929021,
+      "coherent_spectator_leakage": 0.0043685163033589935,
+      "first_maximum_time_ns": 13.55,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.3,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 33.666730880737305,
+      "first_maximum_transfer": 0.9963114009064324,
+      "coherent_spectator_leakage": 0.0035702942456631304,
+      "first_maximum_time_ns": 14.8,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 30.799762725830078,
+      "first_maximum_transfer": 0.9968927002410238,
+      "coherent_spectator_leakage": 0.002871060035187445,
+      "first_maximum_time_ns": 16.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.5,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 28.264784812927246,
+      "first_maximum_transfer": 0.995616908795024,
+      "coherent_spectator_leakage": 0.0025096284746382036,
+      "first_maximum_time_ns": 17.5,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.6,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 26.015137672424316,
+      "first_maximum_transfer": 0.9938297270724596,
+      "coherent_spectator_leakage": 0.0020303126067288124,
+      "first_maximum_time_ns": 19.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.8,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 22.223048210144043,
+      "first_maximum_transfer": 0.986105242818254,
+      "coherent_spectator_leakage": 0.0014905021758578885,
+      "first_maximum_time_ns": 22.55,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 4.0,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 19.182366847991943,
+      "first_maximum_transfer": 0.9738036796998881,
+      "coherent_spectator_leakage": 0.0012075159627040755,
+      "first_maximum_time_ns": 25.900000000000002,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 4.5,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 13.84559154510498,
+      "first_maximum_transfer": 0.9235444243272755,
+      "coherent_spectator_leakage": 0.0005157001986603182,
+      "first_maximum_time_ns": 36.00000000000001,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 5.0,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 10.56429386138916,
+      "first_maximum_transfer": 0.8435941956565022,
+      "coherent_spectator_leakage": 0.0002757588794467525,
+      "first_maximum_time_ns": 47.1,
+      "basis_size": 2640
+    }
+  ],
+  "fixed_m_field_scan": [
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 30.799762725830078,
+      "first_maximum_transfer": 0.9968927002410238,
+      "coherent_spectator_leakage": 0.002871060035187445,
+      "first_maximum_time_ns": 16.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 0.5,
+      "splitting_mhz": 30.795782566070557,
+      "first_maximum_transfer": 0.9952388084425496,
+      "coherent_spectator_leakage": 0.0028881833815617153,
+      "first_maximum_time_ns": 16.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 1.0,
+      "splitting_mhz": 30.815985679626465,
+      "first_maximum_transfer": 0.9920220608346899,
+      "coherent_spectator_leakage": 0.0029045801924255654,
+      "first_maximum_time_ns": 16.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 2.0,
+      "splitting_mhz": 30.928606510162354,
+      "first_maximum_transfer": 0.980774877662725,
+      "coherent_spectator_leakage": 0.0027932021469743162,
+      "first_maximum_time_ns": 16.0,
+      "basis_size": 2641
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 3.0,
+      "splitting_mhz": 31.13716983795166,
+      "first_maximum_transfer": 0.9641845375440418,
+      "coherent_spectator_leakage": 0.0027507119881460262,
+      "first_maximum_time_ns": 16.0,
+      "basis_size": 2641
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 4.0,
+      "splitting_mhz": 31.43981409072876,
+      "first_maximum_transfer": 0.9416698353745745,
+      "coherent_spectator_leakage": 0.002995422598248698,
+      "first_maximum_time_ns": 15.700000000000003,
+      "basis_size": 2641
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 5.0,
+      "splitting_mhz": 31.834086418151855,
+      "first_maximum_transfer": 0.9153192322482656,
+      "coherent_spectator_leakage": 0.003021595571179314,
+      "first_maximum_time_ns": 15.700000000000003,
+      "basis_size": 2641
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 7.0,
+      "splitting_mhz": 32.88436508178711,
+      "first_maximum_transfer": 0.8510429850201758,
+      "coherent_spectator_leakage": 0.0027349108193771565,
+      "first_maximum_time_ns": 15.100000000000001,
+      "basis_size": 2642
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 10.0,
+      "splitting_mhz": 35.05335998535156,
+      "first_maximum_transfer": 0.740478978207746,
+      "coherent_spectator_leakage": 0.002840025678913616,
+      "first_maximum_time_ns": 14.200000000000001,
+      "basis_size": 2642
+    }
+  ],
+  "fixed_m_angle_scan": [
+    {
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 30.799762725830078,
+      "first_maximum_transfer": 0.9968927002410238,
+      "coherent_spectator_leakage": 0.002871060035187445,
+      "first_maximum_time_ns": 16.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 15.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 27.743178844451904,
+      "first_maximum_transfer": 0.9956062654929567,
+      "coherent_spectator_leakage": 0.0023016952346829322,
+      "first_maximum_time_ns": 18.05,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 30.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 19.504502296447754,
+      "first_maximum_transfer": 0.9755829355788197,
+      "coherent_spectator_leakage": 0.0011427105589413289,
+      "first_maximum_time_ns": 25.55,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 45.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 8.845523834228516,
+      "first_maximum_transfer": 0.7609147657196944,
+      "coherent_spectator_leakage": 0.00015374586363281484,
+      "first_maximum_time_ns": 56.35,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 60.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 5.940712928771973,
+      "first_maximum_transfer": 0.4219012555524606,
+      "coherent_spectator_leakage": 3.1793147153735823e-05,
+      "first_maximum_time_ns": 84.25,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 75.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 12.938435077667236,
+      "first_maximum_transfer": 0.9075200006821884,
+      "coherent_spectator_leakage": 0.000435488459709088,
+      "first_maximum_time_ns": 38.45,
+      "basis_size": 2640
+    },
+    {
+      "distance_um": 3.4,
+      "theta_deg": 90.0,
+      "field_gauss": 0.0,
+      "splitting_mhz": 15.830146789550781,
+      "first_maximum_transfer": 0.9489431347467958,
+      "coherent_spectator_leakage": 0.0007438961262631327,
+      "first_maximum_time_ns": 31.55,
+      "basis_size": 2640
+    }
+  ],
+  "fixed_m_v1p4_recalculation_at_3p4_um": {
+    "distance_um": 3.4,
+    "theta_deg": 0.0,
+    "field_gauss": 0.0,
+    "splitting_mhz": 31.1099271774292,
+    "first_maximum_transfer": 0.9728613907531325,
+    "coherent_spectator_leakage": 0.002870504095504711,
+    "first_maximum_time_ns": 16.0,
+    "basis_size": 2411
+  },
+  "all_m_field_scan": {
+    "coarse": [
+      {
+        "field_gauss": 0.0,
+        "maximum_transfer": 0.918966196611675,
+        "first_maximum_time_ns": 15.520000000000001,
+        "pp_population_at_maximum": 0.07663814566929236,
+        "spectator_population_at_maximum": 0.004395657719032636,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 0.5,
+        "maximum_transfer": 0.9320124058942972,
+        "first_maximum_time_ns": 78.38000000000001,
+        "pp_population_at_maximum": 0.06352742733173378,
+        "spectator_population_at_maximum": 0.004460166773968988,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 1.0,
+        "maximum_transfer": 0.9440749163884895,
+        "first_maximum_time_ns": 47.56,
+        "pp_population_at_maximum": 0.051846027763321256,
+        "spectator_population_at_maximum": 0.004079055848189239,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 1.5,
+        "maximum_transfer": 0.9551436295034329,
+        "first_maximum_time_ns": 47.84,
+        "pp_population_at_maximum": 0.04044426485784502,
+        "spectator_population_at_maximum": 0.004412105638722082,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 2.0,
+        "maximum_transfer": 0.964924842295715,
+        "first_maximum_time_ns": 16.080000000000002,
+        "pp_population_at_maximum": 0.030822307764809636,
+        "spectator_population_at_maximum": 0.004252849939475407,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 2.5,
+        "maximum_transfer": 0.9736233685690178,
+        "first_maximum_time_ns": 16.1,
+        "pp_population_at_maximum": 0.021962008758053868,
+        "spectator_population_at_maximum": 0.004414622672928366,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.0,
+        "maximum_transfer": 0.9808996849632693,
+        "first_maximum_time_ns": 16.12,
+        "pp_population_at_maximum": 0.014536472072862258,
+        "spectator_population_at_maximum": 0.004563842963868451,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.5,
+        "maximum_transfer": 0.9867017035670808,
+        "first_maximum_time_ns": 16.12,
+        "pp_population_at_maximum": 0.00876472321316467,
+        "spectator_population_at_maximum": 0.004533573219754573,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.0,
+        "maximum_transfer": 0.9911251273821865,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.004399402007381766,
+        "spectator_population_at_maximum": 0.004475470610431734,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.5,
+        "maximum_transfer": 0.9940753657425642,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.001449757560352492,
+        "spectator_population_at_maximum": 0.0044748766970833425,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 5.0,
+        "maximum_transfer": 0.9954313351669104,
+        "first_maximum_time_ns": 16.42,
+        "pp_population_at_maximum": 0.00012965851902182064,
+        "spectator_population_at_maximum": 0.004439006314067777,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 5.5,
+        "maximum_transfer": 0.9951811022147833,
+        "first_maximum_time_ns": 16.42,
+        "pp_population_at_maximum": 0.0003840196066921181,
+        "spectator_population_at_maximum": 0.004434878178524596,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 6.0,
+        "maximum_transfer": 0.9933215682972627,
+        "first_maximum_time_ns": 16.42,
+        "pp_population_at_maximum": 0.002255062639382582,
+        "spectator_population_at_maximum": 0.0044233690633547155,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      }
+    ],
+    "fine": [
+      {
+        "field_gauss": 3.7,
+        "maximum_transfer": 0.988600295269302,
+        "first_maximum_time_ns": 16.12,
+        "pp_population_at_maximum": 0.006880093047341845,
+        "spectator_population_at_maximum": 0.004519611683356112,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.725,
+        "maximum_transfer": 0.9888236197975432,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.006703111673222733,
+        "spectator_population_at_maximum": 0.004473268529234082,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.75,
+        "maximum_transfer": 0.9890526707535129,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.006473786604970271,
+        "spectator_population_at_maximum": 0.004473542641516843,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.775,
+        "maximum_transfer": 0.9892777636488377,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0062484343638996515,
+        "spectator_population_at_maximum": 0.004473801987262666,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.8,
+        "maximum_transfer": 0.9894988964077095,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.006027057019659186,
+        "spectator_population_at_maximum": 0.00447404657263132,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.8249999999999997,
+        "maximum_transfer": 0.9897160646396426,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.00580965898909314,
+        "spectator_population_at_maximum": 0.004474276371264292,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.8499999999999996,
+        "maximum_transfer": 0.989929268750876,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.005596239871363259,
+        "spectator_population_at_maximum": 0.0044744913777607954,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.8749999999999996,
+        "maximum_transfer": 0.9901385045503447,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.005386803856196577,
+        "spectator_population_at_maximum": 0.004474691593458734,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.8999999999999995,
+        "maximum_transfer": 0.9903437746651635,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.005181348311985523,
+        "spectator_population_at_maximum": 0.004474877022850932,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.9249999999999994,
+        "maximum_transfer": 0.9905450748332241,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.004979877525086169,
+        "spectator_population_at_maximum": 0.004475047641689761,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.9499999999999993,
+        "maximum_transfer": 0.9907423989885142,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.004782397551120561,
+        "spectator_population_at_maximum": 0.0044752034603652,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 3.974999999999999,
+        "maximum_transfer": 0.9909357518384542,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0045889037062550484,
+        "spectator_population_at_maximum": 0.004475344455290781,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.0,
+        "maximum_transfer": 0.9911251273821865,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.004399402007381766,
+        "spectator_population_at_maximum": 0.004475470610431734,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.024999999999999,
+        "maximum_transfer": 0.9913105279585624,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.004213890060029997,
+        "spectator_population_at_maximum": 0.004475581981407554,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.049999999999999,
+        "maximum_transfer": 0.9914919478213108,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0040323736635800335,
+        "spectator_population_at_maximum": 0.004475678515109185,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.074999999999999,
+        "maximum_transfer": 0.9916693873873642,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0038548524209780473,
+        "spectator_population_at_maximum": 0.004475760191657743,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.099999999999999,
+        "maximum_transfer": 0.9918428430873626,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.003681329861804997,
+        "spectator_population_at_maximum": 0.004475827050832412,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.124999999999998,
+        "maximum_transfer": 0.9920123153134015,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.003511805628547952,
+        "spectator_population_at_maximum": 0.004475879058050543,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.149999999999999,
+        "maximum_transfer": 0.9921778006975139,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0033462830704159775,
+        "spectator_population_at_maximum": 0.004475916232070089,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.174999999999999,
+        "maximum_transfer": 0.992339301324021,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0031847601165194174,
+        "spectator_population_at_maximum": 0.004475938559459543,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.199999999999998,
+        "maximum_transfer": 0.9924968105259719,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.003027243458664928,
+        "spectator_population_at_maximum": 0.004475946015363132,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.224999999999998,
+        "maximum_transfer": 0.9926503336562872,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0028737276987917926,
+        "spectator_population_at_maximum": 0.00447593864492102,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.249999999999998,
+        "maximum_transfer": 0.9927998642471497,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0027242193297450307,
+        "spectator_population_at_maximum": 0.004475916423105248,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.274999999999999,
+        "maximum_transfer": 0.9929454010491029,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0025787196397229584,
+        "spectator_population_at_maximum": 0.0044758793111741475,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 4.299999999999998,
+        "maximum_transfer": 0.9930869443501105,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.0024372282799183125,
+        "spectator_population_at_maximum": 0.00447582736997122,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      }
+    ],
+    "extension": [
+      {
+        "field_gauss": 6.5,
+        "maximum_transfer": 0.9898600189632365,
+        "first_maximum_time_ns": 16.42,
+        "pp_population_at_maximum": 0.005735413682545706,
+        "spectator_population_at_maximum": 0.004404567354217796,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 7.0,
+        "maximum_transfer": 0.9848097154968751,
+        "first_maximum_time_ns": 16.42,
+        "pp_population_at_maximum": 0.01081166778741968,
+        "spectator_population_at_maximum": 0.004378616715705193,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 7.5,
+        "maximum_transfer": 0.9781988204569184,
+        "first_maximum_time_ns": 16.400000000000002,
+        "pp_population_at_maximum": 0.017452199830222635,
+        "spectator_population_at_maximum": 0.004348979712858948,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 8.0,
+        "maximum_transfer": 0.9702957642469351,
+        "first_maximum_time_ns": 16.14,
+        "pp_population_at_maximum": 0.025761047737447074,
+        "spectator_population_at_maximum": 0.003943188015617837,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 8.5,
+        "maximum_transfer": 0.9609487324047432,
+        "first_maximum_time_ns": 16.14,
+        "pp_population_at_maximum": 0.03520289191800309,
+        "spectator_population_at_maximum": 0.0038483756772536987,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 9.0,
+        "maximum_transfer": 0.9501870754309676,
+        "first_maximum_time_ns": 16.12,
+        "pp_population_at_maximum": 0.045968544975130435,
+        "spectator_population_at_maximum": 0.003844379593901978,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 9.5,
+        "maximum_transfer": 0.938063361232825,
+        "first_maximum_time_ns": 16.12,
+        "pp_population_at_maximum": 0.05817456743526658,
+        "spectator_population_at_maximum": 0.003762071331908451,
+        "pair_basis_size": 5240,
+        "symmetry_component_size": 457
+      },
+      {
+        "field_gauss": 10.0,
+        "maximum_transfer": 0.9246264169437199,
+        "first_maximum_time_ns": 16.1,
+        "pp_population_at_maximum": 0.071404309681327,
+        "spectator_population_at_maximum": 0.003969273374953064,
+        "pair_basis_size": 5239,
+        "symmetry_component_size": 457
+      }
+    ]
+  },
+  "calculation_scope": {
+    "fixed_m": "m_Rb=m_Yb=1/2 and total M=1",
+    "all_m": "all magnetic sublevels followed by exact connected-component reduction at theta=0",
+    "pairinteraction_order": 3,
+    "first_maximum_time_step_ns": 0.05
+  }
+}

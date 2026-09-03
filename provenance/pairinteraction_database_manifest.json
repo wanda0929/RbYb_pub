@@ -1,0 +1,79 @@
+{
+  "pairinteraction_version": "2.5.0",
+  "assets": {
+    "Rb": {
+      "version": "v1.2",
+      "archive_url": "https://github.com/pairinteraction/database-sqdt/releases/download/v1.2/Rb_v1.2.zip",
+      "archive_size_bytes": 182288005,
+      "archive_sha256": "4dee351f346df0b7022819d5d9c1df23e52105458ed5627478507002d11d8ad3"
+    },
+    "Yb171_mqdt": {
+      "version": "v1.4",
+      "archive_url": "https://github.com/pairinteraction/database-mqdt/releases/download/v1.4/Yb171_mqdt_v1.4.zip",
+      "archive_size_bytes": 175747792,
+      "archive_sha256": "9ebe7bf2a185f870da4e7d906eeffde487606fa5989d42ce70ddc6f8427b92ac"
+    }
+  },
+  "files": [
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_d.parquet",
+      "size_bytes": 34116378,
+      "sha256": "b2f7b1db8b0ea5f5dec138a319d3da4d4af37d4e941fdee2c6d72930cddb724a"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_mu.parquet",
+      "size_bytes": 7968579,
+      "sha256": "2f6ba65b7db6ce611473acd71926ae65fefc7d8c9e48a109189f1e97fd55e0d5"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_o.parquet",
+      "size_bytes": 76574867,
+      "sha256": "01b641a5950e5a7684523bd7f30d25840487041811a65a5cf1a4638c043f4ff2"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_q.parquet",
+      "size_bytes": 54423247,
+      "sha256": "97e025844c709a4ab9cb95e7101887e30b05136d6233ba63573584524ebcd2a3"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_q0.parquet",
+      "size_bytes": 11119393,
+      "sha256": "b9fa1f8f57ccc4e05a6052d564c9d51c6506c607ae427f8c88f72062e7c0dd4a"
+    },
+    {
+      "relative_path": "Rb_v1.2/states.parquet",
+      "size_bytes": 230390,
+      "sha256": "2fc7546606b82dc5369392cf8758775a239bb6510adfd26d86bfc248513bcfc1"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/matrix_elements_d.parquet",
+      "size_bytes": 32650371,
+      "sha256": "4c141b9e1e1378536e839f06c0b340fb99f244fdddef61a317b6647d3c8fdfe6"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/matrix_elements_mu.parquet",
+      "size_bytes": 29372919,
+      "sha256": "149c04d05f58f13276c3567b031dbdea2eba4cdb15afeabf9fe92f1397377b0a"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/matrix_elements_o.parquet",
+      "size_bytes": 71283697,
+      "sha256": "394d43582e6ffd95828b7a9c7fd46a277bbb849a6731831c033f57efe530f733"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/matrix_elements_q.parquet",
+      "size_bytes": 51898780,
+      "sha256": "ea9f8cb8816a1984a8020b5e58bf3f3905fecce16df163aca51ab219aea31cce"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/matrix_elements_q0.parquet",
+      "size_bytes": 7097505,
+      "sha256": "085865169fd4fc711a578b9a2ff05d76b3032f67ad90f6c8866d3b4531ecded5"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.4/states.parquet",
+      "size_bytes": 343801,
+      "sha256": "c30ac2287726d90d809f71fafd1050ca45dffe3e8b366749f35ebab4034c80f8"
+    }
+  ]
+}

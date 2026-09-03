@@ -1,0 +1,282 @@
+{
+  "schema_version": 2,
+  "scope": "Static blockade-compatible vdW interaction resource. This calculation is not a driven multichannel gate design or process-fidelity result.",
+  "provenance": {
+    "pairinteraction_version": "2.5.0",
+    "database_versions": {
+      "Rb": "v1.2",
+      "Yb171_mqdt": "v1.4"
+    },
+    "database_hashes": "provenance/pairinteraction_database_manifest.json",
+    "solver": "scipy.sparse.linalg.eigsh, 24 eigenpairs around the previous branch shift while stepping from R=5 to 3 micrometers",
+    "target_projection": "BasisPair.get_amplitudes(target_pair)",
+    "magnetic_basis": "all individual atomic magnetic sublevels; only total pair M fixed"
+  },
+  "configuration": {
+    "rb_state": {
+      "species": "Rb",
+      "n": 66,
+      "l": 0,
+      "j": 0.5
+    },
+    "yb_state": {
+      "species": "Yb171_mqdt",
+      "nu": 62.682292758,
+      "l": 0,
+      "f": 0.5
+    },
+    "rb_basis": {
+      "n": [
+        63,
+        69
+      ],
+      "l": [
+        0,
+        3
+      ],
+      "m": "all sublevels"
+    },
+    "yb_basis": {
+      "nu": [
+        59.382292758000006,
+        65.982292758
+      ],
+      "l": [
+        0,
+        3
+      ],
+      "m": "all sublevels"
+    },
+    "pair_energy_window_ghz_about_dressed_asymptote": 80.0,
+    "theta_degree": 0.0,
+    "interaction_order": 3,
+    "zero_field_c6_ghz_um6": 73.57944835201512,
+    "zero_field_c6": {
+      "method": "second-order A^dagger V (E0-H0)^-1 V A at R=1 micrometer; all individual magnetic sublevels retained and only total M fixed",
+      "channels": {
+        "M=-1": {
+          "target_m_pairs": [
+            [
+              -0.5,
+              -0.5
+            ]
+          ],
+          "c6_matrix_ghz_um6": [
+            [
+              73.57944835201509
+            ]
+          ],
+          "c6_eigenvalues_ghz_um6": [
+            73.57944835201509
+          ],
+          "n_states": 16279,
+          "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+          "c3_squared_mhz2_um6": 952199717.3335955,
+          "perturbative_delta_eff_mhz": 12941.10976176567
+        },
+        "M=0": {
+          "target_m_pairs": [
+            [
+              -0.5,
+              0.5
+            ],
+            [
+              0.5,
+              -0.5
+            ]
+          ],
+          "c6_matrix_ghz_um6": [
+            [
+              73.60747842951879,
+              0.056060155007558156
+            ],
+            [
+              0.05606015500755802,
+              73.60747842951879
+            ]
+          ],
+          "c6_eigenvalues_ghz_um6": [
+            73.55141827451124,
+            73.66353858452635
+          ],
+          "n_states": 17598,
+          "nearest_dipole_coupled_detuning_mhz": -315.3247847557068
+        },
+        "M=+1": {
+          "target_m_pairs": [
+            [
+              0.5,
+              0.5
+            ]
+          ],
+          "c6_matrix_ghz_um6": [
+            [
+              73.57944835201512
+            ]
+          ],
+          "c6_eigenvalues_ghz_um6": [
+            73.57944835201512
+          ],
+          "n_states": 16279,
+          "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+          "c3_squared_mhz2_um6": 952199717.3335955,
+          "perturbative_delta_eff_mhz": 12941.109761765665
+        }
+      }
+    },
+    "branch_selection": "largest bare-product weight among eigenpairs centered on the preceding branch shift",
+    "shift_definition": "selected eigenenergy minus same-field dressed pair asymptote",
+    "finite_field_state_counts": [
+      16278,
+      16279,
+      17596,
+      17598
+    ]
+  },
+  "distance_track_b25_pp": [
+    {
+      "distance_um": 3.0,
+      "u_mhz": 100.82541131973267,
+      "overlap": 0.9436430592152564,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.1,
+      "u_mhz": 82.93545341491699,
+      "overlap": 0.9546637101136244,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.2,
+      "u_mhz": 68.60913896560669,
+      "overlap": 0.9631062026432571,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.3,
+      "u_mhz": 57.07205390930176,
+      "overlap": 0.9697184016110142,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.4,
+      "u_mhz": 47.727667808532715,
+      "overlap": 0.9749340920590034,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.5,
+      "u_mhz": 40.116117000579834,
+      "overlap": 0.9790123100558941,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.6,
+      "u_mhz": 33.880518436431885,
+      "overlap": 0.9825018171802257,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 3.8,
+      "u_mhz": 24.496362686157227,
+      "overlap": 0.9875043838666899,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 4.0,
+      "u_mhz": 18.007189750671387,
+      "overlap": 0.9908861748705089,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 4.25,
+      "u_mhz": 12.515849590301514,
+      "overlap": 0.99370524129407,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 4.5,
+      "u_mhz": 8.881859302520752,
+      "overlap": 0.9955492310582672,
+      "n_states": 16279
+    },
+    {
+      "distance_um": 5.0,
+      "u_mhz": 4.7199249267578125,
+      "overlap": 0.9976399706318432,
+      "n_states": 16279
+    }
+  ],
+  "sector_track_b25": [
+    {
+      "m_rb": -0.5,
+      "m_yb": -0.5,
+      "distance_um": 3.3,
+      "u_mhz": 56.792593479156494,
+      "overlap": 0.9697568754108784,
+      "n_states": 16279
+    },
+    {
+      "m_rb": -0.5,
+      "m_yb": 0.5,
+      "distance_um": 3.3,
+      "u_mhz": 57.12724304199219,
+      "overlap": 0.9701727181294192,
+      "n_states": 17598
+    },
+    {
+      "m_rb": 0.5,
+      "m_yb": -0.5,
+      "distance_um": 3.3,
+      "u_mhz": 56.85998344421387,
+      "overlap": 0.9702667479584447,
+      "n_states": 17596
+    },
+    {
+      "m_rb": 0.5,
+      "m_yb": 0.5,
+      "distance_um": 3.3,
+      "u_mhz": 57.07205390930176,
+      "overlap": 0.9697184016110142,
+      "n_states": 16279
+    }
+  ],
+  "magnetic_field_track_r3p3_pp": [
+    {
+      "b_gauss": 15.0,
+      "u_mhz": 57.01981067657471,
+      "overlap": 0.9697382441483663,
+      "n_states": 16279
+    },
+    {
+      "b_gauss": 20.0,
+      "u_mhz": 57.04616022109985,
+      "overlap": 0.9697292304885178,
+      "n_states": 16279
+    },
+    {
+      "b_gauss": 25.0,
+      "u_mhz": 57.07205390930176,
+      "overlap": 0.9697184016110142,
+      "n_states": 16279
+    },
+    {
+      "b_gauss": 30.0,
+      "u_mhz": 57.09749221801758,
+      "overlap": 0.9697053847357083,
+      "n_states": 16278
+    },
+    {
+      "b_gauss": 35.0,
+      "u_mhz": 57.122477531433105,
+      "overlap": 0.9696894825954804,
+      "n_states": 16278
+    },
+    {
+      "b_gauss": 40.0,
+      "u_mhz": 57.14701843261719,
+      "overlap": 0.9696635042220483,
+      "n_states": 16278
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "pairinteraction_version": "2.5.0",
+  "scope": "Figure 1 fixed-m distance, magnetic-field, and angle scans",
+  "assets": {
+    "Rb": {
+      "version": "v1.2",
+      "archive_url": "https://github.com/pairinteraction/database-sqdt/releases/download/v1.2/Rb_v1.2.zip",
+      "archive_size_bytes": 182288005,
+      "archive_sha256": "4dee351f346df0b7022819d5d9c1df23e52105458ed5627478507002d11d8ad3"
+    },
+    "Yb171_mqdt": {
+      "version": "v1.2",
+      "archive_url": "https://github.com/pairinteraction/database-mqdt/releases/download/v1.2/Yb171_mqdt_v1.2.zip",
+      "archive_size_bytes": 194112451,
+      "archive_sha256": "84cfc74c62c7b15ff8b8323fa5110f6345a3040b5f5a28ff55e22fa422cc229d"
+    }
+  },
+  "files": [
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_d.parquet",
+      "size_bytes": 34116378,
+      "sha256": "b2f7b1db8b0ea5f5dec138a319d3da4d4af37d4e941fdee2c6d72930cddb724a"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_mu.parquet",
+      "size_bytes": 7968579,
+      "sha256": "2f6ba65b7db6ce611473acd71926ae65fefc7d8c9e48a109189f1e97fd55e0d5"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_o.parquet",
+      "size_bytes": 76574867,
+      "sha256": "01b641a5950e5a7684523bd7f30d25840487041811a65a5cf1a4638c043f4ff2"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_q.parquet",
+      "size_bytes": 54423247,
+      "sha256": "97e025844c709a4ab9cb95e7101887e30b05136d6233ba63573584524ebcd2a3"
+    },
+    {
+      "relative_path": "Rb_v1.2/matrix_elements_q0.parquet",
+      "size_bytes": 11119393,
+      "sha256": "b9fa1f8f57ccc4e05a6052d564c9d51c6506c607ae427f8c88f72062e7c0dd4a"
+    },
+    {
+      "relative_path": "Rb_v1.2/states.parquet",
+      "size_bytes": 230390,
+      "sha256": "2fc7546606b82dc5369392cf8758775a239bb6510adfd26d86bfc248513bcfc1"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.2/matrix_elements_d.parquet",
+      "size_bytes": 129282212,
+      "sha256": "48696804476e766248dbaf216f97525dbf0f904d9dbc68cc55d05e898c28db6b"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.2/matrix_elements_mu.parquet",
+      "size_bytes": 75974220,
+      "sha256": "0fc01f566df4de6debe02cc364b705e421c2e4340e4c8eb1c33af9660c8fc086"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.2/matrix_elements_q.parquet",
+      "size_bytes": 168084568,
+      "sha256": "e1adb94f17f02fb3c2da6e90513d2ba801e09ae210960e11746faa9d79659c9a"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.2/matrix_elements_q0.parquet",
+      "size_bytes": 26534648,
+      "sha256": "85534e250e7f7e01b0dcd3351e63198e75ceb7a83dc215768f6c00f7aa1b255a"
+    },
+    {
+      "relative_path": "Yb171_mqdt_v1.2/states.parquet",
+      "size_bytes": 1358957,
+      "sha256": "9cf31420eb39403744a65d5b808263b8b298b21f8d9bfa5f6d05bf41a8088ce4"
+    }
+  ]
+}
