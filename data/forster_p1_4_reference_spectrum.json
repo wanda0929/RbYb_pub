@@ -1,0 +1,306 @@
+{
+  "timestamp_utc": "2026-09-04T05:04:19.798567+00:00",
+  "software": {
+    "pairinteraction": "2.5.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "status": "final P0-4 axial reference-spectrum audit complete",
+  "scope": "hyperfine-resolved exact M_tot=5/2 block at theta=0; direct diagonalization within the stated finite P0-4 basis, not the full untruncated atomic Hilbert space or a transverse full-angular model",
+  "fixed_inputs": {
+    "field_gauss": 3.1,
+    "distance_um": 3.4,
+    "theta_deg": 0.0,
+    "basis": {
+      "delta_n": 3,
+      "atomic_window_ghz": 80.0,
+      "pair_window_ghz": 40.0,
+      "delta_l": 2,
+      "interaction_order": 4
+    },
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "pp_asymptote_mhz": 0.0176829060449509,
+    "ss_asymptote_mhz": 4.68158661478404,
+    "forster_defect_mhz": 4.663903708739089
+  },
+  "spectral_diagnostics": {
+    "target_eigenstates": [
+      {
+        "mode_index": 1880,
+        "energy_mhz": -14.329977590886843,
+        "ss_weight": 0.5297754958933687,
+        "pp_weight": 0.46626553146083427,
+        "residual_weight": 0.003958972645797032,
+        "top_pair_components": [
+          {
+            "state": "Rb:56,S_1/2,1/2,mI=+1.5 + Yb171:S=0.9,nu=48.4,L=0.0,F=1/2,1/2",
+            "weight": 0.5297759115698136
+          },
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.4661364263276371
+          },
+          {
+            "state": "Rb:53,F_5/2,1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,1/2",
+            "weight": 0.0008849064918480746
+          },
+          {
+            "state": "Rb:56,P_3/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.00073232296890973
+          },
+          {
+            "state": "Rb:56,P_3/2,3/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,-1/2",
+            "weight": 0.0006720611237120699
+          },
+          {
+            "state": "Rb:53,F_5/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,3/2",
+            "weight": 0.00029187857226049596
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": -19.011564205670883
+      },
+      {
+        "mode_index": 1881,
+        "energy_mhz": 16.317436200740612,
+        "ss_weight": 0.4663948004501662,
+        "pp_weight": 0.5290828896107129,
+        "residual_weight": 0.00452230993912095,
+        "top_pair_components": [
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.52922596041367
+          },
+          {
+            "state": "Rb:56,S_1/2,1/2,mI=+1.5 + Yb171:S=0.9,nu=48.4,L=0.0,F=1/2,1/2",
+            "weight": 0.46639456669383966
+          },
+          {
+            "state": "Rb:53,F_5/2,1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,1/2",
+            "weight": 0.0013228072524620353
+          },
+          {
+            "state": "Rb:56,P_3/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.0006538237913085827
+          },
+          {
+            "state": "Rb:53,F_5/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,3/2",
+            "weight": 0.00042333661660497396
+          },
+          {
+            "state": "Rb:56,P_3/2,3/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,-1/2",
+            "weight": 0.000384026949193468
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": 11.635849585956572
+      }
+    ],
+    "nearest_spectator_gap_mhz": 48.64623245465875,
+    "nearest_spectator_eigenstate": {
+      "mode_index": 1879,
+      "energy_mhz": -62.97621004554559,
+      "ss_weight": 1.1959572868776032e-35,
+      "pp_weight": 7.815152683748673e-36,
+      "residual_weight": 1.0,
+      "top_pair_components": [
+        {
+          "state": "Rb:53,F_5/2,3/2,mI=-1.5 + Yb171:S=0.4,nu=48.3,L=2.0,F=5/2,5/2",
+          "weight": 0.8485381905069503
+        },
+        {
+          "state": "Rb:53,F_5/2,5/2,mI=-1.5 + Yb171:S=0.4,nu=48.3,L=2.0,F=5/2,3/2",
+          "weight": 0.15131398413416308
+        },
+        {
+          "state": "Rb:54,D_3/2,1/2,mI=-1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=7/2,7/2",
+          "weight": 8.043433701147462e-05
+        },
+        {
+          "state": "Rb:54,D_3/2,3/2,mI=-1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=5/2,5/2",
+          "weight": 1.4441215853486392e-05
+        },
+        {
+          "state": "Rb:54,F_5/2,5/2,mI=-1.5 + Yb171_triplet:52,S_3/2,3/2",
+          "weight": 1.3165024959994878e-05
+        },
+        {
+          "state": "Rb:54,D_3/2,3/2,mI=-1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=7/2,5/2",
+          "weight": 1.3135685958284197e-05
+        }
+      ],
+      "energy_relative_ss_asymptote_mhz": -67.65779666032964
+    },
+    "largest_target_overlap_spectators": [
+      {
+        "mode_index": 1892,
+        "energy_mhz": 572.1048856557221,
+        "ss_weight": 0.0022840187906198097,
+        "pp_weight": 2.7854116015528145e-07,
+        "residual_weight": 0.9977157026682201,
+        "top_pair_components": [
+          {
+            "state": "Rb:56,P_3/2,3/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,-1/2",
+            "weight": 0.6677886625220276
+          },
+          {
+            "state": "Rb:56,P_3/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.3282749286806876
+          },
+          {
+            "state": "Rb:56,S_1/2,1/2,mI=+1.5 + Yb171:S=0.9,nu=48.4,L=0.0,F=1/2,1/2",
+            "weight": 0.002283988458098031
+          },
+          {
+            "state": "Rb:57,S_1/2,1/2,mI=+1.5 + Yb171:S=0.1,nu=47.7,L=0.0,F=1/2,1/2",
+            "weight": 0.00107553318415999
+          },
+          {
+            "state": "Rb:53,F_5/2,3/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,-1/2",
+            "weight": 7.721363647866877e-05
+          },
+          {
+            "state": "Rb:55,D_3/2,3/2,mI=+1.5 + Yb171:S=0.1,nu=47.7,L=0.0,F=1/2,-1/2",
+            "weight": 4.472202286530714e-05
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": 567.4232990409381
+      },
+      {
+        "mode_index": 1885,
+        "energy_mhz": 195.25489319759257,
+        "ss_weight": 6.902346039147468e-06,
+        "pp_weight": 0.002275422946397183,
+        "residual_weight": 0.9977176747075637,
+        "top_pair_components": [
+          {
+            "state": "Rb:53,F_5/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,3/2",
+            "weight": 0.776598998315776
+          },
+          {
+            "state": "Rb:53,F_5/2,1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,1/2",
+            "weight": 0.20076094539694586
+          },
+          {
+            "state": "Rb:53,F_5/2,3/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,-1/2",
+            "weight": 0.019966701260260213
+          },
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.0022782468155954495
+          },
+          {
+            "state": "Rb:54,D_3/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=5/2,3/2",
+            "weight": 8.505944997584304e-05
+          },
+          {
+            "state": "Rb:53,F_5/2,5/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,-3/2",
+            "weight": 7.020982920097526e-05
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": 190.57330658280853
+      },
+      {
+        "mode_index": 1884,
+        "energy_mhz": 192.95211922186706,
+        "ss_weight": 3.3277098805320995e-06,
+        "pp_weight": 0.0010998320690194826,
+        "residual_weight": 0.9988968402211,
+        "top_pair_components": [
+          {
+            "state": "Rb:53,F_5/2,1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,1/2",
+            "weight": 0.503694087311761
+          },
+          {
+            "state": "Rb:53,F_5/2,3/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,-1/2",
+            "weight": 0.2827830571286169
+          },
+          {
+            "state": "Rb:53,F_5/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,3/2",
+            "weight": 0.20152416064839748
+          },
+          {
+            "state": "Rb:53,F_5/2,5/2,mI=+1.5 + Yb171:S=0.3,nu=48.3,L=2.0,F=3/2,-3/2",
+            "weight": 0.010443906492904859
+          },
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.0010997774057599566
+          },
+          {
+            "state": "Rb:54,D_3/2,-1/2,mI=+1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=5/2,3/2",
+            "weight": 0.00010357965263100874
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": 188.27053260708303
+      },
+      {
+        "mode_index": 1500,
+        "energy_mhz": -5832.509003893754,
+        "ss_weight": 3.652883984038666e-08,
+        "pp_weight": 0.0003236475600362643,
+        "residual_weight": 0.9996763159111239,
+        "top_pair_components": [
+          {
+            "state": "Rb:55,D_3/2,1/2,mI=+1.5 + Yb171:S=0.1,nu=47.7,L=0.0,F=1/2,1/2",
+            "weight": 0.9316431433807346
+          },
+          {
+            "state": "Rb:55,D_3/2,3/2,mI=+1.5 + Yb171:S=0.1,nu=47.7,L=0.0,F=1/2,-1/2",
+            "weight": 0.06639816247885796
+          },
+          {
+            "state": "Rb:54,F_5/2,1/2,mI=+1.5 + Yb171:S=0.9,nu=47.4,L=1.0,F=3/2,1/2",
+            "weight": 0.00044849134555205314
+          },
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.0,nu=48.0,L=1.0,F=1/2,1/2",
+            "weight": 0.0003238486840060245
+          },
+          {
+            "state": "Rb:56,P_1/2,1/2,mI=+1.5 + Yb171:S=0.6,nu=47.9,L=1.0,F=3/2,1/2",
+            "weight": 0.00026911202253804576
+          },
+          {
+            "state": "Rb:54,F_5/2,3/2,mI=+1.5 + Yb171:S=0.9,nu=47.4,L=1.0,F=3/2,-1/2",
+            "weight": 0.00013743073294589909
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": -5837.190590508539
+      },
+      {
+        "mode_index": 2075,
+        "energy_mhz": 4639.897231184445,
+        "ss_weight": 0.0002940010540027046,
+        "pp_weight": 9.301549325248438e-10,
+        "residual_weight": 0.9997059980158424,
+        "top_pair_components": [
+          {
+            "state": "Rb:55,P_3/2,3/2,mI=+1.5 + Yb171:S=0.6,nu=48.9,L=1.0,F=3/2,-1/2",
+            "weight": 0.6041445801233362
+          },
+          {
+            "state": "Rb:55,P_3/2,1/2,mI=+1.5 + Yb171:S=0.6,nu=48.9,L=1.0,F=3/2,1/2",
+            "weight": 0.2207707492916391
+          },
+          {
+            "state": "Rb:55,P_3/2,-1/2,mI=+1.5 + Yb171:S=0.6,nu=48.9,L=1.0,F=3/2,3/2",
+            "weight": 0.171346535802482
+          },
+          {
+            "state": "Rb:54,D_5/2,3/2,mI=+1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=7/2,-1/2",
+            "weight": 0.0005704782166773516
+          },
+          {
+            "state": "Rb:54,D_5/2,1/2,mI=+1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=7/2,1/2",
+            "weight": 0.0003799527820124843
+          },
+          {
+            "state": "Rb:54,D_3/2,3/2,mI=+1.5 + Yb171:S=0.3,nu=48.6,L=3.0,F=5/2,-1/2",
+            "weight": 0.00031920634156949837
+          }
+        ],
+        "energy_relative_ss_asymptote_mhz": 4635.215644569661
+      }
+    ]
+  }
+}

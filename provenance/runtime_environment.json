@@ -1,0 +1,41 @@
+{
+  "record_generation_environment": {
+    "operating_system": "Linux 6.1.158+",
+    "machine": "x86_64",
+    "python": "3.11.6",
+    "pairinteraction": "2.5.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "blas_lapack": "OpenBLAS 0.3.31.188.0, 64-bit integers, DYNAMIC_ARCH, Haswell target"
+  },
+  "locked_clean_environment_check": {
+    "operating_system": "Linux 6.1.158+",
+    "machine": "x86_64",
+    "python": "3.11.6",
+    "pairinteraction": "2.5.0",
+    "numpy": "2.3.5",
+    "scipy": "1.17.1",
+    "pytest": "9.1.1",
+    "ruff": "0.15.18",
+    "blas_lapack": "OpenBLAS 0.3.30, 64-bit integers, DYNAMIC_ARCH, Haswell target"
+  },
+  "randomness": {
+    "pulse_optimization": "deterministic; no random seed and no multistart restarts",
+    "bounded_sobol": "deterministic unscrambled nested Sobol sequence",
+    "thermal_benchmark_seed": 20260904
+  },
+  "recorded_resource_observations": {
+    "vdw_p1_5_basis_convergence": {
+      "execution": "nine configurations evaluated serially in one process",
+      "largest_pair_basis_size": 33180,
+      "wall_seconds": 752.2220505099999,
+      "peak_rss_kib": 10577180,
+      "logical_cpu_count": 16
+    }
+  },
+  "notes": [
+    "uv.lock is the machine-readable dependency lock; this file records the reference runtime and numerical backend.",
+    "The NumPy 2.3.5 lock is the clean-environment compatibility target for PairInteraction 2.5.0; committed records retain their original NumPy 2.4.6 provenance.",
+    "Database release URLs and file hashes are recorded separately in pairinteraction_database_manifest.json."
+  ]
+}

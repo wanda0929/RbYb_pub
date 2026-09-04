@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-09-04T05:52:58.649039+00:00",
+  "software": {
+    "pairinteraction": "2.5.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "database_versions": {
+      "Rb": "v1.2",
+      "Yb171_mqdt": "v1.4"
+    },
+    "database_hash_manifest": "provenance/pairinteraction_database_manifest.json"
+  },
+  "status": "static vdW one-at-a-time basis convergence complete",
+  "scope": {
+    "included": "zero-field M=+1 second-order C6 and the B=25 G, R=3.3 micrometer target-overlap branch for the specified bare pair",
+    "method": "one numerical basis axis changed per row; Rb and Yb radial ranges varied independently; all magnetic sublevels retained and only total pair M=+1 fixed; finite-field eigensolves use the exact connected Hamiltonian component containing unit bare-target norm",
+    "excluded": [
+      "driven dynamics",
+      "vdW gate construction",
+      "process fidelity",
+      "multipoles beyond electric dipole-dipole",
+      "combined multi-axis basis expansions"
+    ]
+  },
+  "fixed_inputs": {
+    "rb_state": "66S_1/2, m=+1/2",
+    "yb_state": "S(nu=62.682292758), F=1/2, m=+1/2",
+    "field_gauss_for_working_point": 25.0,
+    "distance_um": 3.3,
+    "theta_degree": 0.0,
+    "interaction_order": 3,
+    "interaction": "electric dipole-dipole only",
+    "zero_field_c6_method": "second-order A^dagger V (E0-H0)^-1 V A at R=1 micrometer",
+    "branch_selection": "largest bare-pair weight among 24 shift-invert eigenpairs centered on the stored reference shift, after exact removal of disconnected zero-target-overlap Hamiltonian components",
+    "reference_basis": {
+      "rb_n_half_width": 3,
+      "yb_nu_half_width": 3.3,
+      "l_max": 3,
+      "pair_window_ghz": 80.0
+    },
+    "radial_range_convention": "reference Rb n=66+/-3 and Yb nu=62.682292758+/-3.3; contracted/expanded Yb widths use 2.3/4.3 so boundaries stay between adjacent MQDT roots",
+    "serial_execution": "rows evaluated sequentially in one process; heavy basis and Hamiltonian objects released before the next row"
+  },
+  "one_at_a_time_rows": [
+    {
+      "label": "Rb radial contracted: n=66+/-2",
+      "axis": "rb_radial_range",
+      "comparison": "contracted",
+      "basis": {
+        "rb_n_half_width": 2,
+        "yb_nu_half_width": 3.3,
+        "l_max": 3,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          64,
+          68
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 12230,
+      "pair_basis_size": 12230,
+      "finite_field_target_component_size": 6288,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999999968978,
+      "c6_ghz_um6": 73.56690229755688,
+      "nearest_dipole_coupled_detuning_mhz": 482.3510684967041,
+      "c3_squared_mhz2_um6": 951160072.8696473,
+      "perturbative_delta_eff_mhz": 12929.184771468008,
+      "working_point_shift_mhz": 56.94272470474243,
+      "bare_pair_weight": 0.9698016261834904,
+      "row_wall_seconds": 27.107717570000204,
+      "process_peak_rss_kib_after_row": 3214380,
+      "change_from_reference": {
+        "c6_ghz_um6": -0.012546054458198341,
+        "working_point_shift_mhz": -0.12932920455932617,
+        "bare_pair_weight": 8.32245724834424e-05,
+        "pair_basis_size": -4049
+      }
+    },
+    {
+      "label": "numerical reference",
+      "axis": "reference",
+      "comparison": "reference",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 3.3,
+        "l_max": 3,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 16279,
+      "pair_basis_size": 16279,
+      "finite_field_target_component_size": 8399,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999999968976,
+      "c6_ghz_um6": 73.57944835201508,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 952199717.3335955,
+      "perturbative_delta_eff_mhz": 12941.109761765672,
+      "working_point_shift_mhz": 57.07205390930176,
+      "bare_pair_weight": 0.969718401611007,
+      "row_wall_seconds": 61.47007587799999,
+      "process_peak_rss_kib_after_row": 5152000,
+      "change_from_reference": {
+        "c6_ghz_um6": 0.0,
+        "working_point_shift_mhz": 0.0,
+        "bare_pair_weight": 0.0,
+        "pair_basis_size": 0
+      }
+    },
+    {
+      "label": "Rb radial expanded: n=66+/-4",
+      "axis": "rb_radial_range",
+      "comparison": "expanded",
+      "basis": {
+        "rb_n_half_width": 4,
+        "yb_nu_half_width": 3.3,
+        "l_max": 3,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          62,
+          70
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 19318,
+      "pair_basis_size": 19317,
+      "finite_field_target_component_size": 10001,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999999968983,
+      "c6_ghz_um6": 73.57948355195349,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 952206805.0306587,
+      "perturbative_delta_eff_mhz": 12941.19989790793,
+      "working_point_shift_mhz": 57.077513694763184,
+      "bare_pair_weight": 0.9697094601136987,
+      "row_wall_seconds": 103.22031165399994,
+      "process_peak_rss_kib_after_row": 6220124,
+      "change_from_reference": {
+        "c6_ghz_um6": 3.519993840939151e-05,
+        "working_point_shift_mhz": 0.005459785461425781,
+        "bare_pair_weight": -8.94149730823468e-06,
+        "pair_basis_size": 3038
+      }
+    },
+    {
+      "label": "l_max = 4",
+      "axis": "l_max",
+      "comparison": "expanded",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 3.3,
+        "l_max": 4,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 33179,
+      "pair_basis_size": 33180,
+      "finite_field_target_component_size": 16996,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999999968947,
+      "c6_ghz_um6": 73.5794483520151,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 952199717.3335955,
+      "perturbative_delta_eff_mhz": 12941.109761765667,
+      "working_point_shift_mhz": 57.069344997406006,
+      "bare_pair_weight": 0.969731523537342,
+      "row_wall_seconds": 287.8523198600001,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": 2.842170943040401e-14,
+        "working_point_shift_mhz": -0.002708911895751953,
+        "bare_pair_weight": 1.3121926335069034e-05,
+        "pair_basis_size": 16901
+      }
+    },
+    {
+      "label": "Yb radial contracted: nu=target+/-2.3",
+      "axis": "yb_radial_range",
+      "comparison": "contracted",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 2.3,
+        "l_max": 3,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          60.382292758000006,
+          64.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 11869,
+      "pair_basis_size": 11869,
+      "finite_field_target_component_size": 6107,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 1.0000000000000018,
+      "c6_ghz_um6": 73.5724475185547,
+      "nearest_dipole_coupled_detuning_mhz": 482.3510684967041,
+      "c3_squared_mhz2_um6": 950763924.6910981,
+      "perturbative_delta_eff_mhz": 12922.825823503004,
+      "working_point_shift_mhz": 57.06713581085205,
+      "bare_pair_weight": 0.9697039077793309,
+      "row_wall_seconds": 25.67909274600015,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": -0.007000833460381273,
+        "working_point_shift_mhz": -0.004918098449707031,
+        "bare_pair_weight": -1.449383167606566e-05,
+        "pair_basis_size": -4410
+      }
+    },
+    {
+      "label": "Yb radial expanded: nu=target+/-4.3",
+      "axis": "yb_radial_range",
+      "comparison": "expanded",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 4.3,
+        "l_max": 3,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          58.382292758000006,
+          66.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 19522,
+      "pair_basis_size": 19522,
+      "finite_field_target_component_size": 10088,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.999999999994057,
+      "c6_ghz_um6": 73.57872748685118,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 952263315.1281017,
+      "perturbative_delta_eff_mhz": 12942.100898636432,
+      "working_point_shift_mhz": 57.07173442840576,
+      "bare_pair_weight": 0.9697186212080772,
+      "row_wall_seconds": 101.08472110899993,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": -0.0007208651638990204,
+        "working_point_shift_mhz": -0.00031948089599609375,
+        "bare_pair_weight": 2.1959707019458818e-07,
+        "pair_basis_size": 3243
+      }
+    },
+    {
+      "label": "l_max = 2",
+      "axis": "l_max",
+      "comparison": "contracted",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 3.3,
+        "l_max": 2,
+        "pair_window_ghz": 80.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 6284,
+      "pair_basis_size": 6284,
+      "finite_field_target_component_size": 3341,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999999968938,
+      "c6_ghz_um6": 73.57513907517972,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 952101525.1782533,
+      "perturbative_delta_eff_mhz": 12940.533135865197,
+      "working_point_shift_mhz": 57.22867298126221,
+      "bare_pair_weight": 0.9697266565022694,
+      "row_wall_seconds": 8.808180938000078,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": -0.004309276835357423,
+        "working_point_shift_mhz": 0.15661907196044922,
+        "bare_pair_weight": 8.254891262438058e-06,
+        "pair_basis_size": -9995
+      }
+    },
+    {
+      "label": "pair window +/-40 GHz",
+      "axis": "pair_energy_window",
+      "comparison": "contracted",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 3.3,
+        "l_max": 3,
+        "pair_window_ghz": 40.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 8765,
+      "pair_basis_size": 8765,
+      "finite_field_target_component_size": 4518,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 0.9999999997297486,
+      "c6_ghz_um6": 73.5905327424334,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 933160675.2249953,
+      "perturbative_delta_eff_mhz": 12680.44462310192,
+      "working_point_shift_mhz": 57.086374282836914,
+      "bare_pair_weight": 0.9697193327036666,
+      "row_wall_seconds": 12.619120898000347,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": 0.011084390418318435,
+        "working_point_shift_mhz": 0.01432037353515625,
+        "bare_pair_weight": 9.310926596395319e-07,
+        "pair_basis_size": -7514
+      }
+    },
+    {
+      "label": "pair window +/-120 GHz",
+      "axis": "pair_energy_window",
+      "comparison": "expanded",
+      "basis": {
+        "rb_n_half_width": 3,
+        "yb_nu_half_width": 3.3,
+        "l_max": 3,
+        "pair_window_ghz": 120.0,
+        "rb_n_bounds": [
+          63,
+          69
+        ],
+        "yb_nu_bounds": [
+          59.382292758000006,
+          65.982292758
+        ]
+      },
+      "zero_field_pair_basis_size": 21679,
+      "pair_basis_size": 21681,
+      "finite_field_target_component_size": 11263,
+      "finite_field_number_of_components": 2,
+      "target_norm_in_solver_component": 1.0000000000000002,
+      "c6_ghz_um6": 73.58994078141767,
+      "nearest_dipole_coupled_detuning_mhz": -315.3247847557068,
+      "c3_squared_mhz2_um6": 953953044.4782288,
+      "perturbative_delta_eff_mhz": 12963.090258650042,
+      "working_point_shift_mhz": 57.07990741729736,
+      "bare_pair_weight": 0.9697181239368663,
+      "row_wall_seconds": 123.81685130599999,
+      "process_peak_rss_kib_after_row": 10577180,
+      "change_from_reference": {
+        "c6_ghz_um6": 0.01049242940258921,
+        "working_point_shift_mhz": 0.007853507995605469,
+        "bare_pair_weight": -2.7767414068069485e-07,
+        "pair_basis_size": 5402
+      }
+    }
+  ],
+  "reference_reproduction": {
+    "source": "data/vdw_dense_data.json",
+    "absolute_tolerance": 1e-06,
+    "expected": {
+      "c6_ghz_um6": 73.57944850063153,
+      "working_point_shift_mhz": 57.0720534324646,
+      "bare_pair_weight": 0.9697184016029612,
+      "pair_basis_size": 16279
+    },
+    "differences": {
+      "c6_ghz_um6": -1.4861645070141094e-07,
+      "working_point_shift_mhz": 4.76837158203125e-07,
+      "bare_pair_weight": 8.04578625945851e-12
+    },
+    "pair_basis_size_difference": 0,
+    "passed": true
+  },
+  "convergence": {
+    "reference_label": "numerical reference",
+    "expanded_rows": [
+      "Rb radial expanded: n=66+/-4",
+      "l_max = 4",
+      "Yb radial expanded: nu=target+/-4.3",
+      "pair window +/-120 GHz"
+    ],
+    "maximum_changes_over_expanded_rows": {
+      "c6_ghz_um6": {
+        "row": "pair window +/-120 GHz",
+        "signed_change": 0.01049242940258921,
+        "absolute_change": 0.01049242940258921,
+        "relative_change": 0.00014260000091862417
+      },
+      "working_point_shift_mhz": {
+        "row": "pair window +/-120 GHz",
+        "signed_change": 0.007853507995605469,
+        "absolute_change": 0.007853507995605469,
+        "relative_change": 0.0001376068926498803
+      },
+      "bare_pair_weight": {
+        "row": "l_max = 4",
+        "signed_change": 1.3121926335069034e-05,
+        "absolute_change": 1.3121926335069034e-05,
+        "relative_change": 1.3531687460266188e-05
+      }
+    },
+    "maximum_expanded_pair_basis": {
+      "row": "l_max = 4",
+      "pair_basis_size": 33180
+    }
+  },
+  "resource_usage": {
+    "wall_seconds_before_output_write": 752.2220505099999,
+    "process_peak_rss_kib_before_output_write": 10577180,
+    "logical_cpu_count": 16
+  },
+  "caveat": "The expanded checks bound one-axis truncation sensitivity only; they do not test cross-terms from simultaneous radial, angular, and pair-window expansion and do not establish a driven gate model."
+}

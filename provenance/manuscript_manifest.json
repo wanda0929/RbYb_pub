@@ -1,7 +1,8 @@
 {
-  "title": "Optically accessible 87Rb-171Yb Rydberg interactions and a Förster CZ gate",
-  "source_pdf_sha256": "507d9130579157924c48d44ee3f196b657a1baeb482db6c7b38f54c26c420a4c",
-  "source_pdf_size_bytes": 515155,
-  "source_repository_commit": "9e9c0717ad517c3bef0af6a94fdaaccb1f728222",
+  "title": "87Rb-171Yb Rydberg interactions and a Förster CZ gate",
+  "source_pdf_sha256": "6c47c085d8890a354f60f58049f00bcb2ff735a945fa161cbf62f2410e82785c",
+  "source_pdf_size_bytes": 593002,
+  "source_repository_commit": "af787ae9258f93bc9fbce5ac972c7562634e41f9",
+  "source_repository_commit_timestamp_utc": "2026-09-04T06:15:33Z",
   "note": "The manuscript PDF and LaTeX sources are not redistributed in this data repository."
 }
