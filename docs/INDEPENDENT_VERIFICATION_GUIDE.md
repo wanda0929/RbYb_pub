@@ -219,10 +219,15 @@ $$
 | bright upper mode: $(PP,SS,\mathrm{other})$ | $(57.754970,42.098743,0.146288)\%$ |
 | bright lower mode: $(PP,SS,\mathrm{other})$ | $(42.167548,57.673937,0.158515)\%$ |
 | all-mode unitarity upper bound on $SS\rightarrow PP$ transfer | $97.309617\%$ |
-| hyperfine-resolved all-$(m_J,m_I)$ static transfer at $B=0$ | approximately $92.01\%$ |
-| hyperfine-resolved all-$(m_J,m_I)$ static transfer at $B=3.10\,\mathrm{G}$ | approximately $98.27\%$ |
+| final P0-4 axial HFS first-exchange transfer at $B=0$ | $93.922694\%$ |
+| final P0-4 axial HFS first-exchange transfer at $B=3.10\,\mathrm{G}$ | $98.812568\%$ at $16.409014\,\mathrm{ns}$ |
+| final P0-4 axial HFS sampled maximum (0–10 G grid) | $99.204761\%$ at $4\,\mathrm{G}$ |
 
 主计算使用 fixed-$m$、$\Delta n=3$、$\ell\leq3$、$\pm80\,\mathrm{GHz}$ pair-energy window 和 2411 个 pair states。把 window 扩至 $\pm100\,\mathrm{GHz}$、把 $\Delta n$ 扩至 4、或把 $\ell_{\max}$ 扩至 4 时，full splitting 变化不超过 $0.00074\,\mathrm{MHz}$，transfer 变化不超过 $0.0045$ 个百分点，spectator population 变化不超过 $0.0023$ 个百分点。
+
+Fig. 1(d) 的 HFS 曲线单独使用 final P0-4 reference basis：$\Delta n=3$、atomic $\pm80$ GHz、pair $\pm40$ GHz、$\Delta\ell=2$、interaction order 4，保留 axial conserved HFS block 的全部 eigenmodes。两条磁场曲线均从 SS 出发，无光驱动、无衰减，寻找第一个 bright-state period 内最大的 PP population（不是最早的微小 spectator ripple，也不是 PP-initial 0–80 ns global maximum）。3.10 G 时 $(PP,SS,\mathrm{spectator})=(98.812568,0.383730,0.803702)\%$，splitting $30.647414$ MHz；lower/upper $(PP,SS)$ weights 为 $(46.626553,52.977550)\%$ / $(52.908289,46.639480)\%$，与 P1-4 一致。zero-field centroid/stretched defects 分别是 $-0.763732/-0.693744$ MHz，而 3.10 G 的 dressed $SS-PP$ defect 是 $+4.663904$ MHz；不可互换。
+
+HFS peak locator 从 801 到 83437 samples 加局部连续优化，3.10 G transfer 变化小于 $2\times10^{-15}$；这只是时间定位检查，不是新的 HFS basis-convergence claim。上面的 one-at-a-time basis checks 仍仅适用于 zero-field fixed-$m$。角度子图也仅是 fixed-$m$ diagnostic，不代表 full-HFS angular robustness。当前 Fig. 1 全部直接读取 `forster_characterization.json`，不依赖 gate JSON；旧 HFS scan 原样保留于 `historical_all_m_field_scan`。默认 reproducer checkpoint 更新缺失 HFS 点；`--rebuild-fixed-m` 才重建原始 fixed-$m$ 数据，绘图用 `python3 scripts/plot_channel_forster.py --characterization-only`。
 
 请独立判断这些结果是否足以支持“two-level-dominated Förster channel”这一表述，并检查在 $R=3.3$–$3.5\,\mu\mathrm{m}$ 之外是否有 spectator mixing 或 exchange-contrast degradation。完成独立实现后，可与 `data/forster_characterization.json` 逐项交叉比对；该记录由 `scripts/reproduce_forster_characterization.py` 生成，并包含数据库文件的 SHA-256、扫描数据和收敛检查。
 
@@ -303,11 +308,11 @@ Yb ideal command：五段具有相同 duration。
 
 | segment | $\Omega/2\pi$ (MHz) | $\Delta/2\pi$ (MHz) | duration (ns) |
 |---|---:|---:|---:|
-| A | 4.410416084 | -1.144372858 | 25.634115266 |
-| B | 9.418791105 | -0.926357789 | 25.634115266 |
-| C | 11.734642229 | +1.744859450 | 25.634115266 |
-| B | 9.418791105 | -0.926357789 | 25.634115266 |
-| A | 4.410416084 | -1.144372858 | 25.634115266 |
+| A | 4.480374546 | -0.364774234 | 25.634115266 |
+| B | 9.229350330 | -1.023517674 | 25.634115266 |
+| C | 11.778486107 | +2.431262781 | 25.634115266 |
+| B | 9.229350330 | -1.023517674 | 25.634115266 |
+| A | 4.480374546 | -0.364774234 | 25.634115266 |
 
 | timing quantity | value |
 |---|---:|
@@ -348,7 +353,7 @@ $$
 
 严格守恒。实现可以用 exact block reduction：electronic $M=1,2,3,4$ 分别配对 $m_I=+3/2,+1/2,-1/2,-3/2$，hyperfine off-diagonal terms 在这些 sectors 间耦合。
 
-Pulse-search basis（用于寻找脉冲以及旧的 Fig. 2(b)–(d) diagnostics）：
+Historical pulse-search/SCAN basis（仅保留作明确标记的 historical diagnostics；不再用于当前 Fig. 3，也不是最终脉冲的优化模型）：
 
 | item | setting |
 |---|---:|
@@ -363,7 +368,7 @@ Pulse-search basis（用于寻找脉冲以及旧的 Fig. 2(b)–(d) diagnostics�
 | final propagation step | $0.125\,\mathrm{ns}$，并精确包含每个 command boundary |
 | scan pair basis / connected HFS block | 2075 / 1075 states |
 
-论文最终 headline 数值不是重新优化结果，而是把同一个脉冲放进下面的 post-optimization numerical-reference model 重新计算：
+论文最终 headline pulse 由旧 search-basis pulse 作为 seed，在下面的 numerical-reference model 内重新局部优化并验证：
 
 | item | setting |
 |---|---:|
@@ -375,8 +380,18 @@ Pulse-search basis（用于寻找脉冲以及旧的 Fig. 2(b)–(d) diagnostics�
 | pair basis / connected axial HFS block | 3684 / 3684 states |
 | bright-mode cutoff | $10^{-6}$ |
 | propagation step | maximum $0.125\,\mathrm{ns}$ |
-| pulse reoptimization | none |
-| reference local $Z$ | $(\alpha,\beta)=(3.1035625983,2.9983835364)\,\mathrm{rad}$ |
+| pulse reoptimization | 在 nominal 与 axial $\pm50\,\mathrm{nm}$、四个独立 Rabi vertices 加 nominal 的 final-model set 上做 fixed-duration local refinement |
+| reference local $Z$ | $(\alpha,\beta)=(-3.1407723494,2.9411417009)\,\mathrm{rad}$ |
+
+重优化在 objective evaluation 之前只构造并缓存 nominal 与 axial
+$\pm50\,\mathrm{nm}$ 三个 P0-4 model，bright-mode cutoff 为 $10^{-6}$，objective
+为八个 endpoint/amplitude vertices 加 nominal 上的
+$\max(1-F)+0.02\,\operatorname{mean}(1-F)$。Bounded adaptive Nelder--Mead 只改变
+六个 amplitude/detuning 参数，segment duration 固定为 $25.634115266\,\mathrm{ns}$。
+该 deterministic run 用尽 400 iterations / 625 evaluations，optimizer
+没有报告 convergence；候选点因为 exact $0.125\,\mathrm{ns}$ nominal 超过
+0.999 且 endpoint objective 和 sampled bounded minimum 均不劣于 seed 而被接受。
+它是 accepted local candidate，不是 converged/global optimum。
 
 One-at-a-time convergence audit 分别使用：
 
@@ -389,29 +404,28 @@ One-at-a-time convergence audit 分别使用：
 - maximum propagation step $1,0.5,0.25,0.125\,\mathrm{ns}$。
 
 另做 gate-level bright-mode projection audit：在 nominal point 与最终 sampled
-limiting point（$+50\,\mathrm{nm}$ axial、Yb 1.01、Rb 0.99）保持 P0-4 pulse、
+limiting point（$-50\,\mathrm{nm}$ axial、Yb 0.99、Rb 0.99）保持 P0-4 pulse、
 decay prescription、time grid 和 reference local-$Z$ 全部不变，比较
 $10^{-6}$、$10^{-8}$ 与同一 3684-state connected block 的全部 eigenmodes。
 
 | point | cutoff | active modes | retained $SS$ weight | fixed-reference $Z$ overlap |
 |---|---:|---:|---:|---:|
-| nominal | $10^{-6}$ | 52 | 0.9999806033 | 0.9989445403730 |
-| nominal | $10^{-8}$ | 197 | 0.9999993726 | 0.9989445408139 |
-| nominal | all modes | 3684 | 1.0000000000 | 0.9989445408114 |
-| limiting axial vertex | $10^{-6}$ | 47 | 0.9999778218 | 0.9980009924063 |
-| limiting axial vertex | $10^{-8}$ | 196 | 0.9999994200 | 0.9980009936113 |
-| limiting axial vertex | all modes | 3684 | 1.0000000000 | 0.9980009936090 |
+| nominal | $10^{-6}$ | 52 | 0.9999806033 | 0.9993184594783 |
+| nominal | $10^{-8}$ | 197 | 0.9999993726 | 0.9993184594336 |
+| nominal | all modes | 3684 | 1.0000000000 | 0.9993184594331 |
+| limiting axial vertex | $10^{-6}$ | 56 | 0.9999814566 | 0.9986938231608 |
+| limiting axial vertex | $10^{-8}$ | 209 | 0.9999993864 | 0.9986938224397 |
+| limiting axial vertex | all modes | 3684 | 1.0000000000 | 0.9986938224424 |
 
-因此 all-mode 与已发表 $10^{-6}$ projection 的绝对 fidelity difference 在
-nominal point 为 $4.38\times10^{-10}$，在 limiting point 为
-$1.20\times10^{-9}$。Sparse-star propagation 与原 $10^{-6}$ dense-mode
-implementation 的最大 Kraus-amplitude difference 为 $1.78\times10^{-13}$。
+因此 all-mode 与 selected $10^{-6}$ projection 的绝对 fidelity difference 在
+nominal point 为 $4.52\times10^{-11}$，在 limiting point 为
+$7.18\times10^{-10}$。Sparse-star propagation 与原 $10^{-6}$ dense-mode
+implementation 的最大 Kraus-amplitude difference 为 $2.04\times10^{-13}$。
 这里的 “all modes” 只表示保留同一 P0-4 connected block 的全部 eigenmodes；
 它不是更大 pair basis，也不是 transverse full-angular calculation。
 
 最终 P0-4 axial reference block 的详细 eigenspectrum 另存于
-`data/forster_p1_4_reference_spectrum.json`，由
-`scripts/evaluate_forster_p1_4.py` 生成。以 stretched $SS$ asymptote 为零，两个
+`forster_p1_4_reference_spectrum.json`。以 stretched $SS$ asymptote 为零，两个
 target modes 位于 $-19.0116$ 与 $+11.6358\,\mathrm{MHz}$，其
 $(SS,PP,\mathrm{other})$ weights 分别为
 $(0.529775,0.466266,0.003959)$ 和
@@ -484,11 +498,11 @@ $$
 numerical-reference nominal point 使用的相位为
 
 $$
-\alpha=3.103562598,\qquad
-\beta=2.998383536\ \mathrm{rad}.
+\alpha=-3.140772349,\qquad
+\beta=2.941141701\ \mathrm{rad}.
 $$
 
-原 dipole–dipole pulse-search model 的 calibration 是 $(-3.137468586,3.040530972)\,\mathrm{rad}$；只应用于明确标为 search-model 的旧 diagnostics。
+Final-reference-selected pulse 在 historical dipole--dipole SCAN model 的 calibration 是 $(-3.098232263,2.983673967)\,\mathrm{rad}$；只应用于明确标为 SCAN-model 的 diagnostics。
 
 $F_{\mathrm{avg}}$ 定义为 survival-weighted Haar average：
 
@@ -551,20 +565,21 @@ $r=(0,12.5,25,37.5,50)\,\mathrm{nm}$、九个 direction cosines 和两个
 $5$-point amplitude axes 上构造 cubic tensor response surface。共有 37 个
 不同的 direct P0-4 retained-block geometries；surrogate 只负责 coverage 与找点。六个
 独立 off-grid retained-block holdouts 的最大绝对误差为
-$1.55\times10^{-5}$，rms 误差为 $1.01\times10^{-5}$。
+$1.58\times10^{-5}$，rms 误差为 $9.76\times10^{-6}$。
 
 | nested Sobol prefix | sampled minimum |
 |---:|---:|
-| 128 | 0.9983267177 |
-| 256 | 0.9983228493 |
-| 512 | 0.9982575680 |
-| 1024 | 0.9982035881 |
+| 128 | 0.9988244812 |
+| 256 | 0.9988244812 |
+| 512 | 0.9988244812 |
+| 1024 | 0.9988244812 |
 
-Sobol sampled minimum 仍随点数下降，因为轴向球面边界在五维域中占零体积；
-它本身不能定位最终边界。取十二个最低 Sobol points 做 constrained SLSQP
-local adversarial search 后，leading candidates 回到 $+50\,\mathrm{nm}$ axial
-boundary。三个 candidate 用完整 P0-4 Hamiltonian 直接复算，最小值为
-0.9980009927，对应 Yb 1.01、Rb 0.99。这个结果应称为 **sampled plus local
+四个 prefix 的 minimum 都是共有的第一个 deterministic Sobol point：zero
+displacement、Yb 0.99、Rb 0.99；相等不代表已收敛到 continuous-domain
+boundary。取十二个最低 Sobol points 做 constrained SLSQP local adversarial
+search 后，leading candidates 回到 $-50\,\mathrm{nm}$ axial boundary。三个
+candidate 用完整 P0-4 Hamiltonian 直接复算，最小值为 0.9986938232，对应
+Yb 0.99、Rb 0.99。这个结果应称为 **sampled plus local
 adversarial evidence**；不是 mathematically certified global minimum。
 
 热运动必须作为独立 probability model，不能把上述 uniform-ball Sobol
@@ -608,53 +623,58 @@ frequencies、axis rotations、effective wavevectors 和 trap-off timing。
 
 | quantity | claimed result |
 |---|---:|
-| numerical-reference nominal $F_{\mathrm{avg}}$ | 0.9989445404 |
-| numerical-reference mean computational survival | 0.9992336158 |
-| numerical-reference success-weighted conditional diagnostic | 0.9997107028 |
-| numerical-reference sampled position-only minimum | 0.9986743975 |
-| numerical-reference sampled position+amplitude minimum | 0.9980009924 |
-| numerical-reference worst sampled point | $+50\,\mathrm{nm}$ axial，Yb scale 1.01，Rb scale 0.99 |
-| P1-1 1024-point Sobol response-surface minimum | 0.9982035881 |
-| P1-1 direct local-adversarial recheck minimum | 0.9980009927 |
-| P1-2 maximum all-mode projection change | $1.20\times10^{-9}$ |
-| search-model nominal $F_{\mathrm{avg}}$ | 0.9992949524 |
-| search-model zero-decay coherent return-and-phase overlap | 0.9999492803 |
-| search-model zero-decay mean computational return | 0.9999526823 |
-| search-model 32-point Sobol position+amplitude minimum | 0.9984940570 |
-| search-model phase-recalibrated field-scan maximum | 0.9992949524 at $B=3.10\,\mathrm{G}$ |
-| unblocked Yb maximum Rydberg population | 0.9952214 |
-| unblocked final Yb Rydberg residual | $1.0567\times10^{-4}$ |
-| $|11\rangle$ final computational population | 0.9997919 |
-| maximum transient $PP$ population | 0.1421220 |
-| maximum transient $SS$ population | 0.0167000 |
-| maximum unshown spectator population | $1.7222\times10^{-4}$ |
-| final unshown spectator population | $1.1095\times10^{-7}$ |
+| numerical-reference nominal $F_{\mathrm{avg}}$ | 0.9993184595 |
+| numerical-reference mean computational survival | 0.9993186403 |
+| numerical-reference success-weighted conditional diagnostic | 0.9999998191 |
+| numerical-reference sampled position-only minimum | 0.9992023215 |
+| numerical-reference sampled position+amplitude minimum | 0.9986938232 |
+| numerical-reference worst sampled point | $-50\,\mathrm{nm}$ axial，Yb scale 0.99，Rb scale 0.99 |
+| P1-1 1024-point Sobol response-surface minimum | 0.9988244812 |
+| P1-1 direct local-adversarial recheck minimum | 0.9986938232 |
+| P1-2 maximum all-mode projection change | $7.18\times10^{-10}$ |
+| SCAN-model nominal $F_{\mathrm{avg}}$ | 0.9989603273 |
+| SCAN-model zero-decay coherent return-and-phase overlap | 0.9996161861 |
+| SCAN-model zero-decay mean computational return | 0.9999921425 |
+| SCAN-model 32-point Sobol position+amplitude minimum | 0.9981315010 |
+| final-model sampled phase-recalibrated field maximum | 0.9993185936828 at $B=3.085\,\mathrm{G}$ |
+| final-model axial nominal-amplitude minimum | 0.9992023214963 at $-50\,\mathrm{nm}$ |
+| final-model independent Yb-amplitude minimum | 0.9990738202625 at $+1\%$ |
+| final-model independent Rb-amplitude minimum | 0.9990719554109 at $-1\%$ |
+| final-model unblocked Yb maximum Rydberg population | 0.9982655361089 |
+| final-model unblocked final Yb Rydberg residual | $3.6835583412\times10^{-6}$ |
+| final-model $|11\rangle$ final computational population | 0.9997756134877 |
+| final-model maximum transient $PP$ population | 0.1521197629699 |
+| final-model maximum transient $SS$ population | 0.0173042289797 |
+| final-model maximum unshown spectator population | $7.6224900439\times10^{-4}$ |
+| final-model final unshown spectator population | $3.8602689003\times10^{-7}$ |
 
-最后七个 population/trajectory quantities 也来自原 search model；numerical-reference audit 只新增了最大 spectator population $7.4533\times10^{-4}$、final spectator population $1.5523\times10^{-6}$ 和 final computational population 0.9995318。不要把两组 model 的 trajectory numbers 混用。
+当前 Fig. 3 的全部 driven curves 和最后七个 population quantities 使用 final P0-4 reference model、$10^{-6}$ cutoff、$0.125\,\mathrm{ns}$ maximum step。Ideal command 不变。Response time 的 $2,5,10,15,20\,\mathrm{ns}$ 五点分别为 0.9993407127558、0.9993321962781、0.9993184594783、0.9992909515334、0.9992373815341，每点只重新校准 nominal local-$Z$；不重新优化 command。Axial trace 直接读取 P1-1 的 $0,\pm12.5,\pm25,\pm37.5,\pm50\,\mathrm{nm}$ exact retained-block nodes，而非 response-surface interpolation；它和两个 independent amplitude traces 固定 $3.10\,\mathrm{G}$、$10\,\mathrm{ns}$ nominal correction。这些 one-dimensional minima 不是 joint minimum。
+
+`scripts/reproduce_forster_gate.py` 默认重建一个 nominal reference model，并在读取 P0、P1-1 和 `forster_p0_4_field_scan.json` 后检查固定输入配置；输出中记录这些输入文件当时的 SHA-256（读取时不与另一个预存 hash 清单比对），生成当前 `bounded_minimax_forster_gate_results.json` 和四联图；`--plot-only` 只重画。旧 SCAN record 保存在该 JSON 的 `historical_scan_basis_diagnostics.record` 中，不参与当前图。`--historical-scan` / `--optimize` 使用单独的 historical 输出文件，不覆盖当前图。
 
 Numerical convergence：
 
 | one-at-a-time setting | connected size | splitting (MHz) | min target weight | static transfer | max driven spectator | fixed-reference $Z$ | phase-recalibrated |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| pair window $\pm20\,\mathrm{GHz}$ | 2075 | 30.724861 | 0.9954846 | 0.9832421 | 0.0007221 | 0.9990417 | 0.9991833 |
-| numerical reference | 3684 | 30.647414 | 0.9954777 | 0.9881177 | 0.0007453 | 0.9989445 | 0.9989445 |
-| pair window $\pm60\,\mathrm{GHz}$ | 5212 | 30.654708 | 0.9954692 | 0.9879627 | 0.0007471 | 0.9989370 | 0.9989370 |
-| $\Delta n=4$ | 4658 | 30.642617 | 0.9954653 | 0.9879206 | 0.0007485 | 0.9989655 | 0.9989662 |
-| atomic window $\pm160\,\mathrm{GHz}$ | 6359 | 30.647436 | 0.9954776 | 0.9881151 | 0.0007454 | 0.9989445 | 0.9989445 |
-| $\ell_{\max}=4$ | 4398 | 30.647412 | 0.9954777 | 0.9881178 | 0.0007453 | 0.9989445 | 0.9989445 |
-| dipole–dipole only | 1872 | 30.783215 | 0.9974761 | 0.9884960 | 0.0001906 | 0.9990150 | 0.9992379 |
-| partial order 5 | 3684 | 30.669294 | 0.9954822 | 0.9881088 | 0.0007426 | 0.9989461 | 0.9989461 |
+| pair window $\pm20\,\mathrm{GHz}$ | 2075 | 30.724861 | 0.9954846 | 0.9832421 | 0.0007390 | 0.9991045 | 0.9992470 |
+| numerical reference | 3684 | 30.647414 | 0.9954777 | 0.9881177 | 0.0007622 | 0.9993185 | 0.9993185 |
+| pair window $\pm60\,\mathrm{GHz}$ | 5212 | 30.654708 | 0.9954692 | 0.9879627 | 0.0007654 | 0.9993177 | 0.9993178 |
+| $\Delta n=4$ | 4658 | 30.642617 | 0.9954653 | 0.9879206 | 0.0007651 | 0.9993182 | 0.9993188 |
+| atomic window $\pm160\,\mathrm{GHz}$ | 6359 | 30.647436 | 0.9954776 | 0.9881151 | 0.0007623 | 0.9993185 | 0.9993185 |
+| $\ell_{\max}=4$ | 4398 | 30.647412 | 0.9954777 | 0.9881178 | 0.0007622 | 0.9993185 | 0.9993185 |
+| dipole–dipole only | 1872 | 30.783215 | 0.9974761 | 0.9884960 | 0.0001950 | 0.9989833 | 0.9992127 |
+| partial order 5 | 3684 | 30.669294 | 0.9954822 | 0.9881088 | 0.0007594 | 0.9993179 | 0.9993180 |
 
-Numerical-reference field-dressed defect 是 $4.663904\,\mathrm{MHz}$。Pair window $\pm40\rightarrow\pm60\,\mathrm{GHz}$ 令 fixed-$Z$ overlap 改变 $7.6\times10^{-6}$；$\Delta n$、atomic window 与 $\ell_{\max}$ 的 one-at-a-time span 是 $2.2\times10^{-5}$。Bright cutoff $10^{-4}\rightarrow10^{-8}$ 改变 $4.8\times10^{-9}$；time step $1\rightarrow0.125\,\mathrm{ns}$ 改变 $3.6\times10^{-7}$。这些数字支持百分数保留两位，不支持把 optimizer 的全部小数解释为 physical precision。
+Numerical-reference field-dressed defect 是 $4.663904\,\mathrm{MHz}$。Pair window $\pm40\rightarrow\pm60\,\mathrm{GHz}$ 令 fixed-$Z$ overlap 改变 $7.7\times10^{-7}$；$\Delta n$、atomic window 与 $\ell_{\max}$ 的 one-at-a-time span 是 $2.9\times10^{-7}$。Bright cutoff $10^{-4}\rightarrow10^{-8}$ 改变 $1.3\times10^{-9}$；time step $1\rightarrow0.125\,\mathrm{ns}$ 改变 $6.9\times10^{-8}$。这些数字支持百分数保留两位，不支持把 optimizer 的全部小数解释为 physical precision。
 
 Spectroscopy-motivated deterministic envelope：
 
 | $\delta E_S/h$ (MHz) | $\delta E_P/h$ (MHz) | defect offset (MHz) | tracked, fixed $Z$ | tracked, recal. $Z$ | fixed laser, fixed $Z$ | fixed laser, recal. $Z$ |
 |---:|---:|---:|---:|---:|---:|---:|
-| -2.3 | -3.2 | +0.9 | 0.9978918590 | 0.9982571202 | 0.9364124802 | 0.9887351606 |
-| -2.3 | +3.2 | -5.5 | 0.9838605653 | 0.9948254549 | 0.9172662345 | 0.9640582106 |
-| +2.3 | -3.2 | +5.5 | 0.9724081689 | 0.9879877635 | 0.9083614162 | 0.9547704256 |
-| +2.3 | +3.2 | -0.9 | 0.9989287232 | 0.9992736826 | 0.9330267969 | 0.9823529966 |
+| -2.3 | -3.2 | +0.9 | 0.9987514120 | 0.9991264148 | 0.9327951979 | 0.9850125816 |
+| -2.3 | +3.2 | -5.5 | 0.9814455270 | 0.9924114906 | 0.9114981460 | 0.9574685035 |
+| +2.3 | -3.2 | +5.5 | 0.9744684516 | 0.9907734355 | 0.9120576513 | 0.9607300063 |
+| +2.3 | +3.2 | -0.9 | 0.9988011156 | 0.9991523426 | 0.9343700726 | 0.9859490752 |
 
 这些是 deterministic sensitivity vertices，不是 error bars。
 
@@ -662,41 +682,41 @@ Pure target-pair-defect sensitivity：
 
 | defect offset (MHz) | fixed reference $Z$ | phase-recalibrated |
 |---:|---:|---:|
-| -5.5 | 0.9838605653 | 0.9948254549 |
-| -3.2 | 0.9943634260 | 0.9984035849 |
-| -2.0 | 0.9975336005 | 0.9991771064 |
-| -1.0 | 0.9988634481 | 0.9992879536 |
-| 0 | 0.9989445404 | 0.9989445404 |
-| +1.0 | 0.9977059907 | 0.9981583469 |
-| +2.0 | 0.9950459390 | 0.9969124620 |
-| +3.2 | 0.9897845798 | 0.9947390221 |
-| +5.5 | 0.9724081689 | 0.9879877635 |
+| -5.5 | 0.9814455270 | 0.9924114906 |
+| -3.2 | 0.9930059383 | 0.9970805679 |
+| -2.0 | 0.9968010817 | 0.9984665469 |
+| -1.0 | 0.9986801026 | 0.9991121291 |
+| 0 | 0.9993184595 | 0.9993184595 |
+| +1.0 | 0.9986174049 | 0.9990820448 |
+| +2.0 | 0.9964381352 | 0.9983643580 |
+| +3.2 | 0.9916204630 | 0.9967609695 |
+| +5.5 | 0.9744684516 | 0.9907734355 |
 
 Axial dc-electric-field sensitivity in the numerical-reference basis：
 
 | $E_z$ (V/cm) | tracked, fixed $Z$ | tracked, recal. $Z$ | fixed laser, fixed $Z$ | fixed laser, recal. $Z$ |
 |---:|---:|---:|---:|---:|
-| -0.10 | 0.8506132719 | 0.9378428643 | 0.7680212232 | 0.9193473231 |
-| -0.05 | 0.9900650303 | 0.9948480094 | 0.9818266776 | 0.9924047820 |
-| -0.01 | 0.9988651327 | 0.9988713134 | 0.9988375459 | 0.9988529680 |
-| -0.003 | 0.9989382293 | 0.9989382700 | 0.9989367732 | 0.9989368853 |
-| -0.001 | 0.9989433432 | 0.9989433447 | 0.9989431889 | 0.9989431916 |
-| 0 | 0.9989445404 | 0.9989445404 | 0.9989445404 | 0.9989445404 |
-| +0.001 | 0.9989425192 | 0.9989425280 | 0.9989423634 | 0.9989423744 |
-| +0.003 | 0.9989356481 | 0.9989357832 | 0.9989341542 | 0.9989343869 |
-| +0.01 | 0.9988522246 | 0.9988615771 | 0.9988232226 | 0.9988428030 |
-| +0.05 | 0.9887342001 | 0.9943231582 | 0.9803204828 | 0.9918565350 |
-| +0.10 | 0.8230019085 | 0.9246146191 | 0.7457412893 | 0.9093718655 |
+| -0.10 | 0.8480736640 | 0.9401783520 | 0.7678789459 | 0.9239900858 |
+| -0.05 | 0.9919245787 | 0.9968704355 | 0.9840449452 | 0.9948210891 |
+| -0.01 | 0.9993066725 | 0.9993128664 | 0.9992948126 | 0.9993102563 |
+| -0.003 | 0.9993179791 | 0.9993180180 | 0.9993179448 | 0.9993180546 |
+| -0.001 | 0.9993183757 | 0.9993183772 | 0.9993183810 | 0.9993183837 |
+| 0 | 0.9993184595 | 0.9993184595 | 0.9993184595 | 0.9993184595 |
+| +0.001 | 0.9993185868 | 0.9993185968 | 0.9993185906 | 0.9993186028 |
+| +0.003 | 0.9993184927 | 0.9993186390 | 0.9993184172 | 0.9993186633 |
+| +0.01 | 0.9993036701 | 0.9993134391 | 0.9992902630 | 0.9993103748 |
+| +0.05 | 0.9905429966 | 0.9963746320 | 0.9824812293 | 0.9943043790 |
+| +0.10 | 0.8184221085 | 0.9258970196 | 0.7439803729 | 0.9132356688 |
 
-在 $E_z=+0.003\,\mathrm{V/cm}$ 把 pair window 扩至 $\pm60\,\mathrm{GHz}$ 后，tracked/fixed-$Z$ 与 fixed-laser/fixed-$Z$ 分别为 0.9989279187 与 0.9989263719。
+在 $E_z=+0.003\,\mathrm{V/cm}$ 把 pair window 扩至 $\pm60\,\mathrm{GHz}$ 后，tracked/fixed-$Z$ 与 fixed-laser/fixed-$Z$ 分别为 0.9993174661 与 0.9993173356。
 
 Hyperfine on/off controls at the original pulse-search basis：
 
 | calculation | phase-recalibrated $F_{\mathrm{avg}}$ | static $PP\rightarrow SS$ maximum |
 |---|---:|---:|
-| full Rb hyperfine | 0.9992949524 | 0.9826807 |
-| electronic-only control | 0.9992936941 | 0.9821801 |
-| oversized $F_J$-HFS stress test | 0.9992949524 | 0.9826807 |
+| full Rb hyperfine | 0.9989603273 | 0.9826807 |
+| electronic-only control | 0.9989208385 | 0.9821801 |
+| oversized $F_J$-HFS stress test | 0.9989603273 | 0.9826807 |
 
 在 original dipole–dipole primary basis 中，以 stretched $SS$ asymptote 为能量零点，两个 target modes 为
 
@@ -707,7 +727,16 @@ Hyperfine on/off controls at the original pulse-search basis：
 
 最近的 retained spectator 与 target doublet 相距 $53.9537\,\mathrm{MHz}$，其 $SS/PP$ weight 可忽略，主要成分（0.9951）是 $\mathrm{Rb}\,52D_{5/2},m_J=5/2,m_I=-3/2+\mathrm{Yb}\,D(\nu=50.3),F=3/2,m_F=3/2$。Target overlap 最大的 spectator 位于 $+567.87\,\mathrm{MHz}$，主要由两个 $\mathrm{Rb}\,56P_{3/2}+\mathrm{Yb}\,P(\nu=48.0)$ magnetic products 组成；下一项位于 $-4.905\,\mathrm{GHz}$，主要是 $\mathrm{Rb}\,56S_{1/2}+\mathrm{Yb}\,D(\nu=48.3)$。复核时应检查这些 identity，而不只比较能量排序。
 
-原 search-model 的 $B$ scan 同时保存两条结果：一条在每个 field point 重新校准 local phases，只用于定位 operating region；另一条固定 nominal $B=3.10\,\mathrm{G}$ 的 local-$Z$ correction，在 $2.8$--$3.4\,\mathrm{G}$ 范围内为 $0.9991255$--$0.9992950$。两条 scan 都把 optical carrier 参考到该 field 下的 isolated-atom transition，因此不能解释成 fixed-laser laboratory magnetic-noise robustness，也不能当作 numerical-reference model 的重新验证。
+当前 final-reference $B$ scan 在 $0$--$5\,\mathrm{G}$ 每 $0.5\,\mathrm{G}$（另加 $3.10\,\mathrm{G}$）取样，并在 peak 附近加密至 $0.025\,\mathrm{G}$ 及更细。它同时保存 per-field nominal recalibration 和 fixed-$3.10\,\mathrm{G}$ local-$Z$ 两条曲线；后者在 $3.00$--$3.15\,\mathrm{G}$ 细扫范围内为 0.9993000070858--0.9993184594783。Fig. 3(c) 仅展示主扫描，细扫数据保留在数值记录中。两者都使用 local isolated-atom carrier tracking，不是 fixed-laser magnetic-noise predictions。
+
+固定 pulse 的 sampled nominal peak $B=3.085\,\mathrm{G}$ 仅增加 $1.3420\times10^{-7}$，却将 full-19-geometry joint minimum 降至 0.9986901281088。$B=3.1025\,\mathrm{G}$ 的 full-grid nominal / position-only / joint 值分别是 0.9993184076620 / 0.9992029363804 / 0.9986944135247；joint gain 是 $5.9036\times10^{-7}$。针对性 $\pm60\,\mathrm{GHz}$ nominal/axial-vertex check 固定每个 field 的 40-GHz correction，给出：
+
+| $B$ (G) | nominal, 60 GHz | axial vertex minimum, 60 GHz |
+|---:|---:|---:|
+| 3.10 | 0.9993176931560 | 0.9986891210659 |
+| 3.1025 | 0.9993176227652 | 0.9986879855262 |
+
+这使 field-change 的 joint gain 反转为 $-1.1355\times10^{-6}$；即便每个 field 在 60 GHz 重新校准 phases，也分别得到 0.9986942464839 和 0.9986931187781。故保留 $3.10\,\mathrm{G}$。Pair-window sensitivity 不是 statistical error bar；这也不是 joint pulse/field optimization 或 global optimum。完整 checkpoint、运行命令和 resource 用量在 `forster_p0_4_field_scan.json`，由 `scan_forster_p0_4_field.py` 生成；`--assess-only` 和 `--plot-only` 不再构建模型。
 
 ---
 
@@ -842,8 +871,8 @@ $0.0104924\,\mathrm{GHz}\,\mu\mathrm{m}^6$、$0.0078535\,\mathrm{MHz}$ 和
 $1.3122\times10^{-5}$，对应 $C_6/h$、$U/h$ 和 $w$ 的最大相对变化
 $1.4260\times10^{-4}$、$1.3761\times10^{-4}$ 和 $1.3532\times10^{-5}$。
 另有 Rb radial、Yb radial、$\ell_{\max}$ 和 pair-window 的 contracted rows；
-full-precision records 在 `data/vdw_p1_5_basis_convergence.json`，由
-`scripts/evaluate_vdw_p1_5.py` 生成。
+full-precision records 在 `vdw_p1_5_basis_convergence.json`，由
+`evaluate_vdw_p1_5.py` 生成。
 
 这项结果只支持所列 static quantities 的 one-axis truncation stability。它没有
 测试多个轴同时扩展产生的 cross-terms、dipole--dipole 以外的 multipoles、
@@ -903,7 +932,7 @@ $$
 - position/motional ensemble；
 - exact-line selectivity、polarization impurity 和 magnetic-state preparation error。
 
-因此，$99.8945\%$ nominal 与 $99.8001\%$ sampled minimum 是 Förster **specified numerical-reference model 内**的 loss-aware overlaps，不是实验 fidelity prediction；vdW 的 $57.1\,\mathrm{MHz}$ 是经 one-at-a-time basis checks 的 finite-basis static pair shift，不是 gate fidelity。
+因此，$99.9318\%$ nominal 与 $99.8694\%$ sampled minimum 是 Förster **specified numerical-reference model 内**的 loss-aware overlaps，不是实验 fidelity prediction；vdW 的 $57.1\,\mathrm{MHz}$ 是经 one-at-a-time basis checks 的 finite-basis static pair shift，不是 gate fidelity。
 
 ---
 

@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Generate the Förster-channel characterization figure.
+"""Generate figures for the Rb--Yb Foerster-channel manuscript.
 
 The characterization panels read the machine-generated output of
-``data/forster_characterization.json``.
+``scripts/reproduce_forster_characterization.py``.  The other panels use
+the documented reduced models and are not full-basis gate-fidelity results.
 """
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -17,23 +19,21 @@ import matplotlib
 
 matplotlib.use("Agg")
 import json
-
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LogNorm
 from matplotlib.lines import Line2D
-from matplotlib.patches import Rectangle
+from matplotlib.patches import FancyArrowPatch, Rectangle
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 
-from style import DOUBLE_COL, OKABE_ITO, RB_COLOR, YB_COLOR, use_paper_style  # noqa: E402
+from style import DOUBLE_COL, OKABE_ITO, RB_COLOR, YB_COLOR, use_paper_style
 
 use_paper_style()
 
 OUT = ROOT / "figures"
-OUT.mkdir(exist_ok=True)
 BLUE = OKABE_ITO["blue"]
 GREEN = OKABE_ITO["green"]
 ORANGE = OKABE_ITO["orange"]
@@ -41,7 +41,7 @@ PURPLE = OKABE_ITO["purple"]
 SKY = OKABE_ITO["skyblue"]
 VERMILLION = OKABE_ITO["vermillion"]
 
-DATA_PATH = ROOT / "data" / "forster_characterization.json"
+DATA_PATH = HERE.parent / "data" / "forster_characterization.json"
 with DATA_PATH.open() as handle:
     CHARACTERIZATION = json.load(handle)
 
@@ -56,11 +56,17 @@ TRANSFER_PCT = 100 * np.array(
     [point["first_exchange_maximum"]["pp_population"] for point in DISTANCE_SCAN]
 )
 LEAKAGE_PCT = 100 * np.array(
-    [point["first_exchange_maximum"]["spectator_population"] for point in DISTANCE_SCAN]
+    [
+        point["first_exchange_maximum"]["spectator_population"]
+        for point in DISTANCE_SCAN
+    ]
 )
 B_G = np.array([point["field_gauss"] for point in FIXED_M_FIELD_SCAN])
 B_CONTRAST_PCT = 100 * np.array(
-    [point["first_exchange_maximum"]["pp_population"] for point in FIXED_M_FIELD_SCAN]
+    [
+        point["first_exchange_maximum"]["pp_population"]
+        for point in FIXED_M_FIELD_SCAN
+    ]
 )
 ANGLE_DEG = np.array([point["theta_deg"] for point in ANGLE_SCAN])
 ANGLE_CONTRAST_PCT = 100 * np.array(
@@ -116,7 +122,7 @@ def characterize_channel() -> None:
     ax.text(
         0.06,
         1.06,
-        "Rb–Yb resonant energy exchange",
+        "Zero-field centroid energy exchange",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
@@ -206,15 +212,7 @@ def characterize_channel() -> None:
     ax.barh(y, other, left=pp + ss, color="0.65", label="other")
     for i in range(2):
         ax.text(pp[i] / 2, i, f"{pp[i]:.1f}%", ha="center", va="center", color="white", fontsize=7)
-        ax.text(
-            pp[i] + ss[i] / 2,
-            i,
-            f"{ss[i]:.1f}%",
-            ha="center",
-            va="center",
-            color="white",
-            fontsize=7,
-        )
+        ax.text(pp[i] + ss[i] / 2, i, f"{ss[i]:.1f}%", ha="center", va="center", color="white", fontsize=7)
     ax.set_yticks(y, labels)
     ax.invert_yaxis()
     ax.set_xlim(0, 100)
@@ -227,16 +225,8 @@ def characterize_channel() -> None:
     panel_label(ax, "(c)")
     ax.plot(R_UM, TRANSFER_PCT, "o-", color=BLUE, label="first-max transfer")
     operating_transfer = 100 * OPERATING_POINT["first_exchange_maximum"]["pp_population"]
-    ax.scatter(
-        [3.4],
-        [operating_transfer],
-        marker="*",
-        s=75,
-        color=GREEN,
-        edgecolor="0.2",
-        linewidth=0.4,
-        zorder=5,
-    )
+    ax.scatter([3.4], [operating_transfer], marker="*", s=75, color=GREEN,
+               edgecolor="0.2", linewidth=0.4, zorder=5)
     ax.set_xlabel(r"separation $R$ ($\mu$m)")
     ax.set_ylabel("transfer (%)", color=BLUE)
     ax.tick_params(axis="y", colors=BLUE)
@@ -261,19 +251,20 @@ def characterize_channel() -> None:
     )
     ax.set_title(r"Fixed-$m$ distance scan at $B=0$, $\theta=0$", fontsize=8)
 
-    # (d) Field and geometry robustness, kept as separate x axes.
+    # (d) Separate model comparisons, not full-HFS angular robustness.
     sub = gs[1, 1].subgridspec(1, 2, wspace=0.03)
     ax_b = fig.add_subplot(sub[0, 0])
     panel_label(ax_b, "(d)", x=-0.18)
-    ax_b.plot(B_G, B_CONTRAST_PCT, "o-", color=PURPLE, lw=0.9, ms=2.2, label="fixed-electronic-$m$")
-    # Hyperfine-resolved reconstruction from the same Hamiltonian and data
-    # record as the composite-gate calculation.
-    result_path = ROOT / "data" / "forster_gate_results.json"
-    with open(result_path) as fh:
-        field_scan = json.load(fh)["magnetic_field_scan"]
-    allm_b = np.asarray(field_scan["coarse_field_gauss"])
+    ax_b.plot(B_G, B_CONTRAST_PCT, "o-", color=PURPLE, lw=0.9, ms=2.2,
+              label="fixed-$m$ reference")
+    # Fig. 1 owns both curves. Both report SS-initial first exchange, not the
+    # PP-initial 0--80 ns global maximum formerly read from the gate record.
+    field_scan = CHARACTERIZATION["all_m_field_scan"]
+    if field_scan.get("status") != "complete":
+        raise ValueError("Run reproduce_forster_characterization.py to complete the HFS field scan")
+    allm_b = np.asarray([point["field_gauss"] for point in field_scan["points"]])
     allm_swap = 100 * np.asarray(
-        [point["maximum_ss_population"] for point in field_scan["coarse_static_transfer"]]
+        [point["first_exchange_maximum"]["pp_population"] for point in field_scan["points"]]
     )
     ax_b.plot(
         allm_b,
@@ -282,15 +273,16 @@ def characterize_channel() -> None:
         color=VERMILLION,
         lw=0.8,
         ms=2.2,
-        label="all-$(m_J,m_I)$",
+        label="axial HFS, P0-4",
         zorder=5,
     )
-    # Adopted S+S gate operating point: B* = 3.10 G.
+    # Gate working field, not necessarily the static first-exchange optimum.
     b_star = 3.10
     ax_b.axvline(b_star, color=GREEN, lw=0.9, ls="--", zorder=1)
     ax_b.set_xlabel(r"$B$ (G)")
-    ax_b.set_ylabel("swap contrast (%)")
-    ax_b.set_ylim(82, 101)
+    ax_b.set_ylabel("first-exchange transfer (%)")
+    displayed_transfer = np.r_[B_CONTRAST_PCT, allm_swap, ANGLE_CONTRAST_PCT]
+    ax_b.set_ylim(max(0, min(displayed_transfer)-2), min(101, max(displayed_transfer)+2))
     ax_b.set_title("field scan", fontsize=8)
     ax_b.legend(frameon=False, loc="lower right", fontsize=6.5)
 
@@ -298,7 +290,7 @@ def characterize_channel() -> None:
     ax_t.plot(ANGLE_DEG, ANGLE_CONTRAST_PCT, "o-", color=ORANGE, lw=0.9, ms=2.2)
     ax_t.axvspan(0, 30, color=GREEN, alpha=0.10, lw=0)
     ax_t.set_xlabel(r"angle $\theta$ (deg)")
-    ax_t.set_title(r"fixed-$m$ angle scan", fontsize=8)
+    ax_t.set_title(r"fixed-$m$ diagnostic", fontsize=8)
     ax_t.tick_params(labelleft=False)
 
     fig.suptitle(
@@ -349,42 +341,19 @@ def gate_model() -> None:
     edges = [0.05, 0.28, 0.73, 0.96]
     colors = [YB_COLOR, RB_COLOR, YB_COLOR]
     labels = [r"Yb $\pi$", r"Rb $2\pi$", r"Yb $\pi$"]
-    for left, right, color, label in zip(edges[:-1], edges[1:], colors, labels, strict=True):
-        ax.add_patch(
-            Rectangle(
-                (left, 0.68), right - left, 0.16, facecolor=color, alpha=0.20, edgecolor=color
-            )
-        )
+    for left, right, color, label in zip(edges[:-1], edges[1:], colors, labels):
+        ax.add_patch(Rectangle((left, 0.68), right - left, 0.16, facecolor=color, alpha=0.20, edgecolor=color))
         ax.text((left + right) / 2, 0.76, label, ha="center", va="center", fontsize=7.2)
-    ax.annotate(
-        "time", xy=(0.97, 0.60), xytext=(0.05, 0.60), arrowprops=dict(arrowstyle="->", lw=0.8)
-    )
+    ax.annotate("time", xy=(0.97, 0.60), xytext=(0.05, 0.60), arrowprops=dict(arrowstyle="->", lw=0.8))
     ax.text(0.5, 0.50, "During the target pulse", ha="center", fontsize=7.2, fontweight="bold")
     ax.text(0.08, 0.31, r"$|1_{\rm Rb},r_{\rm Yb}\rangle$", ha="left", va="center", fontsize=7)
     ax.text(0.50, 0.31, r"$|PP\rangle$", ha="center", va="center", fontsize=7)
     ax.text(0.90, 0.31, r"$|SS\rangle$", ha="right", va="center", fontsize=7)
-    ax.annotate(
-        "",
-        xy=(0.43, 0.31),
-        xytext=(0.25, 0.31),
-        arrowprops=dict(arrowstyle="<->", color=RB_COLOR, lw=1.2),
-    )
-    ax.annotate(
-        "",
-        xy=(0.80, 0.31),
-        xytext=(0.59, 0.31),
-        arrowprops=dict(arrowstyle="<->", color=PURPLE, lw=1.2),
-    )
+    ax.annotate("", xy=(0.43, 0.31), xytext=(0.25, 0.31), arrowprops=dict(arrowstyle="<->", color=RB_COLOR, lw=1.2))
+    ax.annotate("", xy=(0.80, 0.31), xytext=(0.59, 0.31), arrowprops=dict(arrowstyle="<->", color=PURPLE, lw=1.2))
     ax.text(0.34, 0.36, r"$\Omega_{\rm Rb}/2$", color=RB_COLOR, ha="center", fontsize=6.8)
     ax.text(0.695, 0.36, r"$V/h=15.4$ MHz", color=PURPLE, ha="center", fontsize=6.8)
-    ax.text(
-        0.5,
-        0.09,
-        "Microwave off: the Förster splitting moves the target-excited branch.",
-        ha="center",
-        fontsize=6.5,
-        color="0.3",
-    )
+    ax.text(0.5, 0.09, "Microwave off: the Förster splitting moves the target-excited branch.", ha="center", fontsize=6.5, color="0.3")
     ax.set_title("Role-reversed sequential blockade-CZ candidate", fontsize=8)
 
     # (b) Explicit reduced-model dynamics for the target 2π pulse.
@@ -432,39 +401,21 @@ def gate_model() -> None:
     phases = np.unwrap(result[:, 1])
     ax.semilogy(omegas, errors, color=VERMILLION, label="return population error")
     star_error, star_phase, _ = reduced_blockade_result(omega_star, v_star, delta)
-    ax.scatter(
-        [omega_star],
-        [star_error],
-        marker="*",
-        s=65,
-        color=GREEN,
-        edgecolor="0.2",
-        linewidth=0.4,
-        zorder=5,
-    )
+    ax.scatter([omega_star], [star_error], marker="*", s=65, color=GREEN, edgecolor="0.2", linewidth=0.4, zorder=5)
     ax.set_xlabel(r"effective Rb drive $\Omega_{\rm Rb}/2\pi$ (MHz)")
     ax.set_ylabel("reduced return error", color=VERMILLION)
     ax.tick_params(axis="y", colors=VERMILLION)
     ax.set_ylim(1e-5, 1)
     ax2 = ax.twinx()
     ax2.plot(omegas, phases, color=BLUE, alpha=0.8, label="return phase")
-    ax2.scatter(
-        [omega_star],
-        [star_phase],
-        marker="*",
-        s=65,
-        color=GREEN,
-        edgecolor="0.2",
-        linewidth=0.4,
-        zorder=5,
-    )
+    ax2.scatter([omega_star], [star_phase], marker="*", s=65, color=GREEN, edgecolor="0.2", linewidth=0.4, zorder=5)
     ax2.set_ylabel("blockaded return phase (rad)", color=BLUE)
     ax2.tick_params(axis="y", colors=BLUE)
     ax2.set_ylim(-0.9, 0.9)
     ax.text(
         0.04,
         0.08,
-        rf"$k=8$: {100 * star_error:.3f}% error" + "\n" + rf"phase {star_phase:.4f} rad",
+        rf"$k=8$: {100*star_error:.3f}% error" + "\n" + rf"phase {star_phase:.4f} rad",
         transform=ax.transAxes,
         fontsize=6.8,
         color=GREEN,
@@ -481,9 +432,7 @@ def gate_model() -> None:
         v = v_star * (3.4 / radius) ** 3
         for i, omega in enumerate(omega_grid):
             err_map[i, j] = max(reduced_blockade_result(omega, v, delta)[0], 1e-7)
-    mesh = ax.pcolormesh(
-        rs, omega_grid, err_map, shading="auto", cmap="magma_r", norm=LogNorm(1e-5, 1)
-    )
+    mesh = ax.pcolormesh(rs, omega_grid, err_map, shading="auto", cmap="magma_r", norm=LogNorm(1e-5, 1))
     ax.scatter([3.4], [omega_star], marker="*", s=62, color=SKY, edgecolor="white", linewidth=0.6)
     ax.set_xlabel(r"separation $R$ ($\mu$m)")
     ax.set_ylabel(r"$\Omega_{\rm Rb}/2\pi$ (MHz)")
@@ -498,9 +447,7 @@ def gate_model() -> None:
     save_figure(fig, "channel_forster_gate_model")
 
 
-def draw_level(
-    ax: plt.Axes, y: float, label: str, color: str = "0.15", x0: float = 0.12, x1: float = 0.88
-) -> None:
+def draw_level(ax: plt.Axes, y: float, label: str, color: str = "0.15", x0: float = 0.12, x1: float = 0.88) -> None:
     ax.plot([x0, x1], [y, y], color=color, lw=1.5)
     ax.text((x0 + x1) / 2, y + 0.035, label, ha="center", va="bottom", fontsize=7.1, color=color)
 
@@ -528,59 +475,18 @@ def yb_excitation() -> None:
         color=VERMILLION,
     )
     draw_level(ax, y_s, r"$|a^e\rangle$: $\nu=48.370,L=0,F=1/2$", BLUE)
-    ax.annotate(
-        "",
-        xy=(0.36, y_s - 0.01),
-        xytext=(0.36, y_g + 0.015),
-        arrowprops=dict(arrowstyle="-|>", color=PURPLE, lw=1.5),
-    )
-    ax.text(
-        0.31,
-        0.45,
-        "302.043 nm optical\nodd→even: E1 allowed",
-        ha="right",
-        va="center",
-        color=PURPLE,
-        fontsize=6.5,
-    )
-    ax.annotate(
-        "",
-        xy=(0.70, y_p + 0.005),
-        xytext=(0.70, y_s - 0.005),
-        arrowprops=dict(arrowstyle="-|>", color=ORANGE, lw=1.5),
-    )
-    ax.text(
-        0.74,
-        0.69,
-        "~20.9 GHz MW\nemission; E1 allowed",
-        ha="left",
-        va="center",
-        color=ORANGE,
-        fontsize=6.3,
-    )
-    ax.annotate(
-        "",
-        xy=(0.92, y_p - 0.01),
-        xytext=(0.92, y_g + 0.015),
-        arrowprops=dict(arrowstyle="-|>", color="0.55", lw=0.9, linestyle="--"),
-    )
-    ax.text(
-        0.92, 0.38, "×", ha="center", va="center", color=VERMILLION, fontsize=15, fontweight="bold"
-    )
-    ax.text(
-        0.86,
-        0.34,
-        "direct 302.050 nm\nodd→odd\nE1 forbidden",
-        ha="right",
-        va="center",
-        color="0.35",
-        fontsize=6.2,
-    )
+    ax.annotate("", xy=(0.36, y_s - 0.01), xytext=(0.36, y_g + 0.015), arrowprops=dict(arrowstyle="-|>", color=PURPLE, lw=1.5))
+    ax.text(0.31, 0.45, "302.043 nm optical\nodd→even: E1 allowed", ha="right", va="center", color=PURPLE, fontsize=6.5)
+    ax.annotate("", xy=(0.70, y_p + 0.005), xytext=(0.70, y_s - 0.005), arrowprops=dict(arrowstyle="-|>", color=ORANGE, lw=1.5))
+    ax.text(0.74, 0.69, "~20.9 GHz MW\nemission; E1 allowed", ha="left", va="center", color=ORANGE, fontsize=6.3)
+    ax.annotate("", xy=(0.92, y_p - 0.01), xytext=(0.92, y_g + 0.015), arrowprops=dict(arrowstyle="-|>", color="0.55", lw=0.9, linestyle="--"))
+    ax.text(0.92, 0.38, "×", ha="center", va="center", color=VERMILLION, fontsize=15, fontweight="bold")
+    ax.text(0.86, 0.34, "direct 302.050 nm\nodd→odd\nE1 forbidden", ha="right", va="center", color="0.35", fontsize=6.2)
     ax.text(
         0.5,
         0.97,
         r"$\langle r|d_0|a\rangle=287.6\,ea_0$"
-        "\n$\\Omega_{\\mu}/2\\pi=3.68$ MHz per V m$^{-1}$",
+        "\n$\Omega_{\mu}/2\pi=3.68$ MHz per V m$^{-1}$",
         ha="center",
         va="top",
         fontsize=6.4,
@@ -601,41 +507,14 @@ def yb_excitation() -> None:
     ax.text(0.215, 0.13, r"$|g\rangle$", ha="center", fontsize=7.2)
     ax.text(0.785, 0.13, r"$|r\rangle$", ha="center", fontsize=7.2)
     ax.text(0.50, 0.88, r"$|a\rangle$ (S relay)", ha="center", fontsize=7.2)
-    ax.annotate(
-        "",
-        xy=(0.43, 0.71),
-        xytext=(0.28, 0.22),
-        arrowprops=dict(arrowstyle="-|>", color=PURPLE, lw=1.3),
-    )
-    ax.annotate(
-        "",
-        xy=(0.57, 0.71),
-        xytext=(0.72, 0.22),
-        arrowprops=dict(arrowstyle="-|>", color=ORANGE, lw=1.3),
-    )
-    ax.annotate(
-        "",
-        xy=(0.69, 0.22),
-        xytext=(0.31, 0.22),
-        arrowprops=dict(arrowstyle="<->", color=GREEN, lw=1.4),
-    )
-    ax.annotate(
-        "",
-        xy=(0.67, 0.82),
-        xytext=(0.67, 0.72),
-        arrowprops=dict(arrowstyle="<->", color="0.25", lw=0.8),
-    )
+    ax.annotate("", xy=(0.43, 0.71), xytext=(0.28, 0.22), arrowprops=dict(arrowstyle="-|>", color=PURPLE, lw=1.3))
+    ax.annotate("", xy=(0.57, 0.71), xytext=(0.72, 0.22), arrowprops=dict(arrowstyle="-|>", color=ORANGE, lw=1.3))
+    ax.annotate("", xy=(0.69, 0.22), xytext=(0.31, 0.22), arrowprops=dict(arrowstyle="<->", color=GREEN, lw=1.4))
+    ax.annotate("", xy=(0.67, 0.82), xytext=(0.67, 0.72), arrowprops=dict(arrowstyle="<->", color="0.25", lw=0.8))
     ax.text(0.69, 0.77, r"$\Delta$", fontsize=7)
     ax.text(0.34, 0.49, r"$\Omega_o$", color=PURPLE, fontsize=7)
     ax.text(0.66, 0.49, r"$\Omega_\mu$", color=ORANGE, fontsize=7)
-    ax.text(
-        0.50,
-        0.27,
-        r"$\Omega_{\rm eff}=-\Omega_o\Omega_\mu/(2\Delta)$",
-        ha="center",
-        color=GREEN,
-        fontsize=7.3,
-    )
+    ax.text(0.50, 0.27, r"$\Omega_{\rm eff}=-\Omega_o\Omega_\mu/(2\Delta)$", ha="center", color=GREEN, fontsize=7.3)
     ax.text(
         0.50,
         0.02,
@@ -662,7 +541,8 @@ def yb_excitation() -> None:
     times = np.linspace(0, t_pi, 500)
     coefficients = eigenvectors.conj().T @ np.array([1, 0, 0], dtype=complex)
     states = (
-        eigenvectors @ (coefficients[:, None] * np.exp(-2j * np.pi * np.outer(energies, times)))
+        eigenvectors
+        @ (coefficients[:, None] * np.exp(-2j * np.pi * np.outer(energies, times)))
     ).T
     ax.plot(times, np.abs(states[:, 0]) ** 2, color=YB_COLOR, label=r"$|g\rangle$")
     ax.plot(times, np.abs(states[:, 2]) ** 2, color=VERMILLION, label=r"$|r\rangle$")
@@ -674,10 +554,8 @@ def yb_excitation() -> None:
     ax.text(
         0.98,
         0.96,
-        r"$\Omega_o/2\pi=\Omega_\mu/2\pi=15$ MHz"
-        "\n"
-        r"$\Delta/2\pi=57.150$ MHz"
-        "\n"
+        r"$\Omega_o/2\pi=\Omega_\mu/2\pi=15$ MHz" "\n"
+        r"$\Delta/2\pi=57.150$ MHz" "\n"
         r"$\max P_a=6.05\%$",
         transform=ax.transAxes,
         ha="right",
@@ -685,7 +563,7 @@ def yb_excitation() -> None:
         fontsize=6.5,
         bbox={"facecolor": "white", "edgecolor": "0.8", "alpha": 0.92, "pad": 1.5},
     )
-    ax.set_title(r"Exact cyclic three-level $\pi$ pulse", fontsize=8, loc="right")
+    ax.set_title("Exact cyclic three-level $\pi$ pulse", fontsize=8, loc="right")
 
     # (d) All-optical fallbacks as a compact comparison panel.
     ax = fig.add_subplot(gs[1, 1])
@@ -695,29 +573,23 @@ def yb_excitation() -> None:
     ax.axis("off")
     ax.text(0.02, 0.93, "All-optical fallback", fontsize=8, fontweight="bold", va="top")
     ax.text(0.02, 0.72, r"via $5d6s\,{}^3D_1$", color=BLUE, fontsize=7.2, fontweight="bold")
-    ax.text(
-        0.04, 0.54, "1388.763 nm + 386.003 nm\nτ = 332(11) ns; Γ/2π = 479(16) kHz", fontsize=6.8
-    )
+    ax.text(0.04, 0.54, "1388.763 nm + 386.003 nm\nτ = 332(11) ns; Γ/2π = 479(16) kHz", fontsize=6.8)
     ax.text(0.02, 0.33, r"via $6s7s\,{}^3S_1$", color=VERMILLION, fontsize=7.2, fontweight="bold")
-    ax.text(
-        0.04, 0.15, "649.087 nm + 564.942 nm\nτ = 13.8(17) ns; Γ/2π = 11.5(14) MHz", fontsize=6.8
-    )
-    ax.text(
-        0.02,
-        0.00,
-        "Upper-leg Rydberg matrix elements remain unverified.",
-        fontsize=6.2,
-        color="0.35",
-    )
+    ax.text(0.04, 0.15, "649.087 nm + 564.942 nm\nτ = 13.8(17) ns; Γ/2π = 11.5(14) MHz", fontsize=6.8)
+    ax.text(0.02, 0.00, "Upper-leg Rydberg matrix elements remain unverified.", fontsize=6.2, color="0.35")
 
-    fig.suptitle(
-        "Yb P excitation: forbidden direct E1 line and a candidate S-relay route", fontsize=10
-    )
+    fig.suptitle("Yb P excitation: forbidden direct E1 line and a candidate S-relay route", fontsize=10)
     save_figure(fig, "channel_forster_yb_excitation")
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--characterization-only", action="store_true")
+    args = parser.parse_args()
     characterize_channel()
+    if not args.characterization_only:
+        gate_model()
+        yb_excitation()
 
 
 if __name__ == "__main__":

@@ -10,8 +10,11 @@ The uncertainty set is deliberately bounded rather than probabilistic:
 
 Only zero-temperature Rydberg lifetimes are used.  Commanded Yb amplitude and
 detuning pass through the same conservative 10 ns first-order AOM response as
-``optimize_hardware_aware_forster_gate.py``.  The optimization uses a reduced
-bright-mode model and is followed by a denser, higher-accuracy minimax check.
+``optimize_hardware_aware_forster_gate.py``.  The selected pulse was obtained by
+``optimize_forster_p0_4_reference.py`` on the final P0-4 reference model. By
+default all figure panels use that final model, reusing matching P0/P1 and
+exploratory magnetic records. ``--historical-scan`` (or ``--optimize``) runs
+the earlier SCAN_BASIS diagnostic workflow with separate output names.
 
 Outputs:
   data/forster_gate_results.json
@@ -21,10 +24,14 @@ Outputs:
 from __future__ import annotations
 
 import argparse
+import gc
+import hashlib
 import json
+import resource
 import sys
+import time
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import matplotlib
@@ -37,19 +44,16 @@ import scipy
 from scipy.optimize import minimize
 from scipy.stats import qmc
 
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import optimize_hardware_aware_forster_gate as hardware  # noqa: E402
 import simulate_robust_shaped_forster_gate as shaped  # noqa: E402
+from simulate_forster_gate import PRIMARY_BASIS, SCAN_BASIS, PairModel, query_lifetimes  # noqa: E402
 from rb_rydberg_hyperfine import hyperfine_constants_mhz  # noqa: E402
-from simulate_forster_gate import (  # noqa: E402
-    PRIMARY_BASIS,
-    SCAN_BASIS,
-    PairModel,
-    query_lifetimes,
-)
 from verify_pairinteraction_databases import verify_database_manifest  # noqa: E402
+
 
 OUT = ROOT / "data" / "forster_gate_results.json"
 FIGURE_STEM = ROOT / "figures" / "bounded_minimax_forster_gate"
@@ -70,16 +74,19 @@ SOBOL_VALIDATION_POWER = 5
 
 PARAMETER_BOUNDS = [*shaped.PARAMETER_BOUNDS[:-1], SHORT_DURATION_BOUNDS_US]
 
-# Result of the final two-sided validation-order active-set refinement.  This
-# remains the seed if optional further refinement is requested.
+# Deterministic accepted local candidate from optimize_forster_p0_4_reference.py,
+# optimized on the final P0-4 reference model at fixed duration.  Its adaptive
+# Nelder--Mead run exhausted 400 iterations / 625 evaluations; it was accepted
+# by exact validation, not reported as a converged or global optimum.  This is
+# also the seed if the historical optional SCAN_BASIS refinement is requested.
 SELECTED_PARAMETERS = np.array(
     [
-        4.410416083986085,
-        9.418791104832165,
-        11.734642228670836,
-        -1.1443728579899664,
-        -0.9263577893268974,
-        1.744859450470417,
+        4.480374546413655,
+        9.229350329961736,
+        11.778486107199452,
+        -0.3647742336217171,
+        -1.0235176743455907,
+        2.4312627812906094,
         0.025634115265641792,
     ],
     dtype=float,
@@ -103,7 +110,9 @@ def _build_geometry(
     config,
 ) -> Geometry:
     delta_z = radial_displacement_um * direction_cosine
-    transverse = radial_displacement_um * np.sqrt(max(0.0, 1 - direction_cosine**2))
+    transverse = radial_displacement_um * np.sqrt(
+        max(0.0, 1 - direction_cosine**2)
+    )
     axial = shaped.R0_UM + delta_z
     distance = float(np.hypot(axial, transverse))
     theta = float(np.degrees(np.arctan2(transverse, axial)))
@@ -132,7 +141,10 @@ def _build_geometry(
 def _validation_geometries(config) -> list[Geometry]:
     geometries = [_build_geometry(0.0, 0.0, config)]
     for radius in VALIDATION_RADII_UM[1:]:
-        geometries.extend(_build_geometry(radius, cosine, config) for cosine in VALIDATION_COSINES)
+        geometries.extend(
+            _build_geometry(radius, cosine, config)
+            for cosine in VALIDATION_COSINES
+        )
     return geometries
 
 
@@ -158,11 +170,17 @@ def _scenario_kraus(
 ) -> np.ndarray:
     duration = sum(segment.duration_us for segment in pulse)
     control_lifetime = None if lifetimes is None else lifetimes.rb_56s_us
-    idle = 1.0 if control_lifetime is None else np.exp(-duration / (2 * control_lifetime))
+    idle = (
+        1.0
+        if control_lifetime is None
+        else np.exp(-duration / (2 * control_lifetime))
+    )
     control_data = []
     for control_scale in control_scales:
         control_pi = shaped._control_pi(control_lifetime, control_scale)
-        control_only = complex((control_pi @ np.diag([1.0, idle]) @ control_pi)[0, 0])
+        control_only = complex(
+            (control_pi @ np.diag([1.0, idle]) @ control_pi)[0, 0]
+        )
         control_data.append((control_pi, control_only))
 
     kraus = np.empty(
@@ -177,8 +195,16 @@ def _scenario_kraus(
                 lifetimes,
                 amplitude_scale=target_scale,
             )
-            for control_index, (control_pi, control_only) in enumerate(control_data):
-                both = complex((control_pi @ np.diag([unblocked, blocked]) @ control_pi)[0, 0])
+            for control_index, (control_pi, control_only) in enumerate(
+                control_data
+            ):
+                both = complex(
+                    (
+                        control_pi
+                        @ np.diag([unblocked, blocked])
+                        @ control_pi
+                    )[0, 0]
+                )
                 kraus[mode_index, target_index, control_index] = np.array(
                     [1.0, unblocked, control_only, both], dtype=complex
                 )
@@ -191,7 +217,9 @@ def _fidelities_from_kraus(
 ) -> np.ndarray:
     fidelities = np.empty(kraus.shape[:-1], dtype=float)
     for index in np.ndindex(fidelities.shape):
-        fidelities[index] = shaped._fixed_correction_fidelity(kraus[index], correction)
+        fidelities[index] = shaped._fixed_correction_fidelity(
+            kraus[index], correction
+        )
     return fidelities
 
 
@@ -236,7 +264,9 @@ def _optimize(
         )
         correction = _correction(nominal_mode, pulse, lifetimes)
         fidelities = _scenario_fidelities(modes, pulse, lifetimes, correction)
-        nominal = hardware._fidelity(nominal_mode, pulse, lifetimes, correction)
+        nominal = hardware._fidelity(
+            nominal_mode, pulse, lifetimes, correction
+        )
         infidelities = 1 - np.r_[fidelities.ravel(), nominal]
         value = float(np.max(infidelities) + 0.02 * np.mean(infidelities))
         if evaluations % 25 == 0:
@@ -279,14 +309,21 @@ def _validate(
     nominal_index: int,
     lifetimes,
 ) -> dict[str, object]:
-    pulse = hardware._filtered_pulse(parameters, hardware.AOM_RISE_TIME_NS, hardware.FINAL_STEP_NS)
+    pulse = hardware._filtered_pulse(
+        parameters, hardware.AOM_RISE_TIME_NS, hardware.FINAL_STEP_NS
+    )
     correction = _correction(modes[nominal_index], pulse, lifetimes)
     vertex_grid = _scenario_fidelities(modes, pulse, lifetimes, correction)
     nominal_curve = np.array(
-        [hardware._fidelity(mode, pulse, lifetimes, correction) for mode in modes]
+        [
+            hardware._fidelity(mode, pulse, lifetimes, correction)
+            for mode in modes
+        ]
     )
     worst_flat = int(np.argmin(vertex_grid))
-    geometry_index, target_index, control_index = np.unravel_index(worst_flat, vertex_grid.shape)
+    geometry_index, target_index, control_index = np.unravel_index(
+        worst_flat, vertex_grid.shape
+    )
     return {
         "pulse": pulse,
         "correction": correction,
@@ -298,7 +335,9 @@ def _validate(
             "geometry_index": int(geometry_index),
             "target_amplitude_scale": AMPLITUDE_VERTICES[target_index],
             "control_amplitude_scale": AMPLITUDE_VERTICES[control_index],
-            "fidelity": float(vertex_grid[geometry_index, target_index, control_index]),
+            "fidelity": float(
+                vertex_grid[geometry_index, target_index, control_index]
+            ),
         },
     }
 
@@ -309,10 +348,13 @@ def _json_validation(validation: dict[str, object]) -> dict[str, object]:
     return {
         "target_duration_us": float(sum(segment.duration_us for segment in pulse)),
         "total_gate_time_us": float(
-            2 * shaped.RB_PI_DURATION_US + sum(segment.duration_us for segment in pulse)
+            2 * shaped.RB_PI_DURATION_US
+            + sum(segment.duration_us for segment in pulse)
         ),
         "nominal_fidelity": validation["nominal_fidelity"],
-        "position_only_worst_fidelity": validation["position_only_worst_fidelity"],
+        "position_only_worst_fidelity": validation[
+            "position_only_worst_fidelity"
+        ],
         "amplitude_vertex_worst_fidelity": validation["vertex_worst_fidelity"],
         "worst_case": validation["worst_case"],
         "local_z_alpha_rad": validation["correction"][0],
@@ -335,7 +377,9 @@ def _population_trajectory(
     ss_rate = 1 / lifetimes.rb_56s_us + 1 / lifetimes.yb_53s_us
     spectator = np.maximum(0.0, 1 - modes.pp_weights - modes.ss_weights)
     mode_rates = (
-        modes.pp_weights * pp_rate + modes.ss_weights * ss_rate + spectator * max(pp_rate, ss_rate)
+        modes.pp_weights * pp_rate
+        + modes.ss_weights * ss_rate
+        + spectator * max(pp_rate, ss_rate)
     )
 
     time_us = [0.0]
@@ -354,23 +398,43 @@ def _population_trajectory(
             ],
             dtype=complex,
         )
-        h_unblocked[1, 1] -= 0.5j / (2 * np.pi * lifetimes.yb_53s_us)
-        unblocked = hardware.expm(-2j * np.pi * h_unblocked * segment.duration_us) @ unblocked
+        h_unblocked[1, 1] -= 0.5j / (
+            2 * np.pi * lifetimes.yb_53s_us
+        )
+        unblocked = hardware.expm(
+            -2j * np.pi * h_unblocked * segment.duration_us
+        ) @ unblocked
 
-        h_blocked = np.zeros((len(modes.energies_rel_mhz) + 1,) * 2, dtype=complex)
-        h_blocked[0, 1:] = segment.omega_mhz * np.conj(modes.ss_amplitudes) / 2
+        h_blocked = np.zeros(
+            (len(modes.energies_rel_mhz) + 1,) * 2, dtype=complex
+        )
+        h_blocked[0, 1:] = (
+            segment.omega_mhz * np.conj(modes.ss_amplitudes) / 2
+        )
         h_blocked[1:, 0] = segment.omega_mhz * modes.ss_amplitudes / 2
-        diagonal = modes.energies_rel_mhz - segment.detuning_mhz - 0.5j * mode_rates / (2 * np.pi)
+        diagonal = (
+            modes.energies_rel_mhz
+            - segment.detuning_mhz
+            - 0.5j * mode_rates / (2 * np.pi)
+        )
         h_blocked[1:, 1:] = np.diag(diagonal)
-        blocked = hardware.expm_multiply(-2j * np.pi * h_blocked * segment.duration_us, blocked)
+        blocked = hardware.expm_multiply(
+            -2j * np.pi * h_blocked * segment.duration_us, blocked
+        )
 
         time_us.append(time_us[-1] + segment.duration_us)
         unblocked_yb_rydberg.append(float(abs(unblocked[1]) ** 2))
         blocked_computational.append(float(abs(blocked[0]) ** 2))
-        blocked_pp.append(float(abs(np.vdot(pp_amplitudes, blocked[1:])) ** 2))
-        blocked_ss.append(float(abs(np.vdot(modes.ss_amplitudes, blocked[1:])) ** 2))
+        blocked_pp.append(
+            float(abs(np.vdot(pp_amplitudes, blocked[1:])) ** 2)
+        )
+        blocked_ss.append(
+            float(abs(np.vdot(modes.ss_amplitudes, blocked[1:])) ** 2)
+        )
         pair_population = float(np.vdot(blocked[1:], blocked[1:]).real)
-        blocked_spectator.append(max(0.0, pair_population - blocked_pp[-1] - blocked_ss[-1]))
+        blocked_spectator.append(
+            max(0.0, pair_population - blocked_pp[-1] - blocked_ss[-1])
+        )
         blocked_loss.append(max(0.0, 1 - abs(blocked[0]) ** 2 - pair_population))
 
     return {
@@ -384,15 +448,7 @@ def _population_trajectory(
     }
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--optimize", action="store_true")
-    parser.add_argument("--maxiter", type=int, default=400)
-    args = parser.parse_args()
-
-    verify_database_manifest()
-    OUT.parent.mkdir(exist_ok=True)
-    FIGURE_STEM.parent.mkdir(exist_ok=True)
+def _historical_main(args) -> None:
     lifetimes = query_lifetimes(0.0)
     geometries = _validation_geometries(SCAN_BASIS)
     nominal_index = 0
@@ -413,19 +469,33 @@ def main() -> None:
     parameters = SELECTED_PARAMETERS.copy()
     optimization: dict[str, object] = {
         "performed": False,
-        "note": "stored pulse evaluated without further refinement",
-        "stored_search": {
-            "method": "two-sided active-set adaptive Nelder-Mead minimax",
-            "iterations": 100,
-            "evaluations": 195,
+        "note": (
+            "selected final-reference pulse evaluated without further refinement; "
+            "all outputs from this script are SCAN_BASIS diagnostics"
+        ),
+        "selected_pulse_provenance": {
+            "script": "scripts/optimize_forster_p0_4_reference.py",
+            "model": "final P0-4 numerical-reference basis",
+            "method": "bounded adaptive Nelder-Mead local refinement at fixed duration",
+            "iterations": 400,
+            "evaluations": 625,
             "objective": "max(1-F) + 0.02*mean(1-F) over 8 training vertices plus nominal",
             "stochastic_seed": None,
             "multistart_restarts": 0,
-            "replay_starting_point": "SELECTED_PARAMETERS stored in this script",
+            "optimizer_success": False,
+            "optimizer_status": 2,
+            "termination": "maximum iteration budget exhausted",
+            "selection_status": (
+                "deterministic accepted local candidate; not a converged or global optimum"
+            ),
             "bright_mode_cutoff": OPTIMIZATION_MODE_CUTOFF,
             "propagation_step_ns": MINIMAX_STEP_NS,
             "fixed_segment_duration_us": SELECTED_PARAMETERS[-1],
         },
+        "optional_optimize_behavior": (
+            "--optimize runs the historical SCAN_BASIS local diagnostic refinement "
+            "starting from SELECTED_PARAMETERS; it does not reproduce pulse selection"
+        ),
     }
     if args.optimize:
         print(
@@ -441,10 +511,15 @@ def main() -> None:
             args.maxiter,
         )
         optimization["performed"] = True
+        optimization["scope"] = (
+            "historical SCAN_BASIS local diagnostic refinement; not final-reference "
+            "pulse-selection provenance"
+        )
         print("optimized parameters:", parameters.tolist(), flush=True)
 
     validation_modes = [
-        shaped._prepare_modes(geometry.model, VALIDATION_MODE_CUTOFF) for geometry in geometries
+        shaped._prepare_modes(geometry.model, VALIDATION_MODE_CUTOFF)
+        for geometry in geometries
     ]
     selected = _validate(parameters, validation_modes, nominal_index, lifetimes)
     baseline = _validate(
@@ -462,7 +537,9 @@ def main() -> None:
     ]
     propagation_convergence = []
     for step_ns in (1.0, 0.5, 0.25, hardware.FINAL_STEP_NS):
-        convergence_pulse = hardware._filtered_pulse(parameters, hardware.AOM_RISE_TIME_NS, step_ns)
+        convergence_pulse = hardware._filtered_pulse(
+            parameters, hardware.AOM_RISE_TIME_NS, step_ns
+        )
         convergence_correction = _correction(
             validation_modes[nominal_index], convergence_pulse, lifetimes
         )
@@ -517,8 +594,12 @@ def main() -> None:
         theta_deg=0.0,
         include_rb_hyperfine=False,
     )
-    electronic_only_mode = shaped._prepare_modes(electronic_only_model, VALIDATION_MODE_CUTOFF)
-    electronic_only_correction = _correction(electronic_only_mode, selected["pulse"], lifetimes)
+    electronic_only_mode = shaped._prepare_modes(
+        electronic_only_model, VALIDATION_MODE_CUTOFF
+    )
+    electronic_only_correction = _correction(
+        electronic_only_mode, selected["pulse"], lifetimes
+    )
     # No F-state HFS normalization is available.  Use the largest fitted
     # low-l normalization (D_3/2 A and P_3/2 B) as a deliberately oversized
     # sensitivity test, not as a physical uncertainty bound for F states.
@@ -530,38 +611,56 @@ def main() -> None:
         theta_deg=0.0,
         rb_f_hyperfine_prefactors_mhz=f_state_stress_prefactors_mhz,
     )
-    f_state_stress_mode = shaped._prepare_modes(f_state_stress_model, VALIDATION_MODE_CUTOFF)
-    f_state_stress_correction = _correction(f_state_stress_mode, selected["pulse"], lifetimes)
+    f_state_stress_mode = shaped._prepare_modes(
+        f_state_stress_model, VALIDATION_MODE_CUTOFF
+    )
+    f_state_stress_correction = _correction(
+        f_state_stress_mode, selected["pulse"], lifetimes
+    )
 
     print("evaluating AOM response-time scan...", flush=True)
     response_rise_times_ns = (2.0, 5.0, 10.0, 15.0, 20.0)
     response_scan = []
     for rise_time_ns in response_rise_times_ns:
-        response_pulse = hardware._filtered_pulse(parameters, rise_time_ns, hardware.FINAL_STEP_NS)
+        response_pulse = hardware._filtered_pulse(
+            parameters, rise_time_ns, hardware.FINAL_STEP_NS
+        )
         response_correction = _correction(
             validation_modes[nominal_index], response_pulse, lifetimes
         )
-        response_kraus = _scenario_kraus(validation_modes, response_pulse, lifetimes)
-        fixed_fidelities = _fidelities_from_kraus(response_kraus, selected["correction"])
-        recalibrated_fidelities = _fidelities_from_kraus(response_kraus, response_correction)
+        response_kraus = _scenario_kraus(
+            validation_modes, response_pulse, lifetimes
+        )
+        fixed_fidelities = _fidelities_from_kraus(
+            response_kraus, selected["correction"]
+        )
+        recalibrated_fidelities = _fidelities_from_kraus(
+            response_kraus, response_correction
+        )
         response_scan.append(
             {
                 "rise_time_ns": rise_time_ns,
-                "target_duration_us": float(sum(segment.duration_us for segment in response_pulse)),
+                "target_duration_us": float(
+                    sum(segment.duration_us for segment in response_pulse)
+                ),
                 "fixed_10ns_correction_nominal_fidelity": hardware._fidelity(
                     validation_modes[nominal_index],
                     response_pulse,
                     lifetimes,
                     selected["correction"],
                 ),
-                "fixed_10ns_correction_vertex_worst_fidelity": float(np.min(fixed_fidelities)),
+                "fixed_10ns_correction_vertex_worst_fidelity": float(
+                    np.min(fixed_fidelities)
+                ),
                 "recalibrated_nominal_fidelity": hardware._fidelity(
                     validation_modes[nominal_index],
                     response_pulse,
                     lifetimes,
                     response_correction,
                 ),
-                "recalibrated_vertex_worst_fidelity": float(np.min(recalibrated_fidelities)),
+                "recalibrated_vertex_worst_fidelity": float(
+                    np.min(recalibrated_fidelities)
+                ),
             }
         )
 
@@ -569,7 +668,7 @@ def main() -> None:
     axial_displacements_nm = np.linspace(-50.0, 50.0, 11)
     existing_axial_modes = {
         round(1000 * geometry.delta_z_um, 9): mode
-        for geometry, mode in zip(geometries, validation_modes, strict=True)
+        for geometry, mode in zip(geometries, validation_modes)
         if abs(geometry.transverse_um) < 1e-12
     }
     axial_modes = []
@@ -621,7 +720,9 @@ def main() -> None:
     amplitude_worst_fidelity = np.min(amplitude_scan_grid, axis=(0, 2))
 
     rb_amplitude_error_pct = np.linspace(-1.0, 1.0, 9)
-    rb_amplitude_scales = tuple(float(1 + error_pct / 100) for error_pct in rb_amplitude_error_pct)
+    rb_amplitude_scales = tuple(
+        float(1 + error_pct / 100) for error_pct in rb_amplitude_error_pct
+    )
     rb_amplitude_grid = _scenario_fidelities(
         [validation_modes[nominal_index]],
         selected["pulse"],
@@ -633,7 +734,9 @@ def main() -> None:
     rb_amplitude_nominal_fidelity = rb_amplitude_grid[0, 0]
 
     print("evaluating deterministic Sobol validation set...", flush=True)
-    sobol_points = qmc.Sobol(d=2, scramble=False).random_base2(SOBOL_VALIDATION_POWER)
+    sobol_points = qmc.Sobol(d=2, scramble=False).random_base2(
+        SOBOL_VALIDATION_POWER
+    )
     sobol_geometries = []
     sobol_modes = []
     for radial_coordinate, angular_coordinate in sobol_points:
@@ -643,9 +746,13 @@ def main() -> None:
             sobol_geometries.append(geometries[nominal_index])
             sobol_modes.append(validation_modes[nominal_index])
         else:
-            geometry = _build_geometry(float(radius_um), float(direction_cosine), SCAN_BASIS)
+            geometry = _build_geometry(
+                float(radius_um), float(direction_cosine), SCAN_BASIS
+            )
             sobol_geometries.append(geometry)
-            sobol_modes.append(shaped._prepare_modes(geometry.model, VALIDATION_MODE_CUTOFF))
+            sobol_modes.append(
+                shaped._prepare_modes(geometry.model, VALIDATION_MODE_CUTOFF)
+            )
     sobol_vertex_grid = _scenario_fidelities(
         sobol_modes,
         selected["pulse"],
@@ -661,7 +768,9 @@ def main() -> None:
     print("evaluating magnetic-field scan...", flush=True)
     coarse_fields_gauss = np.linspace(0.0, 5.0, 11)
     fine_fields_gauss = np.linspace(2.8, 3.4, 13)
-    all_fields_gauss = sorted(set(np.round(np.r_[coarse_fields_gauss, fine_fields_gauss], 12)))
+    all_fields_gauss = sorted(
+        set(np.round(np.r_[coarse_fields_gauss, fine_fields_gauss], 12))
+    )
     field_fidelity_by_gauss = {}
     field_fixed_correction_fidelity_by_gauss = {}
     field_static_transfer_by_gauss = {}
@@ -677,7 +786,9 @@ def main() -> None:
                 distance_um=shaped.R0_UM,
                 theta_deg=0.0,
             )
-            field_mode = shaped._prepare_modes(field_model, VALIDATION_MODE_CUTOFF)
+            field_mode = shaped._prepare_modes(
+                field_model, VALIDATION_MODE_CUTOFF
+            )
         field_correction = _correction(field_mode, selected["pulse"], lifetimes)
         field_fidelity_by_gauss[field_gauss] = hardware._fidelity(
             field_mode,
@@ -728,8 +839,12 @@ def main() -> None:
                 theta_deg=0.0,
                 defect_offset_mhz=defect_offset_mhz,
             )
-            defect_mode = shaped._prepare_modes(defect_model, VALIDATION_MODE_CUTOFF)
-        defect_correction = _correction(defect_mode, selected["pulse"], lifetimes)
+            defect_mode = shaped._prepare_modes(
+                defect_model, VALIDATION_MODE_CUTOFF
+            )
+        defect_correction = _correction(
+            defect_mode, selected["pulse"], lifetimes
+        )
         defect_scan.append(
             {
                 "defect_offset_mhz": defect_offset_mhz,
@@ -767,7 +882,9 @@ def main() -> None:
             electric_field_mode = shaped._prepare_modes(
                 electric_field_model, VALIDATION_MODE_CUTOFF
             )
-        electric_field_kraus = hardware._kraus(electric_field_mode, selected["pulse"], lifetimes)
+        electric_field_kraus = hardware._kraus(
+            electric_field_mode, selected["pulse"], lifetimes
+        )
         electric_field_metrics = shaped._local_z_metrics(electric_field_kraus)
         electric_field_correction = (
             float(electric_field_metrics["optimal_local_z_alpha_rad"]),
@@ -777,7 +894,9 @@ def main() -> None:
             {
                 "electric_field_v_cm": electric_field_v_cm,
                 "fixed_nominal_correction_fidelity": (
-                    shaped._fixed_correction_fidelity(electric_field_kraus, selected["correction"])
+                    shaped._fixed_correction_fidelity(
+                        electric_field_kraus, selected["correction"]
+                    )
                 ),
                 "phase_recalibrated_fidelity": shaped._fixed_correction_fidelity(
                     electric_field_kraus, electric_field_correction
@@ -786,12 +905,22 @@ def main() -> None:
             }
         )
 
-    nominal_kraus = hardware._kraus(validation_modes[nominal_index], selected["pulse"], lifetimes)
+    nominal_kraus = hardware._kraus(
+        validation_modes[nominal_index], selected["pulse"], lifetimes
+    )
     nominal_mean_survival = float(np.vdot(nominal_kraus, nominal_kraus).real / 4)
-    nominal_conditional_overlap = selected["nominal_fidelity"] / nominal_mean_survival
-    zero_decay_correction = _correction(validation_modes[nominal_index], selected["pulse"], None)
-    zero_decay_kraus = hardware._kraus(validation_modes[nominal_index], selected["pulse"], None)
-    zero_decay_mean_return = float(np.vdot(zero_decay_kraus, zero_decay_kraus).real / 4)
+    nominal_conditional_overlap = (
+        selected["nominal_fidelity"] / nominal_mean_survival
+    )
+    zero_decay_correction = _correction(
+        validation_modes[nominal_index], selected["pulse"], None
+    )
+    zero_decay_kraus = hardware._kraus(
+        validation_modes[nominal_index], selected["pulse"], None
+    )
+    zero_decay_mean_return = float(
+        np.vdot(zero_decay_kraus, zero_decay_kraus).real / 4
+    )
     zero_decay_overlap = hardware._fidelity(
         validation_modes[nominal_index],
         selected["pulse"],
@@ -808,7 +937,7 @@ def main() -> None:
     )
 
     result = {
-        "timestamp_utc": datetime.now(UTC).isoformat(),
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "software": {
             "pairinteraction": getattr(pi, "__version__", "unknown"),
             "numpy": np.__version__,
@@ -824,9 +953,7 @@ def main() -> None:
             },
             "aom_model": "independent first-order field-amplitude and detuning response",
             "aom_10_to_90_rise_time_ns": hardware.AOM_RISE_TIME_NS,
-            "rb_excitation": (
-                "effective two-level 5 MHz pi pulse; intermediate-state scattering omitted"
-            ),
+            "rb_excitation": "effective two-level 5 MHz pi pulse; intermediate-state scattering omitted",
             "decay": (
                 "zero-temperature lifetime-weighted non-Hermitian no-jump attenuation; "
                 "state-resolved jump branches are not modeled"
@@ -866,9 +993,13 @@ def main() -> None:
             },
             "nominal_scan_basis": {
                 "pair_basis_size": geometries[nominal_index].model.pair_basis_size,
-                "connected_component_size": geometries[nominal_index].model.symmetry_component_size,
+                "connected_component_size": geometries[
+                    nominal_index
+                ].model.symmetry_component_size,
                 "static_transfer": geometries[nominal_index].model.static_transfer,
-                "spectral_diagnostics": geometries[nominal_index].model.spectral_diagnostics,
+                "spectral_diagnostics": geometries[
+                    nominal_index
+                ].model.spectral_diagnostics,
                 "phase_recalibrated_fidelity": selected["nominal_fidelity"],
             },
             "nominal_primary_basis": {
@@ -940,7 +1071,9 @@ def main() -> None:
             "amplitude_vertex_worst_fidelity": float(np.min(sobol_vertex_grid)),
             "worst_case": {
                 "geometry_index": int(sobol_geometry_index),
-                "radial_displacement_nm": (1000 * sobol_worst_geometry.radial_displacement_um),
+                "radial_displacement_nm": (
+                    1000 * sobol_worst_geometry.radial_displacement_um
+                ),
                 "direction_cosine": sobol_worst_geometry.direction_cosine,
                 "delta_z_nm": 1000 * sobol_worst_geometry.delta_z_um,
                 "transverse_nm": 1000 * sobol_worst_geometry.transverse_um,
@@ -964,7 +1097,8 @@ def main() -> None:
             ),
             "fine_phase_recalibrated_fidelity": fine_field_fidelity.tolist(),
             "spectral_diagnostics_at_0_and_3p1_gauss": {
-                str(field): diagnostics for field, diagnostics in field_spectrum_by_gauss.items()
+                str(field): diagnostics
+                for field, diagnostics in field_spectrum_by_gauss.items()
             },
         },
         "target_pair_defect_scan": {
@@ -1017,7 +1151,11 @@ def main() -> None:
             "number_of_geometries": len(geometries),
             "geometry": [
                 {
-                    **{key: value for key, value in asdict(geometry).items() if key != "model"},
+                    **{
+                        key: value
+                        for key, value in asdict(geometry).items()
+                        if key != "model"
+                    },
                     "basis_component_size": geometry.model.symmetry_component_size,
                     "angular_delta_m_couplings_omitted": (
                         geometry.model.angular_delta_m_couplings_omitted
@@ -1027,24 +1165,43 @@ def main() -> None:
             ],
         },
     }
-    OUT.write_text(json.dumps(result, indent=1) + "\n")
+    output = OUT.with_name("bounded_minimax_forster_gate_historical_scan_results.json")
+    result["figure_model"] = "historical SCAN_BASIS diagnostics, not final-reference performance"
+    output.write_text(json.dumps(result, indent=1) + "\n")
+    _plot_result(result, FIGURE_STEM.with_name("bounded_minimax_forster_gate_historical_scan"))
+    print("wrote", output, flush=True)
 
+
+def _plot_result(result, figure_stem=FIGURE_STEM):
+    parameters = np.asarray(result["parameters"])
+    response_scan = result["response_time_scan"]
+    axial_displacements_nm = np.asarray(result["axial_position_scan"]["delta_z_nm"])
+    axial_nominal_fidelity = np.asarray(result["axial_position_scan"]["nominal_amplitudes_fidelity"])
+    amplitude = result["target_amplitude_scan"]
+    target_amplitude_error_pct = np.asarray(amplitude["yb_rabi_error_pct"])
+    amplitude_nominal_fidelity = np.asarray(amplitude["nominal_position_rb_nominal_fidelity"])
+    rb_amplitude_error_pct = np.asarray(amplitude["rb_rabi_error_pct"])
+    rb_amplitude_nominal_fidelity = np.asarray(amplitude["nominal_position_yb_nominal_fidelity"])
+    magnetic = result["magnetic_field_scan"]
+    coarse_fields_gauss = np.asarray(magnetic["coarse_field_gauss"])
+    coarse_field_fidelity = np.asarray(magnetic["coarse_phase_recalibrated_fidelity"])
+    population_trajectory = result["population_trajectory"]
     command = shaped._pulse_from_parameters(parameters)
 
     fig, axes = plt.subplots(2, 2, figsize=(10.6, 7.8))
     rb_pi_ns = 1000 * shaped.RB_PI_DURATION_US
     target_start_ns = rb_pi_ns
-    target_edges_ns = (
-        target_start_ns + 1000 * np.r_[0.0, np.cumsum([segment.duration_us for segment in command])]
-    )
-    target_window_end_ns = target_start_ns + 1000 * sum(
-        segment.duration_us for segment in selected["pulse"]
-    )
+    target_edges_ns = target_start_ns + 1000 * np.r_[
+        0.0, np.cumsum([segment.duration_us for segment in command])
+    ]
+    target_window_end_ns = target_start_ns + 1000 * result["short_minimax"]["target_duration_us"]
     gate_end_ns = target_window_end_ns + rb_pi_ns
 
     command_spec = axes[0, 0].get_subplotspec()
     axes[0, 0].remove()
-    command_grid = command_spec.subgridspec(2, 1, height_ratios=(0.7, 2.0), hspace=0.06)
+    command_grid = command_spec.subgridspec(
+        2, 1, height_ratios=(0.7, 2.0), hspace=0.06
+    )
     ax_rb = fig.add_subplot(command_grid[0])
     ax = fig.add_subplot(command_grid[1], sharex=ax_rb)
 
@@ -1055,7 +1212,9 @@ def main() -> None:
         height=0.5,
         color="#D55E00",
     )
-    ax_rb.text(rb_pi_ns / 2, 0.0, r"$\pi$", ha="center", va="center", fontsize=9)
+    ax_rb.text(
+        rb_pi_ns / 2, 0.0, r"$\pi$", ha="center", va="center", fontsize=9
+    )
     ax_rb.text(
         target_window_end_ns + rb_pi_ns / 2,
         0.0,
@@ -1070,8 +1229,12 @@ def main() -> None:
     ax_rb.spines[["left", "right", "top", "bottom"]].set_visible(False)
     ax_rb.tick_params(axis="both", length=0, labelbottom=False)
 
-    command_plot_edges_ns = np.r_[0.0, target_edges_ns, target_window_end_ns, gate_end_ns]
-    omega_values = np.r_[0.0, [segment.omega_mhz for segment in command], 0.0, 0.0]
+    command_plot_edges_ns = np.r_[
+        0.0, target_edges_ns, target_window_end_ns, gate_end_ns
+    ]
+    omega_values = np.r_[
+        0.0, [segment.omega_mhz for segment in command], 0.0, 0.0
+    ]
     detuning_values = np.r_[
         0.0,
         [segment.detuning_mhz for segment in command],
@@ -1096,7 +1259,8 @@ def main() -> None:
     )
     ax.set_xlim(-5.0, gate_end_ns + 5.0)
     ax.set_ylim(0.0, 1.18 * max(omega_values))
-    ax_detuning.set_ylim(-1.5, 2.1)
+    detuning_padding = .15 * np.ptp(detuning_values)
+    ax_detuning.set_ylim(min(detuning_values)-detuning_padding, max(detuning_values)+detuning_padding)
     ax.set_ylabel(r"Yb $\Omega/2\pi$ (MHz)", color="#0072B2")
     ax_detuning.set_ylabel(r"Yb $\Delta/2\pi$ (MHz)", color="#D55E00")
     ax.tick_params(axis="y", labelcolor="#0072B2")
@@ -1121,7 +1285,10 @@ def main() -> None:
     rise_times = np.array([row["rise_time_ns"] for row in response_scan])
     ax_response.plot(
         rise_times,
-        100 * np.array([row["recalibrated_nominal_fidelity"] for row in response_scan]),
+        100
+        * np.array(
+            [row["recalibrated_nominal_fidelity"] for row in response_scan]
+        ),
         "o-",
         color="#009E73",
         markersize=3.5,
@@ -1162,9 +1329,25 @@ def main() -> None:
     ax_amplitude.tick_params(axis="y", labelleft=False)
     ax_amplitude.legend(frameon=False, fontsize=7, loc="lower center")
 
+    robustness_values_pct = 100 * np.concatenate(
+        (
+            np.array(
+                [row["recalibrated_nominal_fidelity"] for row in response_scan]
+            ),
+            axial_nominal_fidelity,
+            amplitude_nominal_fidelity,
+            rb_amplitude_nominal_fidelity,
+        )
+    )
+    robustness_ylim = (
+        float(np.min(robustness_values_pct) - 0.01),
+        float(max(99.91, np.max(robustness_values_pct) + 0.01)),
+    )
     for robustness_axis in (ax_response, ax_position, ax_amplitude):
-        robustness_axis.axhline(99.9, color="#666666", linestyle=":", linewidth=0.9)
-        robustness_axis.set_ylim(99.88, 99.935)
+        robustness_axis.axhline(
+            99.9, color="#666666", linestyle=":", linewidth=0.9
+        )
+        robustness_axis.set_ylim(*robustness_ylim)
         robustness_axis.tick_params(axis="both", labelsize=7)
 
     ax = axes[1, 0]
@@ -1175,38 +1358,18 @@ def main() -> None:
         color="#D55E00",
         markersize=3.5,
         linewidth=1.0,
-        label="driven gate fidelity",
+        label="nominal-Z recalibrated overlap",
     )
-    ax.axvspan(2.8, 3.4, color="#009E73", alpha=0.10, linewidth=0)
+    ax.axhline(99.9, color="#666666", linestyle=":", linewidth=.9)
     ax.axvline(
         shaped.B_GAUSS,
         color="#009E73",
         linestyle="--",
         linewidth=0.9,
     )
-    field_inset = ax.inset_axes([0.53, 0.10, 0.44, 0.38])
-    field_inset.plot(
-        fine_fields_gauss,
-        100 * fine_field_fidelity,
-        "d-",
-        color="#009E73",
-        markersize=2.7,
-        linewidth=0.8,
-    )
-    field_inset.axvline(
-        shaped.B_GAUSS,
-        color="#009E73",
-        linestyle="--",
-        linewidth=0.7,
-    )
-    field_inset.set_xticks([2.8, 3.0, 3.2, 3.4])
-    field_inset.ticklabel_format(axis="y", style="plain", useOffset=False)
-    field_inset.xaxis.set_ticks_position("top")
-    field_inset.tick_params(axis="both", labelsize=6)
-    field_inset.set_ylabel(r"$F_{\rm avg}$ (%)", fontsize=6)
     ax.set_xlabel(r"$B$ (G)")
     ax.set_ylabel(r"$F_{\rm avg}$ (%)")
-    ax.set_title("(c) gate fidelity vs magnetic field")
+    ax.set_title("(c) loss-aware overlap vs magnetic field")
     ax.legend(frameon=False, fontsize=7, loc="upper left")
 
     ax = axes[1, 1]
@@ -1247,19 +1410,180 @@ def main() -> None:
     ax.legend(frameon=False, fontsize=6.5, loc="center right")
 
     fig.tight_layout(h_pad=4.0)
-    fig.savefig(FIGURE_STEM.with_suffix(".pdf"))
-    fig.savefig(FIGURE_STEM.with_suffix(".png"), dpi=220)
+    fig.savefig(figure_stem.with_suffix(".pdf"))
+    fig.savefig(figure_stem.with_suffix(".png"), dpi=220)
     plt.close(fig)
 
-    print("wrote", OUT, flush=True)
-    print("wrote", FIGURE_STEM.with_suffix(".pdf"), flush=True)
-    print("wrote", FIGURE_STEM.with_suffix(".png"), flush=True)
-    print(
-        f"short minimax: nominal={selected['nominal_fidelity']:.9f}, "
-        f"position worst={selected['position_only_worst_fidelity']:.9f}, "
-        f"vertex worst={selected['vertex_worst_fidelity']:.9f}",
-        flush=True,
-    )
+    print("wrote", figure_stem.with_suffix(".pdf"), flush=True)
+    print("wrote", figure_stem.with_suffix(".png"), flush=True)
+
+
+def _require_reference_inputs(inputs, basis):
+    expected = {"pulse_parameters": SELECTED_PARAMETERS.tolist(),
+        "numerical_reference_basis": asdict(basis), "field_gauss": shaped.B_GAUSS,
+        "mode_cutoff": 1e-6, "propagation_step_ns": .125, "temperature_k": 0.}
+    for key, value in expected.items():
+        if inputs.get(key) != value:
+            raise ValueError(f"figure input mismatch: {key}")
+
+
+def _curve_summary(x, y):
+    low, high = int(np.argmin(y)), int(np.argmax(y))
+    return {"minimum": float(y[low]), "minimum_at": float(x[low]),
+        "maximum": float(y[high]), "maximum_at": float(x[high])}
+
+
+def _reference_main():
+    # These records are numerical inputs, not historical SCAN curves relabeled.
+    # Only the nominal model must be rebuilt, for response/amplitude/trajectory
+    # data absent from P0/P1. In particular, no historical control is rerun.
+    import evaluate_forster_p0_4 as p0
+
+    start = time.monotonic()
+    paths = [ROOT / "data" / name for name in (
+        "forster_p0_4_uncertainty_convergence.json", "forster_p1_1_robustness.json",
+        "forster_p0_4_field_scan.json", "forster_p0_4_reoptimization.json")]
+    p0_data, p1_data, field_data, reoptimization = [json.loads(path.read_text()) for path in paths]
+    for inputs in (p0_data["fixed_inputs"], p1_data["fixed_p0_4_inputs"]):
+        _require_reference_inputs(inputs, p0.REFERENCE_BASIS)
+    _require_reference_inputs({"pulse_parameters": field_data["pulse_parameters"],
+        "numerical_reference_basis": field_data["basis"], "field_gauss": shaped.B_GAUSS,
+        "mode_cutoff": field_data["cutoff"], "propagation_step_ns": field_data["step_ns"],
+        "temperature_k": field_data["temperature_k"]}, p0.REFERENCE_BASIS)
+    fixed = p0_data["fixed_inputs"]
+    correction = (fixed["fixed_reference_local_z_alpha_rad"], fixed["fixed_reference_local_z_beta_rad"])
+    p1_correction = (p1_data["fixed_p0_4_inputs"]["fixed_reference_local_z_alpha_rad"],
+        p1_data["fixed_p0_4_inputs"]["fixed_reference_local_z_beta_rad"])
+    np.testing.assert_allclose(correction, p1_correction, rtol=0, atol=1e-12)
+    parameters = SELECTED_PARAMETERS.copy()
+    lifetimes = query_lifetimes(0.)
+    pulse = hardware._filtered_pulse(parameters, hardware.AOM_RISE_TIME_NS, .125)
+    print("building final-reference nominal model for Fig. 3...", flush=True)
+    model = shaped.build_pair_model(shaped.B_GAUSS, p0.REFERENCE_BASIS,
+        distance_um=shaped.R0_UM, theta_deg=0.)
+    modes = shaped._prepare_modes(model, 1e-6)
+    pp_amplitudes = model.pp_overlap[np.abs(model.ss_overlap)**2 > 1e-6].copy()
+    model_metadata = {"basis": asdict(p0.REFERENCE_BASIS), "pair_basis_size": model.pair_basis_size,
+        "connected_component_size": model.symmetry_component_size,
+        "active_modes": len(modes.energies_rel_mhz), "retained_ss_weight": modes.retained_ss_weight}
+    del model
+    gc.collect()
+    nominal = hardware._fidelity(modes, pulse, lifetimes, correction)
+    expected = p0_data["reference_model_bounded_validation"]
+    np.testing.assert_allclose(nominal, expected["nominal_fidelity"], rtol=0, atol=1e-10)
+
+    response = []
+    for rise in (2., 5., 10., 15., 20.):
+        filtered = hardware._filtered_pulse(parameters, rise, .125)
+        kraus = hardware._kraus(modes, filtered, lifetimes)
+        metrics = shaped._local_z_metrics(kraus)
+        response.append({"rise_time_ns": rise,
+            "target_duration_us": sum(s.duration_us for s in filtered),
+            "recalibrated_nominal_fidelity": metrics["average_gate_fidelity"],
+            "fixed_10ns_correction_nominal_fidelity": shaped._fixed_correction_fidelity(kraus, correction),
+            "local_z_alpha_rad": metrics["optimal_local_z_alpha_rad"],
+            "local_z_beta_rad": metrics["optimal_local_z_beta_rad"]})
+
+    # The P1 grid stores exact retained-block propagation at each radial node,
+    # not values of its response-surface interpolant.
+    grid = p1_data["response_grid"]
+    values = np.asarray(grid["fidelity_grid"])
+    iy = grid["yb_amplitude_scales"].index(1.)
+    ir = grid["rb_amplitude_scales"].index(1.)
+    axial = [(0., float(values[0, 0, iy, ir]))]
+    for ri, radius in enumerate(grid["radii_um"][1:], start=1):
+        for cosine in (-1., 1.):
+            ci = grid["direction_cosines"].index(cosine)
+            axial.append((1000*radius*cosine, float(values[ri, ci, iy, ir])))
+    axial.sort()
+    errors = np.linspace(-1., 1., 9)
+    scales = tuple(1 + errors/100)
+    yb = _scenario_fidelities([modes], pulse, lifetimes, correction,
+        target_scales=scales, control_scales=(1.,))[0, :, 0]
+    rb = _scenario_fidelities([modes], pulse, lifetimes, correction,
+        target_scales=(1.,), control_scales=scales)[0, 0]
+    trajectory = _population_trajectory(modes, pp_amplitudes, pulse, lifetimes)
+    field_rows = sorted((r for r in field_data["fields"].values() if r["pair_window_ghz"] == 40),
+        key=lambda r: r["field_gauss"])
+    coarse = [r for r in field_rows if r["field_gauss"] in set(np.arange(0, 5.01, .5)) | {3.1}]
+    fine = [r for r in field_rows if 3.0 <= r["field_gauss"] <= 3.15]
+    assert len(coarse) == 12 and len(fine) >= 7
+    np.testing.assert_allclose(field_data["fields"]["3.10000000/40"]["nominal"], nominal, rtol=0, atol=1e-10)
+    np.testing.assert_allclose([response[2]["recalibrated_nominal_fidelity"], yb[4], rb[4],
+        dict(axial)[0.]], nominal, rtol=0, atol=1e-10)
+
+    previous = json.loads(OUT.read_text()) if OUT.exists() else {}
+    historical = previous.get("historical_scan_basis_diagnostics")
+    if historical is None and previous and "figure_model" not in previous:
+        historical = {"scope": "Historical SCAN_BASIS diagnostics, not current Fig. 3 data",
+            "basis": asdict(SCAN_BASIS), "record": previous}
+    result = {"timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "figure_model": "final P0-4 numerical-reference model for all driven panels",
+        "software": {"pairinteraction": pi.__version__, "numpy": np.__version__, "scipy": scipy.__version__},
+        "fixed_inputs": fixed, "nominal_model": model_metadata,
+        "input_records": [{"path": str(path.relative_to(ROOT)),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for path in paths],
+        "assumptions": {"metric": "zero-T no-jump loss-aware average overlap, not CPTP process fidelity",
+            "response_local_z": "nominal recalibration per assumed response time",
+            "position_and_amplitude_local_z": "fixed final-reference nominal 3.10 G / 10 ns correction",
+            "magnetic_local_z": "both fixed-3.10-G and per-field nominal recalibration stored; plotted curve recalibrates",
+            "magnetic_carriers": "both species track local isolated-atom transitions, not a fixed-laser noise prediction",
+            "trajectory": "conditional branch initialization at start of filtered Yb target window; no jump branches",
+            "robustness": "sampled finite-basis evidence, not a certified continuous minimum or complete laboratory error budget",
+            "angular_scope": "retained Delta-M=0 block; omitted nonzero Delta-M couplings at transverse offsets"},
+        "optimization": {"performed": False, "pulse_selection": reoptimization["optimization"]},
+        "parameters": parameters.tolist(),
+        "command_segments": [asdict(s) for s in shaped._pulse_from_parameters(parameters)],
+        "short_minimax": {"target_duration_us": sum(s.duration_us for s in pulse),
+            "total_gate_time_us": 2*shaped.RB_PI_DURATION_US + sum(s.duration_us for s in pulse),
+            "nominal_fidelity": nominal, "position_only_worst_fidelity": expected["position_only_minimum_fidelity"],
+            "amplitude_vertex_worst_fidelity": expected["position_and_amplitude_vertex_minimum_fidelity"],
+            "local_z_alpha_rad": correction[0], "local_z_beta_rad": correction[1], "worst_case": expected["worst_case"]},
+        "response_time_scan": response,
+        "axial_position_scan": {"delta_z_nm": [x for x,y in axial],
+            "nominal_amplitudes_fidelity": [y for x,y in axial],
+            "source": "exact P1-1 retained-block radial nodes, not interpolated response surface"},
+        "target_amplitude_scan": {"yb_rabi_error_pct": errors.tolist(), "rb_rabi_error_pct": errors.tolist(),
+            "nominal_position_rb_nominal_fidelity": yb.tolist(), "nominal_position_yb_nominal_fidelity": rb.tolist()},
+        "magnetic_field_scan": {f"{label}_{key}": [r[source] for r in rows]
+            for label, rows in (("coarse", coarse), ("fine", fine))
+            for key, source in (("field_gauss", "field_gauss"),
+                ("phase_recalibrated_fidelity", "nominal"), ("fixed_nominal_correction_fidelity", "fixed_3_10G_nominal"))},
+        "population_trajectory": trajectory,
+        "curve_extrema": {"response": _curve_summary([r["rise_time_ns"] for r in response],
+                [r["recalibrated_nominal_fidelity"] for r in response]),
+            "axial": _curve_summary(*zip(*axial)), "yb_amplitude": _curve_summary(errors, yb),
+            "rb_amplitude": _curve_summary(errors, rb),
+            "magnetic": _curve_summary([r["field_gauss"] for r in field_rows], [r["nominal"] for r in field_rows])},
+        "population_summary": {key: {"maximum": max(v), "final": v[-1]} for key,v in trajectory.items() if key != "time_us"},
+        "resources": {"wall_seconds": time.monotonic()-start,
+            "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            "pair_models_built": 1, "historical_controls_rerun": False}}
+    if historical is not None:
+        result["historical_scan_basis_diagnostics"] = historical
+    OUT.write_text(json.dumps(result, indent=1)+"\n")
+    _plot_result(result)
+    print(json.dumps(result["curve_extrema"], indent=2), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--optimize", action="store_true", help="historical SCAN_BASIS refinement only")
+    parser.add_argument("--historical-scan", action="store_true")
+    parser.add_argument("--maxiter", type=int, default=400)
+    parser.add_argument("--plot-only", action="store_true")
+    args = parser.parse_args()
+    if args.plot_only:
+        result = json.loads(OUT.read_text())
+        if not result.get("figure_model", "").startswith("final P0-4"):
+            raise ValueError("default figure data are not final-reference results")
+        _plot_result(result)
+    else:
+        verify_database_manifest()
+        if args.optimize or args.historical_scan:
+            _historical_main(args)
+        else:
+            _reference_main()
 
 
 if __name__ == "__main__":

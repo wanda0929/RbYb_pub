@@ -65,12 +65,12 @@ def test_forster_gate_matches_figure_3_search_record() -> None:
     assert data["software"]["pairinteraction"] == "2.5.0"
     assert data["parameters"] == pytest.approx(
         [
-            4.410416083986085,
-            9.418791104832165,
-            11.734642228670836,
-            -1.1443728579899664,
-            -0.9263577893268974,
-            1.744859450470417,
+            4.480374546413655,
+            9.229350329961736,
+            11.778486107199452,
+            -0.3647742336217171,
+            -1.0235176743455907,
+            2.4312627812906094,
             0.025634115265641792,
         ]
     )
@@ -78,61 +78,49 @@ def test_forster_gate_matches_figure_3_search_record() -> None:
     segments = data["command_segments"]
     assert len(segments) == 5
     assert [segment["omega_mhz"] for segment in segments] == pytest.approx(
-        [4.410416083986085, 9.418791104832165, 11.734642228670836]
-        + [9.418791104832165, 4.410416083986085]
+        [4.480374546413655, 9.229350329961736, 11.778486107199452]
+        + [9.229350329961736, 4.480374546413655]
     )
     assert [segment["detuning_mhz"] for segment in segments] == pytest.approx(
-        [-1.1443728579899664, -0.9263577893268974, 1.744859450470417]
-        + [-0.9263577893268974, -1.1443728579899664]
+        [-0.3647742336217171, -1.0235176743455907, 2.4312627812906094]
+        + [-1.0235176743455907, -0.3647742336217171]
     )
 
     result = data["short_minimax"]
     assert result["target_duration_us"] == pytest.approx(0.1600289492601458)
     assert result["total_gate_time_us"] == pytest.approx(0.36002894926014584)
-    assert result["nominal_fidelity"] == pytest.approx(0.9992949524193426)
-    assert result["position_only_worst_fidelity"] == pytest.approx(0.9991054365072056)
-    assert result["amplitude_vertex_worst_fidelity"] == pytest.approx(0.9984526115438983)
-    assert np.asarray(result["vertex_fidelity_grid"]).shape == (19, 2, 2)
+    assert result["nominal_fidelity"] == pytest.approx(0.999318459478283)
+    assert result["position_only_worst_fidelity"] == pytest.approx(0.9992023214963179)
+    assert result["amplitude_vertex_worst_fidelity"] == pytest.approx(0.998693823160795)
+    assert data["figure_model"].startswith("final P0-4")
 
     assumptions = data["assumptions"]
-    assert assumptions["temperature_k"] == 0.0
-    assert assumptions["maximum_relative_displacement_um"] == 0.05
-    assert assumptions["amplitude_error_box"] == {
-        "yb_effective_rabi_scale": [0.99, 1.01],
-        "rb_effective_rabi_scale": [0.99, 1.01],
-    }
-    assert assumptions["aom_10_to_90_rise_time_ns"] == 10.0
-    assert "state-resolved jump branches are not modeled" in assumptions["decay"]
-    assert data["validation"]["propagation_step_ns"] == 0.125
-    assert data["validation"]["number_of_geometries"] == 19
-    assert [row["step_ns"] for row in data["propagation_convergence"]] == [
-        1.0,
-        0.5,
-        0.25,
-        0.125,
-    ]
+    assert "not CPTP process fidelity" in assumptions["metric"]
+    assert data["fixed_inputs"]["field_gauss"] == 3.1
+    assert data["optimization"]["performed"] is False
 
 
 def test_p0_4_reference_and_bounded_values() -> None:
     data = load_json("forster_p0_4_uncertainty_convergence.json")
     bounded = data["reference_model_bounded_validation"]
-    assert bounded["pulse_reoptimized"] is False
-    assert bounded["nominal_fidelity"] == pytest.approx(0.9989445403730188)
-    assert bounded["position_only_minimum_fidelity"] == pytest.approx(0.9986743974933106)
+    assert bounded["pulse_reoptimized"] is True
+    assert "not converged/global" in bounded["pulse_reoptimization_provenance"]
+    assert bounded["nominal_fidelity"] == pytest.approx(0.999318459478283)
+    assert bounded["position_only_minimum_fidelity"] == pytest.approx(0.9992023214963179)
     assert bounded["position_and_amplitude_vertex_minimum_fidelity"] == pytest.approx(
-        0.9980009924062412
+        0.998693823160795
     )
     assert bounded["worst_case"] == pytest.approx(
         {
-            "geometry_index": 18,
+            "geometry_index": 10,
             "radial_displacement_nm": 50,
-            "direction_cosine": 1,
-            "delta_z_nm": 50,
+            "direction_cosine": -1,
+            "delta_z_nm": -50,
             "transverse_nm": 0,
             "theta_deg": 0,
-            "yb_rabi_scale": 1.01,
+            "yb_rabi_scale": 0.99,
             "rb_rabi_scale": 0.99,
-            "fidelity": 0.9980009924062412,
+            "fidelity": 0.998693823160795,
         }
     )
     assert len(data["one_at_a_time_numerical_convergence"]) == 8
@@ -156,12 +144,12 @@ def test_p1_1_continuous_domain_and_thermal_record() -> None:
     sobol = data["nested_sobol"]["minimum_trace"]
     assert [row["sample_count"] for row in sobol] == [128, 256, 512, 1024]
     assert [row["minimum"] for row in sobol] == pytest.approx(
-        [0.9983267176708058, 0.9983228492590042, 0.9982575680446681, 0.9982035880887115]
+        [0.9988244811501916] * 4
     )
     local = data["local_adversarial_refinement"]
     assert len(local["surface_results"]) == 12
-    assert len(local["direct_retained_block_rechecks"]) == 3
-    assert local["minimum_direct_recheck_fidelity"] == pytest.approx(0.9980009927329299)
+    assert len(local["full_hamiltonian_rechecks"]) == 3
+    assert local["minimum_direct_recheck_fidelity"] == pytest.approx(0.9986938231607982)
     assert "not a global certificate" in local["claim_scope"]
     thermal = data["thermal_motion"]
     assert thermal["sample_count"] == 262144
@@ -173,7 +161,7 @@ def test_p1_2_all_mode_projection_record() -> None:
     data = load_json("forster_p1_2_projection_audit.json")
     assert data["mode_cutoffs"] == [1e-6, 1e-8, "all modes"]
     assert data["maximum_absolute_all_mode_projection_fidelity_difference"] == pytest.approx(
-        1.2027264739700172e-09
+        7.183481587347273e-10
     )
     assert [row["label"] for row in data["points"]] == [
         "nominal",
@@ -260,7 +248,7 @@ def test_table_ii_csv_matches_current_manuscript() -> None:
         "manuscript",
     ]
     assert rows[2]["forster_defect"] == "-0.764 MHz electronic; -0.694 MHz stretched HFS"
-    assert rows[2]["gate_result"].endswith("F_avg=99.89%; sampled minimum=99.80%")
+    assert rows[2]["gate_result"].endswith("F_avg=99.93%; sampled minimum=99.87%")
     assert rows[3]["work"] == "This work (vdW candidate)"
     assert rows[3]["gate_result"] == "not assigned"
 
@@ -289,17 +277,19 @@ def test_manuscript_manifest_identifies_current_pdf() -> None:
     manifest = json.loads((ROOT / "provenance" / "manuscript_manifest.json").read_text())
     assert manifest["title"] == "87Rb-171Yb Rydberg interactions and a Förster CZ gate"
     assert manifest["source_pdf_sha256"] == (
-        "6c47c085d8890a354f60f58049f00bcb2ff735a945fa161cbf62f2410e82785c"
+        "e2ad80c3b39680cd18a922ec1dd89589d251dc9d9d38e414bf0603a4f62b3710"
     )
-    assert manifest["source_pdf_size_bytes"] == 593002
-    assert manifest["source_repository_commit"] == "af787ae9258f93bc9fbce5ac972c7562634e41f9"
-    assert manifest["source_repository_commit_timestamp_utc"] == "2026-09-04T06:15:33Z"
+    assert manifest["source_pdf_size_bytes"] == 591570
+    assert manifest["source_repository_commit"] == "a54e98ee5100296160b71871624d1bc83b816b9e"
+    assert manifest["source_repository_commit_timestamp_utc"] == "2026-09-05T08:52:53Z"
 
 
 def test_archive_map_and_reproduction_entry_point_are_complete() -> None:
     expected = [
         "data/forster_characterization.json",
         "data/forster_gate_results.json",
+        "data/forster_p0_4_reoptimization.json",
+        "data/forster_p0_4_field_scan.json",
         "data/forster_p0_4_uncertainty_convergence.json",
         "data/forster_p1_1_robustness.json",
         "data/forster_p1_2_projection_audit.json",
@@ -309,6 +299,8 @@ def test_archive_map_and_reproduction_entry_point_are_complete() -> None:
         "scripts/reproduce_all.py",
         "scripts/reproduce_forster_characterization.py",
         "scripts/reproduce_forster_gate.py",
+        "scripts/optimize_forster_p0_4_reference.py",
+        "scripts/scan_forster_p0_4_field.py",
         "scripts/evaluate_forster_p0_4.py",
         "scripts/evaluate_forster_p1_1.py",
         "scripts/evaluate_forster_p1_2.py",
@@ -325,6 +317,9 @@ def test_archive_map_and_reproduction_entry_point_are_complete() -> None:
         "tests/test_p1_projection.py",
         "tests/test_p1_robustness.py",
         "tests/test_publication_data.py",
+        "tests/test_forster_characterization.py",
+        "tests/test_forster_p0_4_field.py",
+        "tests/test_forster_p0_4_reoptimization.py",
         "tests/test_rb_rydberg_hyperfine.py",
         "tests/test_vdw_p1_5.py",
     ]
@@ -348,6 +343,16 @@ def test_runtime_environment_records_backend_and_seeds() -> None:
     resources = runtime["recorded_resource_observations"]["vdw_p1_5_basis_convergence"]
     assert resources["largest_pair_basis_size"] == 33180
     assert resources["peak_rss_kib"] == 10577180
+
+
+def test_figure_3_input_hashes_match_archive_bytes() -> None:
+    import hashlib
+
+    gate = load_json("forster_gate_results.json")
+    for record in gate["input_records"]:
+        path = ROOT / record["path"]
+        assert path.is_file()
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"]
 
 
 def test_archive_contains_no_private_paths_or_obsolete_loss_claims() -> None:

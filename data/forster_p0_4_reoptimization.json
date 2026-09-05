@@ -1,0 +1,1941 @@
+{
+ "timestamp_utc": "2026-09-04T09:20:48.973455+00:00",
+ "source_revision": "af787ae9258f93bc9fbce5ac972c7562634e41f9",
+ "purpose": "exploratory local reoptimization of the existing five-segment pulse against the final P0-4 numerical-reference model",
+ "software": {
+  "python": "3.11.6",
+  "pairinteraction": "2.5.0",
+  "numpy": "2.4.6",
+  "scipy": "1.17.1",
+  "pairinteraction_database_assets": {
+   "Rb": "Rb_v1.2",
+   "Yb171_mqdt": "Yb171_mqdt_v1.4",
+   "misc": "misc_v1.4"
+  }
+ },
+ "model": {
+  "basis": {
+   "delta_n": 3,
+   "atomic_window_ghz": 80.0,
+   "pair_window_ghz": 40.0,
+   "delta_l": 2,
+   "interaction_order": 4
+  },
+  "temperature_k": 0.0,
+  "field_gauss": 3.1,
+  "nominal_distance_um": 3.4,
+  "mode_cutoff": 1e-06,
+  "optimization_geometry_specs": [
+   [
+    0.0,
+    0.0
+   ],
+   [
+    0.05,
+    -1.0
+   ],
+   [
+    0.05,
+    1.0
+   ]
+  ],
+  "validation_radii_um": [
+   0.0,
+   0.025,
+   0.05
+  ],
+  "validation_direction_cosines": [
+   -1.0,
+   -0.75,
+   -0.5,
+   -0.25,
+   0.0,
+   0.25,
+   0.5,
+   0.75,
+   1.0
+  ],
+  "independent_yb_and_rb_rabi_scales": [
+   0.99,
+   1.01
+  ],
+  "active_mode_counts": [
+   52,
+   55,
+   53,
+   53,
+   53,
+   52,
+   52,
+   53,
+   53,
+   52,
+   56,
+   55,
+   54,
+   53,
+   52,
+   53,
+   52,
+   49,
+   47
+  ],
+  "geometry_metadata": [
+   {
+    "radial_displacement_nm": 0.0,
+    "direction_cosine": 0.0,
+    "delta_z_nm": 0.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.4,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999806032563077
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": -1.0,
+    "delta_z_nm": -25.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.375,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 55,
+    "retained_ss_weight": 0.9999819929487741
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": -0.75,
+    "delta_z_nm": -18.750000000000004,
+    "transverse_nm": 16.535945694153693,
+    "distance_um": 3.381290434139014,
+    "theta_deg": 0.2802018027030779,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999804222548108
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": -0.5,
+    "delta_z_nm": -12.5,
+    "transverse_nm": 21.650635094610966,
+    "distance_um": 3.387569187485327,
+    "theta_deg": 0.3661913281591445,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999809328151623
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": -0.25,
+    "delta_z_nm": -6.25,
+    "transverse_nm": 24.206145913796355,
+    "distance_um": 3.3938363248689525,
+    "theta_deg": 0.40865899988760923,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999813957877309
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": 0.0,
+    "delta_z_nm": 0.0,
+    "transverse_nm": 25.0,
+    "distance_um": 3.40009191052242,
+    "theta_deg": 0.4212849041685975,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999806061584423
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": 0.25,
+    "delta_z_nm": 6.25,
+    "transverse_nm": 24.206145913796355,
+    "distance_um": 3.406336008088456,
+    "theta_deg": 0.40715938441329624,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999804894354472
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": 0.5,
+    "delta_z_nm": 12.5,
+    "transverse_nm": 21.650635094610966,
+    "distance_um": 3.4125686806275417,
+    "theta_deg": 0.36350868006076353,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999815346454032
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": 0.75,
+    "delta_z_nm": 18.750000000000004,
+    "transverse_nm": 16.535945694153693,
+    "distance_um": 3.418789990625338,
+    "theta_deg": 0.277128339357471,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999818826879319
+   },
+   {
+    "radial_displacement_nm": 25.0,
+    "direction_cosine": 1.0,
+    "delta_z_nm": 25.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.425,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999812136244759
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -1.0,
+    "delta_z_nm": -50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.35,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 56,
+    "retained_ss_weight": 0.9999814565743375
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -0.75,
+    "delta_z_nm": -37.50000000000001,
+    "transverse_nm": 33.071891388307385,
+    "distance_um": 3.362662635472075,
+    "theta_deg": 0.5635148546698273,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 55,
+    "retained_ss_weight": 0.999981253959391
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -0.5,
+    "delta_z_nm": -25.0,
+    "transverse_nm": 43.30127018922193,
+    "distance_um": 3.3752777663475344,
+    "theta_deg": 0.7350648628888943,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 54,
+    "retained_ss_weight": 0.999981030560843
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -0.25,
+    "delta_z_nm": -12.5,
+    "transverse_nm": 48.41229182759271,
+    "distance_um": 3.3878459232969846,
+    "theta_deg": 0.818784110579112,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999809802651383
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 0.0,
+    "delta_z_nm": 0.0,
+    "transverse_nm": 50.0,
+    "distance_um": 3.4003676271838605,
+    "theta_deg": 0.8425242607404146,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999806119036148
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 0.25,
+    "delta_z_nm": 12.5,
+    "transverse_nm": 48.41229182759271,
+    "distance_um": 3.4128433893163046,
+    "theta_deg": 0.8127864998585078,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 53,
+    "retained_ss_weight": 0.9999815698541399
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 0.5,
+    "delta_z_nm": 25.0,
+    "transverse_nm": 43.30127018922193,
+    "distance_um": 3.4252737116907896,
+    "theta_deg": 0.7243351407550608,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 52,
+    "retained_ss_weight": 0.9999812453399375
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 0.75,
+    "delta_z_nm": 37.50000000000001,
+    "transverse_nm": 33.071891388307385,
+    "distance_um": 3.4376590872278188,
+    "theta_deg": 0.5512207522039253,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": true,
+    "active_modes": 49,
+    "retained_ss_weight": 0.9999789506827402
+   },
+   {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 1.0,
+    "delta_z_nm": 50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.4499999999999997,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 47,
+    "retained_ss_weight": 0.9999778217954599
+   }
+  ]
+ },
+ "metric_definition": {
+  "reported_fidelity": "loss-aware average computational-basis CZ overlap from the non-Hermitian no-jump return diagonal, with lost norm counted as orthogonal erasure",
+  "local_z": "one nominal correction calibrated separately for each pulse and propagation resolution, then fixed over its geometry/amplitude set",
+  "objective": "max(1-F) + 0.02*mean(1-F) over the eight axial-endpoint/independent-amplitude vertices plus nominal",
+  "conditional_no_jump_diagnostic": "loss-aware overlap divided by mean computational survival; a postselected diagnostic, not a CPTP process fidelity",
+  "cptp_scope": "state-resolved jump branches are not modeled, so neither the loss-aware overlap nor the conditional diagnostic is a reconstructed CPTP process fidelity"
+ },
+ "claim_limitations": {
+  "task_scope": "theory-paper numerical reoptimization, not experimental validation",
+  "decay": "zero-temperature lifetime-weighted non-Hermitian no-jump attenuation; state-resolved jump destinations omitted",
+  "rb_excitation": "effective two-level 5 MHz pi pulse; intermediate-state scattering omitted",
+  "position_domain": "bounded static relative displacement ball of radius 50 nm",
+  "amplitude_domain": "only the four independent +/-1% Rabi vertices",
+  "transverse_geometry": "angle-dependent Delta-M=0 tensor term retained; Delta-M=+/-1,+/-2 terms omitted for the sampled sub-degree tilts, as in the existing model",
+  "exploratory_status": "deterministic accepted local candidate; the optimizer exhausted its budget and did not report convergence; no global optimum is claimed"
+ },
+ "optimization": {
+  "seed": "optimize_forster_p0_4_reference.REOPTIMIZATION_SEED_PARAMETERS",
+  "seed_parameters": [
+   4.410416083986085,
+   9.418791104832165,
+   11.734642228670836,
+   -1.1443728579899664,
+   -0.9263577893268974,
+   1.744859450470417,
+   0.025634115265641792
+  ],
+  "propagation_step_ns": 1.0,
+  "models_built_before_objective_evaluation": 3,
+  "pairinteraction_rebuilds_inside_objective": 0,
+  "optimization_model_build_wall_seconds": 41.32333146999997,
+  "stage_1": {
+   "method": "bounded adaptive Nelder-Mead",
+   "varied_parameters": "six amplitudes/detunings at fixed common segment duration",
+   "bounds": [
+    [
+     0.0,
+     15.0
+    ],
+    [
+     0.0,
+     15.0
+    ],
+    [
+     0.0,
+     15.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ]
+   ],
+   "maximum_iterations": 400,
+   "success": false,
+   "status": 2,
+   "message": "Maximum number of iterations has been exceeded.",
+   "iterations": 400,
+   "evaluations": 625,
+   "scipy_reported_evaluations": 625,
+   "wall_seconds": 8381.7488424,
+   "seed_parameters": [
+    4.410416083986085,
+    9.418791104832165,
+    11.734642228670836,
+    -1.1443728579899664,
+    -0.9263577893268974,
+    1.744859450470417,
+    0.025634115265641792
+   ],
+   "result_parameters": [
+    4.480374546413655,
+    9.229350329961736,
+    11.778486107199452,
+    -0.3647742336217171,
+    -1.0235176743455907,
+    2.4312627812906094,
+    0.025634115265641792
+   ],
+   "initial_1ns_metrics": {
+    "nominal_fidelity": 0.9989441844039618,
+    "endpoint_vertex_minimum": 0.9980002527623268,
+    "endpoint_objective": 0.0020315305130210386,
+    "local_z_alpha_rad": 3.103533009410949,
+    "local_z_beta_rad": 2.9984324113256227,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986533439365953,
+       0.9986533485664975
+      ],
+      [
+       0.9983598850298675,
+       0.99835989074582
+      ]
+     ],
+     [
+      [
+       0.9983631758110004,
+       0.9983631834660909
+      ],
+      [
+       0.9980002527623268,
+       0.9980002613712923
+      ]
+     ]
+    ]
+   },
+   "final_1ns_metrics": {
+    "nominal_fidelity": 0.9993185292725745,
+    "endpoint_vertex_minimum": 0.9986944046872106,
+    "endpoint_objective": 0.0013299464853388408,
+    "local_z_alpha_rad": -3.1408031139483263,
+    "local_z_beta_rad": 2.941189258980938,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986944046872106,
+       0.9986944066228631
+      ],
+      [
+       0.9987312292572529,
+       0.9987312312206426
+      ]
+     ],
+     [
+      [
+       0.9987410102697994,
+       0.9987410121884921
+      ],
+      [
+       0.9986950734851885,
+       0.9986950753487271
+      ]
+     ]
+    ]
+   },
+   "exact_0_125ns_metrics": {
+    "nominal_fidelity": 0.9993184594782827,
+    "endpoint_vertex_minimum": 0.9986938231607946,
+    "endpoint_objective": 0.0013305293009157006,
+    "local_z_alpha_rad": -3.1407723493572015,
+    "local_z_beta_rad": 2.941141700856132,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986938231607946,
+       0.9986938250993038
+      ],
+      [
+       0.9987312154890869,
+       0.9987312174527014
+      ]
+     ],
+     [
+      [
+       0.9987408807470357,
+       0.9987408826658803
+      ],
+      [
+       0.9986955431382258,
+       0.9986955449990622
+      ]
+     ]
+    ]
+   },
+   "exact_acceptance": {
+    "nominal_at_least_0_999": true,
+    "endpoint_objective_no_worse_than_baseline": true,
+    "endpoint_vertex_minimum_no_worse_than_baseline": true,
+    "accepted": true
+   }
+  },
+  "stage_2_triggered": false,
+  "stage_2_trigger_condition": "stage-1 exact 0.125 ns nominal fidelity < 0.999",
+  "stage_2": null,
+  "selected_stage": 1,
+  "stopping_condition": "stage 1 reached its recorded optimizer termination; exact validation then crossed nominal 0.999, so stage 2 was not triggered"
+ },
+ "baseline_expected_reproduction": {
+  "expected_nominal_fidelity": 0.9989445403730188,
+  "actual_nominal_fidelity": 0.9989445403730569,
+  "nominal_difference": 3.808064974464287e-14,
+  "expected_full_grid_vertex_minimum": 0.9980009924062412,
+  "actual_full_grid_vertex_minimum": 0.9980009924062427,
+  "vertex_minimum_difference": 1.5543122344752192e-15
+ },
+ "exact_0_125ns_validation": {
+  "number_of_geometries": 19,
+  "baseline": {
+   "pulse_parameters": [
+    4.410416083986085,
+    9.418791104832165,
+    11.734642228670836,
+    -1.1443728579899664,
+    -0.9263577893268974,
+    1.744859450470417,
+    0.025634115265641792
+   ],
+   "command_segments": [
+    {
+     "omega_mhz": 4.410416083986085,
+     "detuning_mhz": -1.1443728579899664,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 9.418791104832165,
+     "detuning_mhz": -0.9263577893268974,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 11.734642228670836,
+     "detuning_mhz": 1.744859450470417,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 9.418791104832165,
+     "detuning_mhz": -0.9263577893268974,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 4.410416083986085,
+     "detuning_mhz": -1.1443728579899664,
+     "duration_us": 0.025634115265641792
+    }
+   ],
+   "filtered_target_duration_us": 0.1600289492601458,
+   "total_gate_time_us": 0.36002894926014584,
+   "local_z_alpha_rad": 3.1035625982885704,
+   "local_z_beta_rad": 2.9983835363639404,
+   "nominal_fidelity": 0.9989445403730569,
+   "mean_computational_survival": 0.9992336158115898,
+   "success_weighted_conditional_no_jump_overlap": 0.9997107028487047,
+   "conditional_phase_error_rad": 0.07606348790931806,
+   "position_only_minimum_fidelity": 0.9986743974933029,
+   "full_grid_vertex_minimum": 0.9980009924062427,
+   "endpoint_vertex_minimum": 0.9980009924062427,
+   "endpoint_objective": 0.002030784250808395,
+   "position_only_worst_case": {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 1.0,
+    "delta_z_nm": 50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.4499999999999997,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 47,
+    "retained_ss_weight": 0.9999778217954599,
+    "fidelity": 0.9986743974933029
+   },
+   "joint_vertex_worst_case": {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": 1.0,
+    "delta_z_nm": 50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.4499999999999997,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 47,
+    "retained_ss_weight": 0.9999778217954599,
+    "yb_rabi_scale": 1.01,
+    "rb_rabi_scale": 0.99,
+    "fidelity": 0.9980009924062427
+   },
+   "zero_decay_diagnostic": {
+    "coherent_return_and_phase_overlap": 0.9996010815034893,
+    "mean_computational_return": 0.9998903010247702,
+    "local_z_alpha_rad": 3.1035630152396667,
+    "local_z_beta_rad": 2.9983767079600945
+   },
+   "geometry": [
+    {
+     "radial_displacement_nm": 0.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.4,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806032563077,
+     "position_only_fidelity": 0.9989445403730569,
+     "vertex_minimum_fidelity": 0.9982894025624336,
+     "vertex_fidelities": [
+      [
+       0.9986160071649184,
+       0.998616013079911
+      ],
+      [
+       0.9982894025624336,
+       0.9982894094961626
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -1.0,
+     "delta_z_nm": -25.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.375,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 55,
+     "retained_ss_weight": 0.9999819929487741,
+     "position_only_fidelity": 0.9989831163384395,
+     "vertex_minimum_fidelity": 0.998336654193589,
+     "vertex_fidelities": [
+      [
+       0.9986462221593395,
+       0.998646227391325
+      ],
+      [
+       0.998336654193589,
+       0.9983366604773434
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.75,
+     "delta_z_nm": -18.750000000000004,
+     "transverse_nm": 16.535945694153693,
+     "distance_um": 3.381290434139014,
+     "theta_deg": 0.2802018027030779,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999804222548108,
+     "position_only_fidelity": 0.9989764426227806,
+     "vertex_minimum_fidelity": 0.9983278094038022,
+     "vertex_fidelities": [
+      [
+       0.9986416399775276,
+       0.9986416453742111
+      ],
+      [
+       0.9983278094038022,
+       0.9983278158438976
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.5,
+     "delta_z_nm": -12.5,
+     "transverse_nm": 21.650635094610966,
+     "distance_um": 3.387569187485327,
+     "theta_deg": 0.3661913281591445,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999809328151623,
+     "position_only_fidelity": 0.9989680036566189,
+     "vertex_minimum_fidelity": 0.9983171897967438,
+     "vertex_fidelities": [
+      [
+       0.9986353019129949,
+       0.9986353074789566
+      ],
+      [
+       0.9983171897967438,
+       0.9983171963977903
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.25,
+     "delta_z_nm": -6.25,
+     "transverse_nm": 24.206145913796355,
+     "distance_um": 3.3938363248689525,
+     "theta_deg": 0.40865899988760923,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999813957877309,
+     "position_only_fidelity": 0.9989573914361836,
+     "vertex_minimum_fidelity": 0.9983043889668574,
+     "vertex_fidelities": [
+      [
+       0.9986267989696545,
+       0.9986268047099095
+      ],
+      [
+       0.9983043889668574,
+       0.9983043957338952
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 25.0,
+     "distance_um": 3.40009191052242,
+     "theta_deg": 0.4212849041685975,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806061584423,
+     "position_only_fidelity": 0.9989441528259038,
+     "vertex_minimum_fidelity": 0.9982889543914913,
+     "vertex_fidelities": [
+      [
+       0.9986156780334156,
+       0.9986156839534622
+      ],
+      [
+       0.9982889543914913,
+       0.9982889613300421
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.25,
+     "delta_z_nm": 6.25,
+     "transverse_nm": 24.206145913796355,
+     "distance_um": 3.406336008088456,
+     "theta_deg": 0.40715938441329624,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999804894354472,
+     "position_only_fidelity": 0.9989277958896272,
+     "vertex_minimum_fidelity": 0.9982703938480698,
+     "vertex_fidelities": [
+      [
+       0.9986014481114598,
+       0.9986014542173228
+      ],
+      [
+       0.9982703938480698,
+       0.9982704009641825
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.5,
+     "delta_z_nm": 12.5,
+     "transverse_nm": 21.650635094610966,
+     "distance_um": 3.4125686806275417,
+     "theta_deg": 0.36350868006076353,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999815346454032,
+     "position_only_fidelity": 0.9989077961170121,
+     "vertex_minimum_fidelity": 0.9982481817264273,
+     "vertex_fidelities": [
+      [
+       0.998583586467008,
+       0.9985835927652793
+      ],
+      [
+       0.9982481817264273,
+       0.9982481890267174
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.75,
+     "delta_z_nm": 18.750000000000004,
+     "transverse_nm": 16.535945694153693,
+     "distance_um": 3.418789990625338,
+     "theta_deg": 0.277128339357471,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999818826879319,
+     "position_only_fidelity": 0.9988836030460927,
+     "vertex_minimum_fidelity": 0.9982217657805368,
+     "vertex_fidelities": [
+      [
+       0.9985615451071936,
+       0.9985615516050593
+      ],
+      [
+       0.9982217657805368,
+       0.998221773272217
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 1.0,
+     "delta_z_nm": 25.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.425,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999812136244759,
+     "position_only_fidelity": 0.9988546458262106,
+     "vertex_minimum_fidelity": 0.9981905727460207,
+     "vertex_fidelities": [
+      [
+       0.9985347562859165,
+       0.9985347629911843
+      ],
+      [
+       0.9981905727460207,
+       0.998190580436928
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -1.0,
+     "delta_z_nm": -50.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.35,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 56,
+     "retained_ss_weight": 0.9999814565743375,
+     "position_only_fidelity": 0.9989982076315187,
+     "vertex_minimum_fidelity": 0.9983600911799883,
+     "vertex_fidelities": [
+      [
+       0.9986532670883506,
+       0.9986532717128498
+      ],
+      [
+       0.9983600911799883,
+       0.9983600968894064
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.75,
+     "delta_z_nm": -37.50000000000001,
+     "transverse_nm": 33.071891388307385,
+     "distance_um": 3.362662635472075,
+     "theta_deg": 0.5635148546698273,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 55,
+     "retained_ss_weight": 0.999981253959391,
+     "position_only_fidelity": 0.9989922597604028,
+     "vertex_minimum_fidelity": 0.9983499227973684,
+     "vertex_fidelities": [
+      [
+       0.99865139015762,
+       0.9986513950852022
+      ],
+      [
+       0.9983499227973684,
+       0.9983499287928467
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.5,
+     "delta_z_nm": -25.0,
+     "transverse_nm": 43.30127018922193,
+     "distance_um": 3.3752777663475344,
+     "theta_deg": 0.7350648628888943,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 54,
+     "retained_ss_weight": 0.999981030560843,
+     "position_only_fidelity": 0.998982670838061,
+     "vertex_minimum_fidelity": 0.9983360296437708,
+     "vertex_fidelities": [
+      [
+       0.9986459489793258,
+       0.998645954224699
+      ],
+      [
+       0.9983360296437708,
+       0.9983360359402186
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.25,
+     "delta_z_nm": -12.5,
+     "transverse_nm": 48.41229182759271,
+     "distance_um": 3.3878459232969846,
+     "theta_deg": 0.818784110579112,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999809802651383,
+     "position_only_fidelity": 0.9989672703178816,
+     "vertex_minimum_fidelity": 0.998316275833394,
+     "vertex_fidelities": [
+      [
+       0.9986347424163509,
+       0.9986347479965183
+      ],
+      [
+       0.998316275833394,
+       0.9983162824479512
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 50.0,
+     "distance_um": 3.4003676271838605,
+     "theta_deg": 0.8425242607404146,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806119036148,
+     "position_only_fidelity": 0.9989429751387628,
+     "vertex_minimum_fidelity": 0.9982875947875088,
+     "vertex_fidelities": [
+      [
+       0.9986146756460184,
+       0.9986146815812582
+      ],
+      [
+       0.9982875947875088,
+       0.9982876017405571
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.25,
+     "delta_z_nm": 12.5,
+     "transverse_nm": 48.41229182759271,
+     "distance_um": 3.4128433893163046,
+     "theta_deg": 0.8127864998585078,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999815698541399,
+     "position_only_fidelity": 0.9989059886295241,
+     "vertex_minimum_fidelity": 0.9982461906796397,
+     "vertex_fidelities": [
+      [
+       0.9985819563238888,
+       0.9985819626385439
+      ],
+      [
+       0.9982461906796397,
+       0.9982461979956166
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.5,
+     "delta_z_nm": 25.0,
+     "transverse_nm": 43.30127018922193,
+     "distance_um": 3.4252737116907896,
+     "theta_deg": 0.7243351407550608,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999812453399375,
+     "position_only_fidelity": 0.9988520027313321,
+     "vertex_minimum_fidelity": 0.9981877435957109,
+     "vertex_fidelities": [
+      [
+       0.9985322936808536,
+       0.9985323004039215
+      ],
+      [
+       0.9981877435957109,
+       0.9981877513037218
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.75,
+     "delta_z_nm": 37.50000000000001,
+     "transverse_nm": 33.071891388307385,
+     "distance_um": 3.4376590872278188,
+     "theta_deg": 0.5512207522039253,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 49,
+     "retained_ss_weight": 0.9999789506827402,
+     "position_only_fidelity": 0.9987763938044856,
+     "vertex_minimum_fidelity": 0.998107608438071,
+     "vertex_fidelities": [
+      [
+       0.9984610910599411,
+       0.9984610982254661
+      ],
+      [
+       0.998107608438071,
+       0.9981076165722957
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 1.0,
+     "delta_z_nm": 50.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.4499999999999997,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 47,
+     "retained_ss_weight": 0.9999778217954599,
+     "position_only_fidelity": 0.9986743974933029,
+     "vertex_minimum_fidelity": 0.9980009924062427,
+     "vertex_fidelities": [
+      [
+       0.9983636180118018,
+       0.998363625659111
+      ],
+      [
+       0.9980009924062427,
+       0.9980010010061828
+      ]
+     ]
+    }
+   ]
+  },
+  "candidate": {
+   "pulse_parameters": [
+    4.480374546413655,
+    9.229350329961736,
+    11.778486107199452,
+    -0.3647742336217171,
+    -1.0235176743455907,
+    2.4312627812906094,
+    0.025634115265641792
+   ],
+   "command_segments": [
+    {
+     "omega_mhz": 4.480374546413655,
+     "detuning_mhz": -0.3647742336217171,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 9.229350329961736,
+     "detuning_mhz": -1.0235176743455907,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 11.778486107199452,
+     "detuning_mhz": 2.4312627812906094,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 9.229350329961736,
+     "detuning_mhz": -1.0235176743455907,
+     "duration_us": 0.025634115265641792
+    },
+    {
+     "omega_mhz": 4.480374546413655,
+     "detuning_mhz": -0.3647742336217171,
+     "duration_us": 0.025634115265641792
+    }
+   ],
+   "filtered_target_duration_us": 0.1600289492601458,
+   "total_gate_time_us": 0.36002894926014584,
+   "local_z_alpha_rad": -3.1407723493572015,
+   "local_z_beta_rad": 2.941141700856132,
+   "nominal_fidelity": 0.9993184594782827,
+   "mean_computational_survival": 0.999318640265336,
+   "success_weighted_conditional_no_jump_overlap": 0.9999998190896817,
+   "conditional_phase_error_rad": -0.0016406114801732485,
+   "position_only_minimum_fidelity": 0.9992023214963179,
+   "full_grid_vertex_minimum": 0.9986938231607946,
+   "endpoint_vertex_minimum": 0.9986938231607946,
+   "endpoint_objective": 0.0013305293009157006,
+   "position_only_worst_case": {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -1.0,
+    "delta_z_nm": -50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.35,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 56,
+    "retained_ss_weight": 0.9999814565743375,
+    "fidelity": 0.9992023214963179
+   },
+   "joint_vertex_worst_case": {
+    "radial_displacement_nm": 50.0,
+    "direction_cosine": -1.0,
+    "delta_z_nm": -50.0,
+    "transverse_nm": 0.0,
+    "distance_um": 3.35,
+    "theta_deg": 0.0,
+    "pair_basis_size": 3684,
+    "connected_component_size": 3684,
+    "angular_delta_m_couplings_omitted": false,
+    "active_modes": 56,
+    "retained_ss_weight": 0.9999814565743375,
+    "yb_rabi_scale": 0.99,
+    "rb_rabi_scale": 0.99,
+    "fidelity": 0.9986938231607946
+   },
+   "zero_decay_diagnostic": {
+    "coherent_return_and_phase_overlap": 0.9999773579026676,
+    "mean_computational_return": 0.999977492741209,
+    "local_z_alpha_rad": -3.1407723929041227,
+    "local_z_beta_rad": 2.941141812706009
+   },
+   "geometry": [
+    {
+     "radial_displacement_nm": 0.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.4,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806032563077,
+     "position_only_fidelity": 0.9993184594782827,
+     "vertex_minimum_fidelity": 0.998827282262674,
+     "vertex_fidelities": [
+      [
+       0.998829210914634,
+       0.9988292126476892
+      ],
+      [
+       0.998827282262674,
+       0.9988272839757675
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -1.0,
+     "delta_z_nm": -25.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.375,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 55,
+     "retained_ss_weight": 0.9999819929487741,
+     "position_only_fidelity": 0.9992787246018505,
+     "vertex_minimum_fidelity": 0.9987794383205039,
+     "vertex_fidelities": [
+      [
+       0.9987794383205039,
+       0.9987794401200322
+      ],
+      [
+       0.9987980054077056,
+       0.9987980072086481
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.75,
+     "delta_z_nm": -18.750000000000004,
+     "transverse_nm": 16.535945694153693,
+     "distance_um": 3.381290434139014,
+     "theta_deg": 0.2802018027030779,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999804222548108,
+     "position_only_fidelity": 0.9992926156070856,
+     "vertex_minimum_fidelity": 0.9987958103252312,
+     "vertex_fidelities": [
+      [
+       0.9987958103252312,
+       0.9987958121005114
+      ],
+      [
+       0.9988093097692099,
+       0.9988093115403103
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.5,
+     "delta_z_nm": -12.5,
+     "transverse_nm": 21.650635094610966,
+     "distance_um": 3.387569187485327,
+     "theta_deg": 0.3661913281591445,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999809328151623,
+     "position_only_fidelity": 0.9993040383392868,
+     "vertex_minimum_fidelity": 0.9988097492222205,
+     "vertex_fidelities": [
+      [
+       0.9988097492222205,
+       0.9988097509781209
+      ],
+      [
+       0.9988181102229703,
+       0.9988181119692479
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": -0.25,
+     "delta_z_nm": -6.25,
+     "transverse_nm": 24.206145913796355,
+     "distance_um": 3.3938363248689525,
+     "theta_deg": 0.40865899988760923,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999813957877309,
+     "position_only_fidelity": 0.999312784110737,
+     "vertex_minimum_fidelity": 0.9988210396095889,
+     "vertex_fidelities": [
+      [
+       0.9988210396095889,
+       0.9988210413512469
+      ],
+      [
+       0.9988242053152618,
+       0.9988242070419924
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 25.0,
+     "distance_um": 3.40009191052242,
+     "theta_deg": 0.4212849041685975,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806061584423,
+     "position_only_fidelity": 0.9993185860134949,
+     "vertex_minimum_fidelity": 0.9988273342543497,
+     "vertex_fidelities": [
+      [
+       0.998829409027268,
+       0.9988294107601485
+      ],
+      [
+       0.9988273342543497,
+       0.9988273359671253
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.25,
+     "delta_z_nm": 6.25,
+     "transverse_nm": 24.206145913796355,
+     "distance_um": 3.406336008088456,
+     "theta_deg": 0.40715938441329624,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999804894354472,
+     "position_only_fidelity": 0.9993211239908921,
+     "vertex_minimum_fidelity": 0.9988271820280289,
+     "vertex_fidelities": [
+      [
+       0.998834532976605,
+       0.9988345347065536
+      ],
+      [
+       0.9988271820280289,
+       0.9988271837328133
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.5,
+     "delta_z_nm": 12.5,
+     "transverse_nm": 21.650635094610966,
+     "distance_um": 3.4125686806275417,
+     "theta_deg": 0.36350868006076353,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999815346454032,
+     "position_only_fidelity": 0.9993200300873587,
+     "vertex_minimum_fidelity": 0.9988233847036303,
+     "vertex_fidelities": [
+      [
+       0.9988360401141166,
+       0.998836041847408
+      ],
+      [
+       0.9988233847036303,
+       0.9988233864068107
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 0.75,
+     "delta_z_nm": 18.750000000000004,
+     "transverse_nm": 16.535945694153693,
+     "distance_um": 3.418789990625338,
+     "theta_deg": 0.277128339357471,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999818826879319,
+     "position_only_fidelity": 0.9993148939359944,
+     "vertex_minimum_fidelity": 0.9988155350181991,
+     "vertex_fidelities": [
+      [
+       0.9988335176318044,
+       0.9988335193751862
+      ],
+      [
+       0.9988155350181991,
+       0.9988155367266291
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 25.0,
+     "direction_cosine": 1.0,
+     "delta_z_nm": 25.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.425,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999812136244759,
+     "position_only_fidelity": 0.9993052681712816,
+     "vertex_minimum_fidelity": 0.9988031878165176,
+     "vertex_fidelities": [
+      [
+       0.9988265166380523,
+       0.9988265183987821
+      ],
+      [
+       0.9988031878165176,
+       0.9988031895375581
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -1.0,
+     "delta_z_nm": -50.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.35,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 56,
+     "retained_ss_weight": 0.9999814565743375,
+     "position_only_fidelity": 0.9992023214963179,
+     "vertex_minimum_fidelity": 0.9986938231607946,
+     "vertex_fidelities": [
+      [
+       0.9986938231607946,
+       0.9986938250993038
+      ],
+      [
+       0.9987312154890869,
+       0.9987312174527014
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.75,
+     "delta_z_nm": -37.50000000000001,
+     "transverse_nm": 33.071891388307385,
+     "distance_um": 3.362662635472075,
+     "theta_deg": 0.5635148546698273,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 55,
+     "retained_ss_weight": 0.999981253959391,
+     "position_only_fidelity": 0.9992456557861477,
+     "vertex_minimum_fidelity": 0.9987417417035935,
+     "vertex_fidelities": [
+      [
+       0.9987417417035935,
+       0.9987417435625459
+      ],
+      [
+       0.9987697638607521,
+       0.9987697657323276
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.5,
+     "delta_z_nm": -25.0,
+     "transverse_nm": 43.30127018922193,
+     "distance_um": 3.3752777663475344,
+     "theta_deg": 0.7350648628888943,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 54,
+     "retained_ss_weight": 0.999981030560843,
+     "position_only_fidelity": 0.9992799735261835,
+     "vertex_minimum_fidelity": 0.9987808919450952,
+     "vertex_fidelities": [
+      [
+       0.9987808919450952,
+       0.9987808937424247
+      ],
+      [
+       0.9987990407761969,
+       0.9987990425744725
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": -0.25,
+     "delta_z_nm": -12.5,
+     "transverse_nm": 48.41229182759271,
+     "distance_um": 3.3878459232969846,
+     "theta_deg": 0.818784110579112,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999809802651383,
+     "position_only_fidelity": 0.9993048895102131,
+     "vertex_minimum_fidelity": 0.9988108111747671,
+     "vertex_fidelities": [
+      [
+       0.9988108111747671,
+       0.9988108129292634
+      ],
+      [
+       0.998818741642285,
+       0.998818743386711
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.0,
+     "delta_z_nm": 0.0,
+     "transverse_nm": 50.0,
+     "distance_um": 3.4003676271838605,
+     "theta_deg": 0.8425242607404146,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999806119036148,
+     "position_only_fidelity": 0.9993189506139645,
+     "vertex_minimum_fidelity": 0.9988274751226494,
+     "vertex_fidelities": [
+      [
+       0.9988299884655258,
+       0.998829990197909
+      ],
+      [
+       0.9988274751226494,
+       0.9988274768344976
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.25,
+     "delta_z_nm": 12.5,
+     "transverse_nm": 48.41229182759271,
+     "distance_um": 3.4128433893163046,
+     "theta_deg": 0.8127864998585078,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 53,
+     "retained_ss_weight": 0.9999815698541399,
+     "position_only_fidelity": 0.9993197809541865,
+     "vertex_minimum_fidelity": 0.9988229093402214,
+     "vertex_fidelities": [
+      [
+       0.9988360086114183,
+       0.9988360103452717
+      ],
+      [
+       0.9988229093402214,
+       0.9988229110435489
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.5,
+     "delta_z_nm": 25.0,
+     "transverse_nm": 43.30127018922193,
+     "distance_um": 3.4252737116907896,
+     "theta_deg": 0.7243351407550608,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 52,
+     "retained_ss_weight": 0.9999812453399375,
+     "position_only_fidelity": 0.9993042468569732,
+     "vertex_minimum_fidelity": 0.9988019386053649,
+     "vertex_fidelities": [
+      [
+       0.9988257151559965,
+       0.9988257169185311
+      ],
+      [
+       0.9988019386053649,
+       0.9988019403278094
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 0.75,
+     "delta_z_nm": 37.50000000000001,
+     "transverse_nm": 33.071891388307385,
+     "distance_um": 3.4376590872278188,
+     "theta_deg": 0.5512207522039253,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": true,
+     "active_modes": 49,
+     "retained_ss_weight": 0.9999789506827402,
+     "position_only_fidelity": 0.9992686307772514,
+     "vertex_minimum_fidelity": 0.9987608595626007,
+     "vertex_fidelities": [
+      [
+       0.9987953819100195,
+       0.998795383732668
+      ],
+      [
+       0.9987608595626007,
+       0.9987608613359992
+      ]
+     ]
+    },
+    {
+     "radial_displacement_nm": 50.0,
+     "direction_cosine": 1.0,
+     "delta_z_nm": 50.0,
+     "transverse_nm": 0.0,
+     "distance_um": 3.4499999999999997,
+     "theta_deg": 0.0,
+     "pair_basis_size": 3684,
+     "connected_component_size": 3684,
+     "angular_delta_m_couplings_omitted": false,
+     "active_modes": 47,
+     "retained_ss_weight": 0.9999778217954599,
+     "position_only_fidelity": 0.9992088012558066,
+     "vertex_minimum_fidelity": 0.9986955431382258,
+     "vertex_fidelities": [
+      [
+       0.9987408807470357,
+       0.9987408826658803
+      ],
+      [
+       0.9986955431382258,
+       0.9986955449990622
+      ]
+     ]
+    }
+   ]
+  },
+  "candidate_minus_baseline": {
+   "nominal_fidelity": 0.0003739191052257729,
+   "mean_computational_survival": 8.50244537462519e-05,
+   "position_only_minimum_fidelity": 0.0005279240030150456,
+   "full_grid_vertex_minimum": 0.0006928307545518431,
+   "endpoint_objective": -0.0007002549498926946
+  },
+  "acceptance": {
+   "nominal_at_least_0_999": true,
+   "endpoint_objective_no_worse_than_baseline": true,
+   "endpoint_vertex_minimum_no_worse_than_baseline": true,
+   "full_grid_vertex_minimum_no_worse_than_baseline": true,
+   "accepted": true
+  }
+ },
+ "propagation_convergence": {
+  "baseline": [
+   {
+    "maximum_step_ns": 1.0,
+    "nominal_fidelity": 0.9989441844039618,
+    "endpoint_vertex_minimum": 0.9980002527623268,
+    "endpoint_objective": 0.0020315305130210386,
+    "local_z_alpha_rad": 3.103533009410949,
+    "local_z_beta_rad": 2.9984324113256227,
+    "axial_minus_50nm_vertex_minimum": 0.9983598850298675,
+    "axial_plus_50nm_vertex_minimum": 0.9980002527623268,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986533439365953,
+       0.9986533485664975
+      ],
+      [
+       0.9983598850298675,
+       0.99835989074582
+      ]
+     ],
+     [
+      [
+       0.9983631758110004,
+       0.9983631834660909
+      ],
+      [
+       0.9980002527623268,
+       0.9980002613712923
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.5,
+    "nominal_fidelity": 0.9989444558036921,
+    "endpoint_vertex_minimum": 0.9980008164189409,
+    "endpoint_objective": 0.002030961810768022,
+    "local_z_alpha_rad": 3.10355555680976,
+    "local_z_beta_rad": 2.9983951679835235,
+    "axial_minus_50nm_vertex_minimum": 0.9983600423245333,
+    "axial_plus_50nm_vertex_minimum": 0.9980008164189409,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986532855745134,
+       0.9986532902002974
+      ],
+      [
+       0.9983600423245333,
+       0.9983600480355058
+      ]
+     ],
+     [
+      [
+       0.998363512801658,
+       0.9983635204508186
+      ],
+      [
+       0.9980008164189409,
+       0.9980008250210279
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.25,
+    "nominal_fidelity": 0.9989445221599714,
+    "endpoint_vertex_minimum": 0.9980009562590965,
+    "endpoint_objective": 0.0020308207333276282,
+    "local_z_alpha_rad": 3.1035611608039497,
+    "local_z_beta_rad": 2.9983859113490245,
+    "axial_minus_50nm_vertex_minimum": 0.9983600798580602,
+    "axial_plus_50nm_vertex_minimum": 0.9980009562590965,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986532696989503,
+       0.9986532743237125
+      ],
+      [
+       0.9983600798580602,
+       0.9983600855677974
+      ]
+     ],
+     [
+      [
+       0.9983635965172046,
+       0.9983636041648916
+      ],
+      [
+       0.9980009562590965,
+       0.9980009648594752
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.125,
+    "nominal_fidelity": 0.9989445403730569,
+    "endpoint_vertex_minimum": 0.9980009924062427,
+    "endpoint_objective": 0.002030784250808395,
+    "local_z_alpha_rad": 3.1035625982885704,
+    "local_z_beta_rad": 2.9983835363639404,
+    "axial_minus_50nm_vertex_minimum": 0.9983600911799883,
+    "axial_plus_50nm_vertex_minimum": 0.9980009924062427,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986532670883506,
+       0.9986532717128498
+      ],
+      [
+       0.9983600911799883,
+       0.9983600968894064
+      ]
+     ],
+     [
+      [
+       0.9983636180118018,
+       0.998363625659111
+      ],
+      [
+       0.9980009924062427,
+       0.9980010010061828
+      ]
+     ]
+    ]
+   }
+  ],
+  "candidate": [
+   {
+    "maximum_step_ns": 1.0,
+    "nominal_fidelity": 0.9993185292725745,
+    "endpoint_vertex_minimum": 0.9986944046872106,
+    "endpoint_objective": 0.0013299464853388408,
+    "local_z_alpha_rad": -3.1408031139483263,
+    "local_z_beta_rad": 2.941189258980938,
+    "axial_minus_50nm_vertex_minimum": 0.9986944046872106,
+    "axial_plus_50nm_vertex_minimum": 0.9986950734851885,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986944046872106,
+       0.9986944066228631
+      ],
+      [
+       0.9987312292572529,
+       0.9987312312206426
+      ]
+     ],
+     [
+      [
+       0.9987410102697994,
+       0.9987410121884921
+      ],
+      [
+       0.9986950734851885,
+       0.9986950753487271
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.5,
+    "nominal_fidelity": 0.9993184762030151,
+    "endpoint_vertex_minimum": 0.9986939616977974,
+    "endpoint_objective": 0.0013303904556184135,
+    "local_z_alpha_rad": -3.1407796708231475,
+    "local_z_beta_rad": 2.941153019283518,
+    "axial_minus_50nm_vertex_minimum": 0.9986939616977974,
+    "axial_plus_50nm_vertex_minimum": 0.9986954313670207,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986939616977974,
+       0.9986939636356258
+      ],
+      [
+       0.9987312188726168,
+       0.9987312208361774
+      ]
+     ],
+     [
+      [
+       0.9987409116016506,
+       0.9987409135204581
+      ],
+      [
+       0.9986954313670207,
+       0.9986954332284996
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.25,
+    "nominal_fidelity": 0.9993184623260264,
+    "endpoint_vertex_minimum": 0.9986938508910399,
+    "endpoint_objective": 0.0013305015132712486,
+    "local_z_alpha_rad": -3.140773843745178,
+    "local_z_beta_rad": 2.941144012465062,
+    "axial_minus_50nm_vertex_minimum": 0.9986938508910399,
+    "axial_plus_50nm_vertex_minimum": 0.9986955203725056,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986938508910399,
+       0.9986938528294107
+      ],
+      [
+       0.9987312155231409,
+       0.9987312174867451
+      ]
+     ],
+     [
+      [
+       0.9987408872394017,
+       0.9987408891582383
+      ],
+      [
+       0.9986955203725056,
+       0.9986955222334732
+      ]
+     ]
+    ]
+   },
+   {
+    "maximum_step_ns": 0.125,
+    "nominal_fidelity": 0.9993184594782827,
+    "endpoint_vertex_minimum": 0.9986938231607946,
+    "endpoint_objective": 0.0013305293009157006,
+    "local_z_alpha_rad": -3.1407723493572015,
+    "local_z_beta_rad": 2.941141700856132,
+    "axial_minus_50nm_vertex_minimum": 0.9986938231607946,
+    "axial_plus_50nm_vertex_minimum": 0.9986955431382258,
+    "endpoint_vertex_fidelities": [
+     [
+      [
+       0.9986938231607946,
+       0.9986938250993038
+      ],
+      [
+       0.9987312154890869,
+       0.9987312174527014
+      ]
+     ],
+     [
+      [
+       0.9987408807470357,
+       0.9987408826658803
+      ],
+      [
+       0.9986955431382258,
+       0.9986955449990622
+      ]
+     ]
+    ]
+   }
+  ]
+ },
+ "resources": {
+  "started_at_utc": "2026-09-04T06:49:16.494261+00:00",
+  "wall_seconds": 9092.48196794,
+  "user_cpu_seconds": 20650.894531,
+  "system_cpu_seconds": 54.70945,
+  "peak_rss_kib": 3748496,
+  "validation_models_newly_built_after_optimization": 16,
+  "validation_model_build_wall_seconds": 266.9204292199993
+ }
+}

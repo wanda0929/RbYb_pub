@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Reproduce the fixed-m Rb--Yb Foerster-channel characterization.
+"""Reproduce the Rb--Yb Foerster characterization's explicitly distinct models.
 
 Every reported eigenstate weight, splitting, and transfer probability is
 derived from the same PairInteraction Hamiltonian and the explicit |PP> and
 |SS> target amplitudes.  The output is the sole numerical input for Fig. 1.
+
+Default execution preserves the existing zero-field fixed-m characterization
+and updates/checkpoints only the axial HFS field curve on the final P0-4 basis.
+--rebuild-fixed-m explicitly regenerates the historical fixed-m inputs first.
+Use OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1; --workers 4 bounds model concurrency.
 
 Required database assets:
   Rb v1.2, Yb171_mqdt v1.4, and misc v1.4.
@@ -15,25 +20,32 @@ Output:
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
 import json
+import multiprocessing
+import resource
 import sys
+import time
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
-import forster_model as gate_model
 import numpy as np
 import pairinteraction as pi
 import scipy
 from pairinteraction._backend import get_cache_directory
 from scipy.linalg import eigh
 from scipy.optimize import minimize_scalar
-from verify_pairinteraction_databases import verify_database_manifest
+
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = ROOT / "data" / "forster_characterization.json"
-PRIMARY_MANIFEST = ROOT / "provenance" / "pairinteraction_database_manifest.json"
+OUT = ROOT / "data" / "forster_characterization.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import simulate_forster_gate as gate_model  # noqa: E402
+from verify_pairinteraction_databases import verify_database_manifest  # noqa: E402
 
 
 M = 0.5
@@ -155,6 +167,7 @@ def analyze_spectrum(
     pp_overlap: np.ndarray,
     ss_overlap: np.ndarray,
     include_trajectory: bool,
+    time_samples: int = 801,
 ) -> dict[str, object]:
     pp_weight = np.abs(pp_overlap) ** 2
     ss_weight = np.abs(ss_overlap) ** 2
@@ -166,15 +179,20 @@ def analyze_spectrum(
     # refine it continuously.  This avoids mistaking tiny high-frequency
     # spectator ripples for the physically relevant first exchange maximum.
     period_us = 1 / full_splitting_mhz
-    coarse_times = np.linspace(0, period_us, 801)
+    coarse_times = np.linspace(0, period_us, time_samples)
     coarse_transfer = np.array(
-        [transfer_populations(t, energies_mhz, pp_overlap, ss_overlap)[0] for t in coarse_times]
+        [
+            transfer_populations(t, energies_mhz, pp_overlap, ss_overlap)[0]
+            for t in coarse_times
+        ]
     )
     maximum_index = int(np.argmax(coarse_transfer))
     lower = coarse_times[max(0, maximum_index - 2)]
     upper = coarse_times[min(len(coarse_times) - 1, maximum_index + 2)]
     optimum = minimize_scalar(
-        lambda t: -transfer_populations(float(t), energies_mhz, pp_overlap, ss_overlap)[0],
+        lambda t: -transfer_populations(
+            float(t), energies_mhz, pp_overlap, ss_overlap
+        )[0],
         bounds=(lower, upper),
         method="bounded",
         options={"xatol": 1e-15},
@@ -184,7 +202,7 @@ def analyze_spectrum(
     )
 
     bright_states = []
-    for label, index in zip(("lower", "upper"), bright, strict=True):
+    for label, index in zip(("lower", "upper"), bright):
         coefficient = complex(np.conj(pp_overlap[index]) * ss_overlap[index])
         bright_states.append(
             {
@@ -254,7 +272,9 @@ def solve_fixed_m_point(
     )
     hamiltonian -= pp_energy_mhz * np.eye(len(hamiltonian))
     scale = max(float(np.max(np.abs(hamiltonian))), 1.0)
-    hermiticity_error_mhz = float(np.max(np.abs(hamiltonian - hamiltonian.conj().T)))
+    hermiticity_error_mhz = float(
+        np.max(np.abs(hamiltonian - hamiltonian.conj().T))
+    )
     if hermiticity_error_mhz / scale > 1e-12:
         raise RuntimeError(f"Pair Hamiltonian is not Hermitian: {hermiticity_error_mhz}")
 
@@ -262,21 +282,29 @@ def solve_fixed_m_point(
     projected_ss_mhz = float(np.vdot(ss, hamiltonian @ ss).real)
     coupling = complex(np.vdot(pp, hamiltonian @ ss))
     projected_defect_mhz = projected_ss_mhz - projected_pp_mhz
-    projected_splitting_mhz = float(np.sqrt(projected_defect_mhz**2 + 4 * abs(coupling) ** 2))
+    projected_splitting_mhz = float(
+        np.sqrt(projected_defect_mhz**2 + 4 * abs(coupling) ** 2)
+    )
     two_state = {
         "pp_diagonal_mhz": projected_pp_mhz,
         "ss_diagonal_mhz": projected_ss_mhz,
         "defect_ss_minus_pp_mhz": projected_defect_mhz,
         "coupling_re_im_mhz": [float(coupling.real), float(coupling.imag)],
         "generalized_splitting_mhz": projected_splitting_mhz,
-        "maximum_transfer_probability": float(4 * abs(coupling) ** 2 / projected_splitting_mhz**2),
+        "maximum_transfer_probability": float(
+            4 * abs(coupling) ** 2 / projected_splitting_mhz**2
+        ),
         "first_maximum_time_ns": float(1000 / (2 * projected_splitting_mhz)),
     }
 
-    energies_mhz, eigenvectors = eigh(hamiltonian, driver="evr", check_finite=False)
+    energies_mhz, eigenvectors = eigh(
+        hamiltonian, driver="evr", check_finite=False
+    )
     pp_overlap = eigenvectors.conj().T @ pp
     ss_overlap = eigenvectors.conj().T @ ss
-    result = analyze_spectrum(energies_mhz, pp_overlap, ss_overlap, include_trajectory)
+    result = analyze_spectrum(
+        energies_mhz, pp_overlap, ss_overlap, include_trajectory
+    )
     result.update(
         {
             "distance_um": distance_um,
@@ -372,60 +400,34 @@ def convergence_row(
         "upper_bright_pp_weight": upper["pp_weight"],
         "absolute_change_from_primary": {
             "splitting_mhz": abs(
-                point["full_bright_splitting_mhz"] - primary["full_bright_splitting_mhz"]
+                point["full_bright_splitting_mhz"]
+                - primary["full_bright_splitting_mhz"]
             ),
-            "transfer_probability": abs(point_max["pp_population"] - primary_max["pp_population"]),
+            "transfer_probability": abs(
+                point_max["pp_population"] - primary_max["pp_population"]
+            ),
             "spectator_probability": abs(
-                point_max["spectator_population"] - primary_max["spectator_population"]
+                point_max["spectator_population"]
+                - primary_max["spectator_population"]
             ),
-            "upper_bright_pp_weight": abs(upper["pp_weight"] - primary_upper["pp_weight"]),
+            "upper_bright_pp_weight": abs(
+                upper["pp_weight"] - primary_upper["pp_weight"]
+            ),
         },
     }
 
 
-def initialize_verified_database() -> None:
-    verify_database_manifest(PRIMARY_MANIFEST)
+def _rebuild_fixed_m_record() -> None:
     if pi.Database.get_global_database() is None:
         pi.Database.initialize_global_database(download_missing=False)
 
-
-def quick_check() -> None:
-    initialize_verified_database()
-    model = make_fixed_m_basis(0.0)
-    point = solve_fixed_m_point(model, OPERATING_DISTANCE_UM, 0.0)
-    projected = point["projected_two_state_model"]
-    maximum = point["first_exchange_maximum"]
-    checks = {
-        "pair basis size": (point["pair_basis_size"], 2411, 0),
-        "projected coupling (MHz)": (
-            abs(complex(*projected["coupling_re_im_mhz"])),
-            15.401772346,
-            5e-7,
-        ),
-        "full splitting (MHz)": (point["full_bright_splitting_mhz"], 31.109926469, 5e-7),
-        "full transfer": (maximum["pp_population"], 0.972863865, 5e-9),
-        "unitarity bound": (point["unitarity_transfer_upper_bound"], 0.973096173, 5e-9),
-    }
-    failures = [
-        f"{name}: {actual} != {expected}"
-        for name, (actual, expected, tolerance) in checks.items()
-        if abs(actual - expected) > tolerance
-    ]
-    if failures:
-        raise RuntimeError("Quick check failed:\n" + "\n".join(failures))
-    print(
-        "quick check passed: "
-        f"splitting={point['full_bright_splitting_mhz']:.6f} MHz, "
-        f"P(SS->PP)={100 * maximum['pp_population']:.6f}%, "
-        f"unitarity bound={100 * point['unitarity_transfer_upper_bound']:.6f}%"
-    )
-
-
-def generate_data(output: Path) -> None:
-    initialize_verified_database()
     rb_pp, rb_ss, yb_pp, yb_ss = target_kets()
-    rb_interval_ghz = float((rb_pp.get_energy(unit="MHz") - rb_ss.get_energy(unit="MHz")) / 1000)
-    yb_release_ghz = float((yb_ss.get_energy(unit="MHz") - yb_pp.get_energy(unit="MHz")) / 1000)
+    rb_interval_ghz = float(
+        (rb_pp.get_energy(unit="MHz") - rb_ss.get_energy(unit="MHz")) / 1000
+    )
+    yb_release_ghz = float(
+        (yb_ss.get_energy(unit="MHz") - yb_pp.get_energy(unit="MHz")) / 1000
+    )
     asymptotic_defect_mhz = float(1000 * (yb_release_ghz - rb_interval_ghz))
     if abs(asymptotic_defect_mhz + 0.763732) > 1e-3:
         raise RuntimeError(
@@ -456,7 +458,11 @@ def generate_data(output: Path) -> None:
         print(f"  B={field_gauss:.1f} G", flush=True)
         field_model = primary_model if field_gauss == 0 else make_fixed_m_basis(field_gauss)
         fixed_m_field_scan.append(
-            compact_point(solve_fixed_m_point(field_model, OPERATING_DISTANCE_UM, 0.0))
+            compact_point(
+                solve_fixed_m_point(
+                    field_model, OPERATING_DISTANCE_UM, 0.0
+                )
+            )
         )
 
     print("Scanning fixed-m angle ...", flush=True)
@@ -464,7 +470,11 @@ def generate_data(output: Path) -> None:
     for angle_deg in ANGLE_GRID_DEG:
         print(f"  theta={angle_deg:.0f} deg", flush=True)
         fixed_m_angle_scan.append(
-            compact_point(solve_fixed_m_point(primary_model, OPERATING_DISTANCE_UM, angle_deg))
+            compact_point(
+                solve_fixed_m_point(
+                    primary_model, OPERATING_DISTANCE_UM, angle_deg
+                )
+            )
         )
 
     # build_pair_model now uses get_amplitudes directly.  The all-m scan has a
@@ -496,8 +506,12 @@ def generate_data(output: Path) -> None:
     for label, config in convergence_specs:
         print(f"  {label}", flush=True)
         check_model = make_fixed_m_basis(0.0, **config)
-        check = solve_fixed_m_point(check_model, OPERATING_DISTANCE_UM, 0.0)
-        convergence.append(convergence_row(label, check, operating_point, config))
+        check = solve_fixed_m_point(
+            check_model, OPERATING_DISTANCE_UM, 0.0
+        )
+        convergence.append(
+            convergence_row(label, check, operating_point, config)
+        )
 
     thresholds = {
         "splitting_mhz": 0.05,
@@ -515,7 +529,7 @@ def generate_data(output: Path) -> None:
 
     result = {
         "schema_version": 1,
-        "generated_utc": datetime.now(UTC).isoformat(),
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
         "software": {
             "python": sys.version.split()[0],
             "pairinteraction": getattr(pi, "__version__", "unknown"),
@@ -555,8 +569,12 @@ def generate_data(output: Path) -> None:
             "interaction_order": INTERACTION_ORDER,
             "target_projection": "complex PairInteraction get_amplitudes vectors",
             "pair_basis_size": primary_model["pair_basis_size"],
-            "pp_norm_before_normalization": primary_model["pp_norm_before_normalization"],
-            "ss_norm_before_normalization": primary_model["ss_norm_before_normalization"],
+            "pp_norm_before_normalization": primary_model[
+                "pp_norm_before_normalization"
+            ],
+            "ss_norm_before_normalization": primary_model[
+                "ss_norm_before_normalization"
+            ],
         },
         "operating_point": operating_point,
         "distance_scan": distance_scan,
@@ -586,10 +604,11 @@ def generate_data(output: Path) -> None:
                 operating_point["completeness"]["sum_pp_weights"] - 1
             )
             < 1e-10
-            and abs(operating_point["completeness"]["sum_ss_weights"] - 1) < 1e-10,
-            "full_transfer_below_unitarity_bound": operating_point["first_exchange_maximum"][
-                "pp_population"
-            ]
+            and abs(operating_point["completeness"]["sum_ss_weights"] - 1)
+            < 1e-10,
+            "full_transfer_below_unitarity_bound": operating_point[
+                "first_exchange_maximum"
+            ]["pp_population"]
             <= operating_point["unitarity_transfer_upper_bound"] + 1e-12,
             "convergence_passed": convergence_passed,
         },
@@ -597,10 +616,9 @@ def generate_data(output: Path) -> None:
     if not all(result["validation"].values()):
         raise RuntimeError(f"Validation failed: {result['validation']}")
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     maximum = operating_point["first_exchange_maximum"]
-    print(f"Wrote {output}")
+    print(f"Wrote {OUT.relative_to(ROOT)}")
     print(
         "Operating point: "
         f"splitting={operating_point['full_bright_splitting_mhz']:.6f} MHz, "
@@ -610,15 +628,112 @@ def generate_data(output: Path) -> None:
     )
 
 
-def main() -> None:
+def final_hfs_field_point(field_gauss):
+    import evaluate_forster_p0_4 as p0
+
+    start = time.monotonic()
+    model = gate_model.build_pair_model(float(field_gauss), p0.REFERENCE_BASIS,
+        distance_um=OPERATING_DISTANCE_UM, theta_deg=0.)
+    # All eigenmodes, no bright cutoff, drive or decay. Do not use static_transfer:
+    # that helper starts from PP and searches the whole 0--80 ns interval.
+    energies = model.energies_mhz - model.pp_asymptote_mhz
+    bright = np.argsort(np.abs(model.pp_overlap)**2 + np.abs(model.ss_overlap)**2)[-2:]
+    splitting = float(np.ptp(energies[bright]))
+    # At least 16 samples across the fastest retained spectral beat, followed
+    # by continuous local refinement. The historical fixed-m record is untouched.
+    samples = max(801, int(np.ceil(16*np.ptp(energies)/splitting))+1)
+    result = analyze_spectrum(energies, model.pp_overlap, model.ss_overlap,
+        include_trajectory=field_gauss == 3.1, time_samples=samples)
+    result.update(field_gauss=float(field_gauss), distance_um=OPERATING_DISTANCE_UM,
+        theta_deg=0., basis=asdict(p0.REFERENCE_BASIS), pair_basis_size=model.pair_basis_size,
+        symmetry_component_size=model.symmetry_component_size,
+        pp_asymptote_mhz=model.pp_asymptote_mhz, ss_asymptote_mhz=model.ss_asymptote_mhz,
+        forster_defect_mhz=model.forster_defect_mhz,
+        hermiticity_error_mhz=model.hermiticity_error_mhz,
+        peak_search_samples=samples, peak_search_step_ns=1000/(splitting*(samples-1)))
+    for state in result['bright_states']:
+        state['energy_relative_to_ss_mhz'] = state['energy_relative_to_pp_mhz']-model.forster_defect_mhz
+    if field_gauss == 3.1:
+        result['peak_search_convergence'] = [
+            {'samples': n, **analyze_spectrum(energies, model.pp_overlap, model.ss_overlap,
+                False, time_samples=n)['first_exchange_maximum']}
+            for n in (801, 3201, samples, 2*samples-1)]
+        spectrum_path = ROOT / 'data/forster_p1_4_reference_spectrum.json'
+        spectrum = json.loads(spectrum_path.read_text())
+        assert spectrum['fixed_inputs']['basis'] == asdict(p0.REFERENCE_BASIS)
+        target = spectrum['spectral_diagnostics']['target_eigenstates']
+        np.testing.assert_allclose(result['full_bright_splitting_mhz'],
+            target[1]['energy_mhz']-target[0]['energy_mhz'], rtol=0, atol=1e-6)
+        for actual, expected in zip(result['bright_states'], target):
+            np.testing.assert_allclose([actual['pp_weight'],actual['ss_weight']],
+                [expected['pp_weight'],expected['ss_weight']], rtol=0, atol=1e-7)
+        result['p1_4_crosscheck'] = {'passed': True, 'source': str(spectrum_path.relative_to(ROOT))}
+    assert max(abs(result['completeness'][k]-1) for k in ('sum_pp_weights','sum_ss_weights')) < 1e-10
+    assert result['first_exchange_maximum']['pp_population'] <= result['unitarity_transfer_upper_bound']+1e-12
+    result['resources'] = {'wall_seconds': time.monotonic()-start,
+        'peak_rss_kib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}
+    del model
+    gc.collect()
+    return result
+
+
+def main():
+    import evaluate_forster_p0_4 as p0
+
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--quick-check", action="store_true")
+    parser.add_argument('--rebuild-fixed-m', action='store_true')
+    parser.add_argument('--workers', type=int, choices=range(1,5), default=1)
     args = parser.parse_args()
-    if args.quick_check:
-        quick_check()
+    verify_database_manifest()
+    if args.rebuild_fixed_m:
+        _rebuild_fixed_m_record()
+    data = json.loads(OUT.read_text())
+    start = time.monotonic()
+    if 'historical_all_m_field_scan' not in data:
+        data['historical_all_m_field_scan'] = data['all_m_field_scan']
+        data['all_m_field_scan'] = {'basis': asdict(p0.REFERENCE_BASIS),
+            'distance_um': OPERATING_DISTANCE_UM, 'theta_deg': 0., 'points': [],
+            'status': 'in progress',
+            'observable': 'SS-initial unitary free exchange; largest PP population within the first bright-state period, not the earliest tiny spectator ripple or an 80-ns global maximum; spectator population is simultaneous',
+            'model_scope': 'full retained axial M_tot=5/2 HFS block through R^-4, all eigenmodes, no optical drive or decay; not a full-angular model',
+            'fixed_m_comparison': 'fixed_m_field_scan uses the same first-exchange convention but its own historical fixed-m dipole basis',
+            'basis_convergence_scope': 'root convergence checks concern only the zero-field fixed-m model; no new HFS first-exchange basis-convergence claim',
+            'software': {'pairinteraction': pi.__version__, 'numpy': np.__version__, 'scipy': scipy.__version__},
+            'runs': []}
+    scan = data['all_m_field_scan']
+    assert scan['basis'] == asdict(p0.REFERENCE_BASIS)
+    completed = {point['field_gauss'] for point in scan['points']}
+    missing = [b for b in B_GRID_G if b not in completed]
+    if not missing:
+        print('Final HFS field scan already complete; no models rebuilt.')
+        return
+    run = {'workers': args.workers, 'fields_gauss': missing}
+    scan['runs'].append(run)
+
+    def checkpoint():
+        scan['points'].sort(key=lambda row: row['field_gauss'])
+        run.update(wall_seconds=time.monotonic()-start,
+            peak_parent_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            maximum_child_peak_rss_kib=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
+        temporary = OUT.with_suffix('.json.tmp')
+        temporary.write_text(json.dumps(data, indent=2)+'\n')
+        temporary.replace(OUT)
+
+    checkpoint()
+    if args.workers == 1:
+        for field in missing:
+            scan['points'].append(final_hfs_field_point(field))
+            checkpoint()
+            print('saved HFS field',field,flush=True)
     else:
-        generate_data(args.output)
+        with ProcessPoolExecutor(max_workers=args.workers,
+                mp_context=multiprocessing.get_context('spawn')) as pool:
+            for point in pool.map(final_hfs_field_point, missing):
+                scan['points'].append(point)
+                checkpoint()
+                print('saved HFS field',point['field_gauss'],flush=True)
+    scan['status'] = 'complete'
+    checkpoint()
 
 
 if __name__ == "__main__":

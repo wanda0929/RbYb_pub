@@ -18,36 +18,45 @@ and source commit against which this map was prepared.
 - `operating_point.first_exchange_maximum`, `trajectory`, and
   `unitarity_transfer_upper_bound`: full finite-basis propagation quantities.
 - `distance_scan`, `fixed_m_field_scan`, `fixed_m_angle_scan`, and
-  `all_m_field_scan`: Figure 1(c,d) records.
+  `all_m_field_scan`: Figure 1(c,d) records. The final P0-4 axial HFS scan has
+  transfer 0.9881256840811098 at 3.10 G and a sampled maximum
+  0.992047614356116 at 4 G; `historical_all_m_field_scan` preserves the old
+  search-basis scan.
 - `convergence`: pair-window, Δn, and ℓmax checks at the operating point.
 - `database`: database versions and SHA-256 hashes.
 
 ## `forster_gate_results.json`
 
-This is the pulse-search and Figure 3 diagnostic record, not the final
-numerical-reference reevaluation.
+This is the current Figure 3 record. All driven panels use the final P0-4
+numerical-reference model; historical SCAN-basis diagnostics are nested and
+explicitly excluded from the current plot.
 
 - `parameters` and `command_segments`: selected symmetric five-segment pulse.
-- `short_minimax`: search-model nominal and finite-set results and the complete
-  19 × 2 × 2 amplitude-vertex grid.
-- `propagation_convergence`: 1, 0.5, 0.25, and 0.125 ns search-model checks.
+- `short_minimax`: final-reference nominal overlap 0.999318459478283 and
+  sampled joint minimum 0.998693823160795.
 - `response_time_scan`, `axial_position_scan`, `target_amplitude_scan`,
   `magnetic_field_scan`, and `population_trajectory`: Figure 3 diagnostics.
-- `nominal_metric_decomposition`: computational survival, success-weighted
-  conditional overlap, phase mismatch, and leakage bookkeeping.
-- `rb_hyperfine_validation`, `target_pair_defect_scan`,
-  `axial_dc_electric_field_scan`, and `quasi_random_validation`: supporting
-  search-model checks.
 - `assumptions`: response, decay, geometry, polarization, and effective-drive
   model boundaries.
+
+## `forster_p0_4_reoptimization.json`
+
+Deterministic final-reference local refinement and exact validation. The
+accepted candidate exhausted 400 iterations / 625 evaluations and is not a
+converged or global optimum.
+
+## `forster_p0_4_field_scan.json`
+
+Checkpointed fixed-pulse field study, fine peak scans, full-grid comparisons,
+and the pair-window check supporting retention of the 3.10 G operating field.
 
 ## `forster_p0_4_uncertainty_convergence.json`
 
 Post-optimization fixed-pulse audit in the enlarged numerical-reference model:
 
-- `reference_model_bounded_validation`: nominal overlap 0.9989445403730188,
-  finite-set position minimum 0.9986743974933106, and joint position/amplitude
-  minimum 0.9980009924062412.
+- `reference_model_bounded_validation`: nominal overlap 0.999318459478283,
+  finite-set position minimum 0.999202321496318, and joint position/amplitude
+  minimum 0.998693823160795.
 - `one_at_a_time_numerical_convergence`: pair window, Δn, atomic window, ℓmax,
   and interaction-order variants with spectrum, static-transfer, gate, and
   transient-spectator diagnostics.
@@ -71,7 +80,7 @@ Post-optimization fixed-pulse audit in the enlarged numerical-reference model:
   a same-apparatus thermal gate prediction.
 - `status`: explicit claim boundary; no global minimum is certified.
 
-The direct local-adversarial recheck reaches 0.9980009927329299, consistent
+The direct local-adversarial recheck reaches 0.998693823160798, consistent
 with the finite-set axial boundary value.
 
 ## `forster_p1_2_projection_audit.json`
@@ -79,7 +88,7 @@ with the finite-set axial boundary value.
 - `points`: nominal and limiting axial cases at bright-mode cutoffs 10⁻⁶,
   10⁻⁸, and with all connected modes retained.
 - `maximum_absolute_all_mode_projection_fidelity_difference`: the largest
-  all-mode-minus-10⁻⁶ fidelity difference, 1.2027264739700172 × 10⁻⁹.
+  all-mode-minus-10⁻⁶ fidelity difference, 7.183481587347273 × 10⁻¹⁰.
 - `angular_scope`: distinguishes this axial hyperfine-resolved audit from the
   separate electronic-only full-angular control.
 

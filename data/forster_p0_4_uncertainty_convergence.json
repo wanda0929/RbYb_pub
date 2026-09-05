@@ -1,22 +1,24 @@
 {
- "timestamp_utc": "2026-09-04T01:37:20.779438+00:00",
+ "timestamp_utc": "2026-09-04T15:48:31.816179+00:00",
  "software": {
   "pairinteraction": "2.5.0",
   "numpy": "2.4.6",
   "scipy": "1.17.1"
  },
- "purpose": "post-optimization numerical-convergence and deterministic atomic-structure sensitivity audit of the stored pulse",
+ "purpose": "numerical-convergence and deterministic atomic-structure sensitivity audit of the stored final-reference-reoptimized pulse",
  "fixed_inputs": {
   "pulse_parameters": [
-   4.410416083986085,
-   9.418791104832165,
-   11.734642228670836,
-   -1.1443728579899664,
-   -0.9263577893268974,
-   1.744859450470417,
+   4.480374546413655,
+   9.229350329961736,
+   11.778486107199452,
+   -0.3647742336217171,
+   -1.0235176743455907,
+   2.4312627812906094,
    0.025634115265641792
   ],
-  "pulse_reoptimized": false,
+  "pulse_reoptimized": true,
+  "pulse_provenance": "selected by scripts/optimize_forster_p0_4_reference.py on the final P0-4 numerical-reference model",
+  "reoptimization_status": "deterministic accepted local candidate; 400-iteration / 625-evaluation budget exhausted; not a converged or global optimum",
   "temperature_k": 0.0,
   "mode_cutoff": 1e-06,
   "propagation_step_ns": 0.125,
@@ -30,8 +32,8 @@
    "delta_l": 2,
    "interaction_order": 4
   },
-  "fixed_reference_local_z_alpha_rad": 3.103562598288294,
-  "fixed_reference_local_z_beta_rad": 2.998383536363663
+  "fixed_reference_local_z_alpha_rad": -3.1407723493572015,
+  "fixed_reference_local_z_beta_rad": 2.941141700856132
  },
  "interaction_order_scope": {
   "order_3": "electric dipole-dipole, R^-3",
@@ -52,30 +54,30 @@
    "pair_basis_size": 2075,
    "connected_component_size": 2075,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.724860914910515,
-   "minimum_target_subspace_weight": 0.9954845998566766,
-   "nearest_spectator_gap_mhz": 48.748597177132304,
-   "largest_spectator_target_subspace_weight": 0.0022646532755170403,
+   "target_bright_splitting_mhz": 30.724860914909073,
+   "minimum_target_subspace_weight": 0.9954845998566761,
+   "nearest_spectator_gap_mhz": 48.748597177120566,
+   "largest_spectator_target_subspace_weight": 0.0022646532755165667,
    "static_transfer": {
-    "maximum_ss_population": 0.9832421447641718,
+    "maximum_ss_population": 0.9832421447641821,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.009471168105015068,
-    "spectator_population_at_maximum": 0.00728668713081311
+    "pp_population_at_maximum": 0.009471168105004025,
+    "spectator_population_at_maximum": 0.0072866871308138285
    },
    "gate": {
     "active_modes": 40,
-    "retained_ss_weight": 0.9999829551156851,
-    "fixed_reference_local_z_fidelity": 0.9990417235589912,
-    "phase_recalibrated_fidelity": 0.9991832827838862,
-    "phase_recalibrated_local_z_alpha_rad": 3.1223834346027926,
-    "phase_recalibrated_local_z_beta_rad": 3.0172013869280105,
-    "mean_computational_survival": 0.9992570768598827,
-    "conditional_phase_error_rad": 0.03841969249679191
+    "retained_ss_weight": 0.9999829551156861,
+    "fixed_reference_local_z_fidelity": 0.9991044809026937,
+    "phase_recalibrated_fidelity": 0.9992470301912506,
+    "phase_recalibrated_local_z_alpha_rad": -3.121886263654115,
+    "phase_recalibrated_local_z_beta_rad": 2.9600243353478835,
+    "mean_computational_survival": 0.9993246895635022,
+    "conditional_phase_error_rad": -0.039412733462829586
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007220597767370815,
-    "final_spectator_population": 1.109875002839152e-06,
-    "final_computational_population": 0.999625719063074
+    "maximum_transient_spectator_population": 0.0007389835975654844,
+    "final_spectator_population": 2.7367173298535933e-07,
+    "final_computational_population": 0.9997998233113239
    }
   },
   {
@@ -90,30 +92,30 @@
    "pair_basis_size": 3684,
    "connected_component_size": 3684,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.647413791627457,
-   "minimum_target_subspace_weight": 0.995477690060879,
-   "nearest_spectator_gap_mhz": 48.64623245465875,
-   "largest_spectator_target_subspace_weight": 0.002284297331779965,
+   "target_bright_splitting_mhz": 30.647413791630136,
+   "minimum_target_subspace_weight": 0.9954776900608797,
+   "nearest_spectator_gap_mhz": 48.64623245466459,
+   "largest_spectator_target_subspace_weight": 0.002284297331780755,
    "static_transfer": {
-    "maximum_ss_population": 0.9881176514117507,
+    "maximum_ss_population": 0.9881176514117902,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.004407450547410783,
-    "spectator_population_at_maximum": 0.007474898040838542
+    "pp_population_at_maximum": 0.004407450547365287,
+    "spectator_population_at_maximum": 0.007474898040844514
    },
    "gate": {
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806032563099,
-    "fixed_reference_local_z_fidelity": 0.9989445403730188,
-    "phase_recalibrated_fidelity": 0.9989445403730188,
-    "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-    "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-    "mean_computational_survival": 0.9992336158115562,
-    "conditional_phase_error_rad": 0.07606348790987406
+    "retained_ss_weight": 0.9999806032563077,
+    "fixed_reference_local_z_fidelity": 0.9993184594782827,
+    "phase_recalibrated_fidelity": 0.9993184594782827,
+    "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+    "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+    "mean_computational_survival": 0.999318640265336,
+    "conditional_phase_error_rad": -0.0016406114801732485
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.000745331793759043,
-    "final_spectator_population": 1.552344261421807e-06,
-    "final_computational_population": 0.9995318259538335
+    "maximum_transient_spectator_population": 0.0007622490043948365,
+    "final_spectator_population": 3.8602689002836387e-07,
+    "final_computational_population": 0.9997756134876423
    }
   },
   {
@@ -128,30 +130,30 @@
    "pair_basis_size": 5212,
    "connected_component_size": 5212,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.654708357483322,
-   "minimum_target_subspace_weight": 0.9954692153393043,
-   "nearest_spectator_gap_mhz": 48.64178163106436,
-   "largest_spectator_target_subspace_weight": 0.002305378192751848,
+   "target_bright_splitting_mhz": 30.65470835748613,
+   "minimum_target_subspace_weight": 0.9954692153393044,
+   "nearest_spectator_gap_mhz": 48.641781631069904,
+   "largest_spectator_target_subspace_weight": 0.00230537819274868,
    "static_transfer": {
-    "maximum_ss_population": 0.9879626846675701,
+    "maximum_ss_population": 0.9879626846674995,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.004545222908027427,
-    "spectator_population_at_maximum": 0.0074920924244024825
+    "pp_population_at_maximum": 0.004545222908102153,
+    "spectator_population_at_maximum": 0.007492092424398367
    },
    "gate": {
     "active_modes": 58,
-    "retained_ss_weight": 0.9999753857908271,
-    "fixed_reference_local_z_fidelity": 0.9989369853287773,
-    "phase_recalibrated_fidelity": 0.9989370404571808,
-    "phase_recalibrated_local_z_alpha_rad": 3.1031911401351935,
-    "phase_recalibrated_local_z_beta_rad": 2.9980121372478123,
-    "mean_computational_survival": 0.9992317890553666,
-    "conditional_phase_error_rad": 0.07680650725294604
+    "retained_ss_weight": 0.9999753857908279,
+    "fixed_reference_local_z_fidelity": 0.999317693155984,
+    "phase_recalibrated_fidelity": 0.9993177531129416,
+    "phase_recalibrated_local_z_alpha_rad": -3.1411596464373686,
+    "phase_recalibrated_local_z_beta_rad": 2.940754474524715,
+    "mean_computational_survival": 0.9993178369060425,
+    "conditional_phase_error_rad": -0.0008660161892080077
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007471317817406946,
-    "final_spectator_population": 1.582665740756142e-06,
-    "final_computational_population": 0.9995245151187881
+    "maximum_transient_spectator_population": 0.0007653834384061965,
+    "final_spectator_population": 3.967931769774345e-07,
+    "final_computational_population": 0.9997723983744469
    }
   },
   {
@@ -166,30 +168,30 @@
    "pair_basis_size": 4658,
    "connected_component_size": 4658,
    "field_dressed_asymptotic_defect_mhz": 4.663903231901931,
-   "target_bright_splitting_mhz": 30.642616832987883,
-   "minimum_target_subspace_weight": 0.9954653432103867,
-   "nearest_spectator_gap_mhz": 49.51344487903643,
-   "largest_spectator_target_subspace_weight": 0.0026690921000037168,
+   "target_bright_splitting_mhz": 30.642616832988224,
+   "minimum_target_subspace_weight": 0.9954653432103886,
+   "nearest_spectator_gap_mhz": 49.5134448790288,
+   "largest_spectator_target_subspace_weight": 0.0026690921000049814,
    "static_transfer": {
-    "maximum_ss_population": 0.987920617450059,
+    "maximum_ss_population": 0.9879206174500346,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.004533793507370378,
-    "spectator_population_at_maximum": 0.007545589042570631
+    "pp_population_at_maximum": 0.004533793507396737,
+    "spectator_population_at_maximum": 0.007545589042568697
    },
    "gate": {
     "active_modes": 53,
-    "retained_ss_weight": 0.9999787755648374,
-    "fixed_reference_local_z_fidelity": 0.998965532263513,
-    "phase_recalibrated_fidelity": 0.9989661611007117,
-    "phase_recalibrated_local_z_alpha_rad": 3.104817134197831,
-    "phase_recalibrated_local_z_beta_rad": 2.9996378732524707,
-    "mean_computational_survival": 0.9992364841275295,
-    "conditional_phase_error_rad": 0.07355419898100225
+    "retained_ss_weight": 0.9999787755648372,
+    "fixed_reference_local_z_fidelity": 0.9993181691720109,
+    "phase_recalibrated_fidelity": 0.9993188066028933,
+    "phase_recalibrated_local_z_alpha_rad": -3.1395095315691885,
+    "phase_recalibrated_local_z_beta_rad": 2.9424042878808407,
+    "mean_computational_survival": 0.999319720165256,
+    "conditional_phase_error_rad": -0.004166249465761052
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007485360540584515,
-    "final_spectator_population": 1.5028410233775409e-06,
-    "final_computational_population": 0.9995433051991659
+    "maximum_transient_spectator_population": 0.0007650668006271861,
+    "final_spectator_population": 3.669537302984611e-07,
+    "final_computational_population": 0.9997799353403632
    }
   },
   {
@@ -204,30 +206,30 @@
    "pair_basis_size": 6359,
    "connected_component_size": 6359,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.647435993224306,
-   "minimum_target_subspace_weight": 0.9954775833916986,
-   "nearest_spectator_gap_mhz": 48.64599063098158,
-   "largest_spectator_target_subspace_weight": 0.002284304809891122,
+   "target_bright_splitting_mhz": 30.647435993223723,
+   "minimum_target_subspace_weight": 0.9954775833917014,
+   "nearest_spectator_gap_mhz": 48.64599063096432,
+   "largest_spectator_target_subspace_weight": 0.0022843048098913367,
    "static_transfer": {
-    "maximum_ss_population": 0.988115148296601,
+    "maximum_ss_population": 0.9881151482966098,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.004409803957308939,
-    "spectator_population_at_maximum": 0.007475047746090096
+    "pp_population_at_maximum": 0.004409803957299782,
+    "spectator_population_at_maximum": 0.007475047746090371
    },
    "gate": {
     "active_modes": 52,
-    "retained_ss_weight": 0.9999803315230816,
-    "fixed_reference_local_z_fidelity": 0.9989445171430871,
-    "phase_recalibrated_fidelity": 0.9989445171433491,
-    "phase_recalibrated_local_z_alpha_rad": 3.1035617885658597,
-    "phase_recalibrated_local_z_beta_rad": 2.998382726769823,
-    "mean_computational_survival": 0.9992336048891902,
-    "conditional_phase_error_rad": 0.07606510784234491
+    "retained_ss_weight": 0.9999803315230783,
+    "fixed_reference_local_z_fidelity": 0.9993184540717914,
+    "phase_recalibrated_fidelity": 0.9993184540722277,
+    "phase_recalibrated_local_z_alpha_rad": -3.1407733939332045,
+    "phase_recalibrated_local_z_beta_rad": 2.9411406564708176,
+    "mean_computational_survival": 0.9993186345171309,
+    "conditional_phase_error_rad": -0.0016385223286370374
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007453509618800067,
-    "final_spectator_population": 1.5525745016729608e-06,
-    "final_computational_population": 0.9995317822415845
+    "maximum_transient_spectator_population": 0.0007622841001820972,
+    "final_spectator_population": 3.860981554194776e-07,
+    "final_computational_population": 0.9997755904828296
    }
   },
   {
@@ -242,30 +244,30 @@
    "pair_basis_size": 4398,
    "connected_component_size": 4398,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.647412409180127,
-   "minimum_target_subspace_weight": 0.9954777052553367,
-   "nearest_spectator_gap_mhz": 48.86809410523288,
-   "largest_spectator_target_subspace_weight": 0.0022842968489186037,
+   "target_bright_splitting_mhz": 30.647412409180337,
+   "minimum_target_subspace_weight": 0.9954777052553393,
+   "nearest_spectator_gap_mhz": 48.86809410523616,
+   "largest_spectator_target_subspace_weight": 0.0022842968489177546,
    "static_transfer": {
-    "maximum_ss_population": 0.9881177728849077,
+    "maximum_ss_population": 0.9881177728849764,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.004407521601066764,
-    "spectator_population_at_maximum": 0.007474705514025583
+    "pp_population_at_maximum": 0.004407521600990732,
+    "spectator_population_at_maximum": 0.0074747055140328925
    },
    "gate": {
     "active_modes": 51,
-    "retained_ss_weight": 0.9999796577619517,
-    "fixed_reference_local_z_fidelity": 0.9989445338428498,
-    "phase_recalibrated_fidelity": 0.9989445338429066,
-    "phase_recalibrated_local_z_alpha_rad": 3.10356222221991,
-    "phase_recalibrated_local_z_beta_rad": 2.998383160354946,
-    "mean_computational_survival": 0.9992336149970497,
-    "conditional_phase_error_rad": 0.07606424011106785
+    "retained_ss_weight": 0.9999796577619481,
+    "fixed_reference_local_z_fidelity": 0.9993184593552339,
+    "phase_recalibrated_fidelity": 0.9993184593552954,
+    "phase_recalibrated_local_z_alpha_rad": -3.1407727405504318,
+    "phase_recalibrated_local_z_beta_rad": 2.941141309734328,
+    "mean_computational_survival": 0.9993186400141134,
+    "conditional_phase_error_rad": -0.001639829092357381
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007453208076860837,
-    "final_spectator_population": 1.5518690372587666e-06,
-    "final_computational_population": 0.999531822694109
+    "maximum_transient_spectator_population": 0.0007622240589832702,
+    "final_spectator_population": 3.853783133927558e-07,
+    "final_computational_population": 0.9997756124822277
    }
   },
   {
@@ -280,30 +282,30 @@
    "pair_basis_size": 3684,
    "connected_component_size": 1872,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.78321479481901,
-   "minimum_target_subspace_weight": 0.9974760561474683,
-   "nearest_spectator_gap_mhz": 314.3073868738394,
-   "largest_spectator_target_subspace_weight": 0.002278317360817552,
+   "target_bright_splitting_mhz": 30.783214794818484,
+   "minimum_target_subspace_weight": 0.9974760561474687,
+   "nearest_spectator_gap_mhz": 314.3073868738332,
+   "largest_spectator_target_subspace_weight": 0.002278317360817209,
    "static_transfer": {
-    "maximum_ss_population": 0.9884959667811336,
+    "maximum_ss_population": 0.9884959667811393,
     "time_us": 0.016120000000000002,
-    "pp_population_at_maximum": 0.006873981649524983,
-    "spectator_population_at_maximum": 0.004630051569341411
+    "pp_population_at_maximum": 0.006873981649520578,
+    "spectator_population_at_maximum": 0.004630051569340154
    },
    "gate": {
     "active_modes": 37,
-    "retained_ss_weight": 0.99999177842547,
-    "fixed_reference_local_z_fidelity": 0.9990149551757026,
-    "phase_recalibrated_fidelity": 0.9992378594982426,
-    "phase_recalibrated_local_z_alpha_rad": 3.1271794630412897,
-    "phase_recalibrated_local_z_beta_rad": 3.021996654610696,
-    "mean_computational_survival": 0.999279425112288,
-    "conditional_phase_error_rad": 0.028826999976706593
+    "retained_ss_weight": 0.9999917784254704,
+    "fixed_reference_local_z_fidelity": 0.9989832889637551,
+    "phase_recalibrated_fidelity": 0.9992127233794486,
+    "phase_recalibrated_local_z_alpha_rad": -3.1168112200527758,
+    "phase_recalibrated_local_z_beta_rad": 2.9650984513729886,
+    "mean_computational_survival": 0.9993355037757137,
+    "conditional_phase_error_rad": -0.04956254034697727
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.00019059738313318732,
-    "final_spectator_population": 2.3681314678639136e-07,
-    "final_computational_population": 0.9997151586922701
+    "maximum_transient_spectator_population": 0.00019502524485626345,
+    "final_spectator_population": 5.184049349472008e-08,
+    "final_computational_population": 0.9998431027275237
    }
   },
   {
@@ -318,94 +320,94 @@
    "pair_basis_size": 3684,
    "connected_component_size": 3684,
    "field_dressed_asymptotic_defect_mhz": 4.663903708739089,
-   "target_bright_splitting_mhz": 30.6692943688466,
-   "minimum_target_subspace_weight": 0.9954822174566167,
-   "nearest_spectator_gap_mhz": 48.897495785237574,
-   "largest_spectator_target_subspace_weight": 0.0027906939522891468,
+   "target_bright_splitting_mhz": 30.669294368846327,
+   "minimum_target_subspace_weight": 0.9954822174566184,
+   "nearest_spectator_gap_mhz": 48.897495785229765,
+   "largest_spectator_target_subspace_weight": 0.0027906939522923686,
    "static_transfer": {
-    "maximum_ss_population": 0.9881088130599524,
+    "maximum_ss_population": 0.9881088130599789,
     "time_us": 0.0164,
-    "pp_population_at_maximum": 0.0044302424684172104,
-    "spectator_population_at_maximum": 0.007460944471630438
+    "pp_population_at_maximum": 0.0044302424683918895,
+    "spectator_population_at_maximum": 0.007460944471629225
    },
    "gate": {
     "active_modes": 50,
-    "retained_ss_weight": 0.9999785842725872,
-    "fixed_reference_local_z_fidelity": 0.9989460874801885,
-    "phase_recalibrated_fidelity": 0.9989461002851933,
-    "phase_recalibrated_local_z_alpha_rad": 3.1037416215447537,
-    "phase_recalibrated_local_z_beta_rad": 2.9985625312358968,
-    "mean_computational_survival": 0.9992324614241332,
-    "conditional_phase_error_rad": 0.07570546920376511
+    "retained_ss_weight": 0.9999785842725869,
+    "fixed_reference_local_z_fidelity": 0.9993179373766414,
+    "phase_recalibrated_fidelity": 0.9993179535398544,
+    "phase_recalibrated_local_z_alpha_rad": -3.140571260413593,
+    "phase_recalibrated_local_z_beta_rad": 2.9413427530757312,
+    "mean_computational_survival": 0.9993182083569004,
+    "conditional_phase_error_rad": -0.0020427905957376424
    },
    "fixed_pulse_population": {
-    "maximum_transient_spectator_population": 0.0007426389692015388,
-    "final_spectator_population": 1.5810976083716524e-06,
-    "final_computational_population": 0.9995272059954289
+    "maximum_transient_spectator_population": 0.0007594278987918777,
+    "final_spectator_population": 3.975501256780537e-07,
+    "final_computational_population": 0.9997738849528417
    }
   }
  ],
  "target_projector_shift_equivalence_check": {
   "offset_mhz": 1.0,
-  "maximum_absolute_eigenenergy_difference_mhz": 3.055902197957039e-10,
-  "maximum_absolute_ss_weight_difference": 2.275513111271721e-12,
-  "phase_recalibrated_fidelity_difference": -1.254552017826427e-13
+  "maximum_absolute_eigenenergy_difference_mhz": 3.019522409886122e-10,
+  "maximum_absolute_ss_weight_difference": 2.039757251992569e-12,
+  "phase_recalibrated_fidelity_difference": -4.0745185003743245e-14
  },
  "bright_mode_cutoff_convergence": [
   {
    "bright_mode_cutoff": 0.0001,
    "active_modes": 8,
-   "retained_ss_weight": 0.9993968514845267,
-   "fixed_reference_local_z_fidelity": 0.9989445455608814,
-   "phase_recalibrated_fidelity": 0.9989445455609065,
-   "phase_recalibrated_local_z_alpha_rad": 3.1035628484592506,
-   "phase_recalibrated_local_z_beta_rad": 2.998383786495071,
-   "mean_computational_survival": 0.9992336171972201,
-   "conditional_phase_error_rad": 0.07606298749268549
+   "retained_ss_weight": 0.9993968514845241,
+   "fixed_reference_local_z_fidelity": 0.9993184607795786,
+   "phase_recalibrated_fidelity": 0.9993184607796035,
+   "phase_recalibrated_local_z_alpha_rad": -3.1407721002664593,
+   "phase_recalibrated_local_z_beta_rad": 2.9411419499013873,
+   "mean_computational_survival": 0.9993186416483104,
+   "conditional_phase_error_rad": -0.0016411096615041032
   },
   {
    "bright_mode_cutoff": 1e-05,
    "active_modes": 20,
-   "retained_ss_weight": 0.9998937631234894,
-   "fixed_reference_local_z_fidelity": 0.9989445371140633,
-   "phase_recalibrated_fidelity": 0.9989445371140935,
-   "phase_recalibrated_local_z_alpha_rad": 3.1035623252819247,
-   "phase_recalibrated_local_z_beta_rad": 2.998383263400639,
-   "mean_computational_survival": 0.9992336167017293,
-   "conditional_phase_error_rad": 0.07606403391291063
+   "retained_ss_weight": 0.9998937631234872,
+   "fixed_reference_local_z_fidelity": 0.9993184608133415,
+   "phase_recalibrated_fidelity": 0.99931846081337,
+   "phase_recalibrated_local_z_alpha_rad": -3.140772615231448,
+   "phase_recalibrated_local_z_beta_rad": 2.9411414350304326,
+   "mean_computational_survival": 0.9993186415132251,
+   "conditional_phase_error_rad": -0.001640079729599453
   },
   {
    "bright_mode_cutoff": 1e-06,
    "active_modes": 52,
-   "retained_ss_weight": 0.9999806032563099,
-   "fixed_reference_local_z_fidelity": 0.9989445403730188,
-   "phase_recalibrated_fidelity": 0.9989445403730188,
-   "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-   "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-   "mean_computational_survival": 0.9992336158115562,
-   "conditional_phase_error_rad": 0.07606348790987406
+   "retained_ss_weight": 0.9999806032563077,
+   "fixed_reference_local_z_fidelity": 0.9993184594782827,
+   "phase_recalibrated_fidelity": 0.9993184594782827,
+   "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+   "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+   "mean_computational_survival": 0.999318640265336,
+   "conditional_phase_error_rad": -0.0016406114801732485
   },
   {
    "bright_mode_cutoff": 1e-07,
    "active_modes": 100,
-   "retained_ss_weight": 0.9999958147717876,
-   "fixed_reference_local_z_fidelity": 0.9989445408059513,
-   "phase_recalibrated_fidelity": 0.9989445408059519,
-   "phase_recalibrated_local_z_alpha_rad": 3.1035626276321207,
-   "phase_recalibrated_local_z_beta_rad": 2.998383565703021,
-   "mean_computational_survival": 0.9992336157985185,
-   "conditional_phase_error_rad": 0.07606342921973688
+   "retained_ss_weight": 0.9999958147717853,
+   "fixed_reference_local_z_fidelity": 0.9993184594354944,
+   "phase_recalibrated_fidelity": 0.9993184594354947,
+   "phase_recalibrated_local_z_alpha_rad": -3.1407723205747997,
+   "phase_recalibrated_local_z_beta_rad": 2.9411417296332876,
+   "mean_computational_survival": 0.9993186402319867,
+   "conditional_phase_error_rad": -0.0016406690451375994
   },
   {
    "bright_mode_cutoff": 1e-08,
    "active_modes": 197,
-   "retained_ss_weight": 0.99999937264026,
-   "fixed_reference_local_z_fidelity": 0.9989445408139662,
-   "phase_recalibrated_fidelity": 0.9989445408139666,
-   "phase_recalibrated_local_z_alpha_rad": 3.103562628249251,
-   "phase_recalibrated_local_z_beta_rad": 2.998383566319954,
-   "mean_computational_survival": 0.9992336157971559,
-   "conditional_phase_error_rad": 0.07606342798567159
+   "retained_ss_weight": 0.9999993726402577,
+   "fixed_reference_local_z_fidelity": 0.9993184594335711,
+   "phase_recalibrated_fidelity": 0.9993184594335714,
+   "phase_recalibrated_local_z_alpha_rad": -3.140772319970536,
+   "phase_recalibrated_local_z_beta_rad": 2.941141730237467,
+   "mean_computational_survival": 0.9993186402302616,
+   "conditional_phase_error_rad": -0.0016406702537206108
   }
  ],
  "propagation_step_convergence": [
@@ -413,53 +415,54 @@
    "maximum_step_ns": 1.0,
    "filtered_target_duration_us": 0.16002894926014818,
    "active_modes": 52,
-   "retained_ss_weight": 0.9999806032563099,
-   "fixed_reference_local_z_fidelity": 0.9989441837519237,
-   "phase_recalibrated_fidelity": 0.9989441844039618,
-   "phase_recalibrated_local_z_alpha_rad": 3.1035330094105413,
-   "phase_recalibrated_local_z_beta_rad": 2.998432411325375,
-   "mean_computational_survival": 0.9992337096960542,
-   "conditional_phase_error_rad": 0.07612266472117593
+   "retained_ss_weight": 0.9999806032563077,
+   "fixed_reference_local_z_fidelity": 0.9993185286314551,
+   "phase_recalibrated_fidelity": 0.9993185292725745,
+   "phase_recalibrated_local_z_alpha_rad": -3.1408031139483263,
+   "phase_recalibrated_local_z_beta_rad": 2.941189258980938,
+   "mean_computational_survival": 0.9993187001593145,
+   "conditional_phase_error_rad": -0.0015790821307715144
   },
   {
    "maximum_step_ns": 0.5,
    "filtered_target_duration_us": 0.16002894926014896,
    "active_modes": 52,
-   "retained_ss_weight": 0.9999806032563099,
-   "fixed_reference_local_z_fidelity": 0.998944455766766,
-   "phase_recalibrated_fidelity": 0.9989444558036951,
-   "phase_recalibrated_local_z_alpha_rad": 3.103555556809484,
-   "phase_recalibrated_local_z_beta_rad": 2.9983951679832597,
-   "mean_computational_survival": 0.9992336382654088,
-   "conditional_phase_error_rad": 0.07607757063902401
+   "retained_ss_weight": 0.9999806032563077,
+   "fixed_reference_local_z_fidelity": 0.9993184761667029,
+   "phase_recalibrated_fidelity": 0.9993184762030151,
+   "phase_recalibrated_local_z_alpha_rad": -3.1407796708231475,
+   "phase_recalibrated_local_z_beta_rad": 2.941153019283518,
+   "mean_computational_survival": 0.9993186545996512,
+   "conditional_phase_error_rad": -0.0016259685077857355
   },
   {
    "maximum_step_ns": 0.25,
    "filtered_target_duration_us": 0.16002894926014752,
    "active_modes": 52,
-   "retained_ss_weight": 0.9999806032563099,
-   "fixed_reference_local_z_fidelity": 0.9989445221583969,
-   "phase_recalibrated_fidelity": 0.9989445221599365,
-   "phase_recalibrated_local_z_alpha_rad": 3.1035611608036184,
-   "phase_recalibrated_local_z_beta_rad": 2.9983859113487523,
-   "mean_computational_survival": 0.9992336194452233,
-   "conditional_phase_error_rad": 0.07606636286856563
+   "retained_ss_weight": 0.9999806032563077,
+   "fixed_reference_local_z_fidelity": 0.999318462324512,
+   "phase_recalibrated_fidelity": 0.9993184623260264,
+   "phase_recalibrated_local_z_alpha_rad": -3.140773843745178,
+   "phase_recalibrated_local_z_beta_rad": 2.941144012465062,
+   "mean_computational_survival": 0.9993186426234446,
+   "conditional_phase_error_rad": -0.0016376226966423602
   },
   {
    "maximum_step_ns": 0.125,
    "filtered_target_duration_us": 0.1600289492601458,
    "active_modes": 52,
-   "retained_ss_weight": 0.9999806032563099,
-   "fixed_reference_local_z_fidelity": 0.9989445403730188,
-   "phase_recalibrated_fidelity": 0.9989445403730188,
-   "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-   "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-   "mean_computational_survival": 0.9992336158115562,
-   "conditional_phase_error_rad": 0.07606348790987406
+   "retained_ss_weight": 0.9999806032563077,
+   "fixed_reference_local_z_fidelity": 0.9993184594782827,
+   "phase_recalibrated_fidelity": 0.9993184594782827,
+   "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+   "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+   "mean_computational_survival": 0.999318640265336,
+   "conditional_phase_error_rad": -0.0016406114801732485
   }
  ],
  "reference_model_bounded_validation": {
-  "pulse_reoptimized": false,
+  "pulse_reoptimized": true,
+  "pulse_reoptimization_provenance": "scripts/optimize_forster_p0_4_reference.py; deterministic accepted local candidate after 400 iterations / 625 evaluations on this final P0-4 reference model; optimizer budget exhausted, not converged/global",
   "number_of_geometries": 19,
   "radii_um": [
    0.0,
@@ -481,19 +484,19 @@
    0.99,
    1.01
   ],
-  "nominal_fidelity": 0.9989445403730188,
-  "position_only_minimum_fidelity": 0.9986743974933106,
-  "position_and_amplitude_vertex_minimum_fidelity": 0.9980009924062412,
+  "nominal_fidelity": 0.9993184594782827,
+  "position_only_minimum_fidelity": 0.9992023214963179,
+  "position_and_amplitude_vertex_minimum_fidelity": 0.9986938231607946,
   "worst_case": {
-   "geometry_index": 18,
+   "geometry_index": 10,
    "radial_displacement_nm": 50.0,
-   "direction_cosine": 1.0,
-   "delta_z_nm": 50.0,
+   "direction_cosine": -1.0,
+   "delta_z_nm": -50.0,
    "transverse_nm": 0.0,
    "theta_deg": 0.0,
-   "yb_rabi_scale": 1.01,
+   "yb_rabi_scale": 0.99,
    "rb_rabi_scale": 0.99,
-   "fidelity": 0.9980009924062412
+   "fidelity": 0.9986938231607946
   },
   "geometry": [
    {
@@ -502,8 +505,8 @@
     "distance_um": 3.4,
     "theta_deg": 0.0,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989445403730188,
-    "amplitude_vertex_minimum_fidelity": 0.9982894025623985
+    "position_only_fidelity": 0.9993184594782827,
+    "amplitude_vertex_minimum_fidelity": 0.998827282262674
    },
    {
     "radial_displacement_nm": 25.0,
@@ -511,8 +514,8 @@
     "distance_um": 3.375,
     "theta_deg": 0.0,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.998983116338424,
-    "amplitude_vertex_minimum_fidelity": 0.9983366541935796
+    "position_only_fidelity": 0.9992787246018505,
+    "amplitude_vertex_minimum_fidelity": 0.9987794383205039
    },
    {
     "radial_displacement_nm": 25.0,
@@ -520,8 +523,8 @@
     "distance_um": 3.381290434139014,
     "theta_deg": 0.2802018027030779,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.998976442622779,
-    "amplitude_vertex_minimum_fidelity": 0.9983278094037958
+    "position_only_fidelity": 0.9992926156070856,
+    "amplitude_vertex_minimum_fidelity": 0.9987958103252312
    },
    {
     "radial_displacement_nm": 25.0,
@@ -529,8 +532,8 @@
     "distance_um": 3.387569187485327,
     "theta_deg": 0.3661913281591445,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989680036566291,
-    "amplitude_vertex_minimum_fidelity": 0.9983171897967538
+    "position_only_fidelity": 0.9993040383392868,
+    "amplitude_vertex_minimum_fidelity": 0.9988097492222205
    },
    {
     "radial_displacement_nm": 25.0,
@@ -538,8 +541,8 @@
     "distance_um": 3.3938363248689525,
     "theta_deg": 0.40865899988760923,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989573914361666,
-    "amplitude_vertex_minimum_fidelity": 0.9983043889668419
+    "position_only_fidelity": 0.999312784110737,
+    "amplitude_vertex_minimum_fidelity": 0.9988210396095889
    },
    {
     "radial_displacement_nm": 25.0,
@@ -547,8 +550,8 @@
     "distance_um": 3.40009191052242,
     "theta_deg": 0.4212849041685975,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989441528258924,
-    "amplitude_vertex_minimum_fidelity": 0.9982889543914777
+    "position_only_fidelity": 0.9993185860134949,
+    "amplitude_vertex_minimum_fidelity": 0.9988273342543497
    },
    {
     "radial_displacement_nm": 25.0,
@@ -556,8 +559,8 @@
     "distance_um": 3.406336008088456,
     "theta_deg": 0.40715938441329624,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989277958896141,
-    "amplitude_vertex_minimum_fidelity": 0.9982703938480622
+    "position_only_fidelity": 0.9993211239908921,
+    "amplitude_vertex_minimum_fidelity": 0.9988271820280289
    },
    {
     "radial_displacement_nm": 25.0,
@@ -565,8 +568,8 @@
     "distance_um": 3.4125686806275417,
     "theta_deg": 0.36350868006076353,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989077961170223,
-    "amplitude_vertex_minimum_fidelity": 0.9982481817264471
+    "position_only_fidelity": 0.9993200300873587,
+    "amplitude_vertex_minimum_fidelity": 0.9988233847036303
    },
    {
     "radial_displacement_nm": 25.0,
@@ -574,8 +577,8 @@
     "distance_um": 3.418789990625338,
     "theta_deg": 0.277128339357471,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9988836030461019,
-    "amplitude_vertex_minimum_fidelity": 0.9982217657805442
+    "position_only_fidelity": 0.9993148939359944,
+    "amplitude_vertex_minimum_fidelity": 0.9988155350181991
    },
    {
     "radial_displacement_nm": 25.0,
@@ -583,8 +586,8 @@
     "distance_um": 3.425,
     "theta_deg": 0.0,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9988546458262029,
-    "amplitude_vertex_minimum_fidelity": 0.9981905727460075
+    "position_only_fidelity": 0.9993052681712816,
+    "amplitude_vertex_minimum_fidelity": 0.9988031878165176
    },
    {
     "radial_displacement_nm": 50.0,
@@ -592,8 +595,8 @@
     "distance_um": 3.35,
     "theta_deg": 0.0,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989982076315215,
-    "amplitude_vertex_minimum_fidelity": 0.9983600911799988
+    "position_only_fidelity": 0.9992023214963179,
+    "amplitude_vertex_minimum_fidelity": 0.9986938231607946
    },
    {
     "radial_displacement_nm": 50.0,
@@ -601,8 +604,8 @@
     "distance_um": 3.362662635472075,
     "theta_deg": 0.5635148546698273,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.998992259760378,
-    "amplitude_vertex_minimum_fidelity": 0.9983499227973487
+    "position_only_fidelity": 0.9992456557861477,
+    "amplitude_vertex_minimum_fidelity": 0.9987417417035935
    },
    {
     "radial_displacement_nm": 50.0,
@@ -610,8 +613,8 @@
     "distance_um": 3.3752777663475344,
     "theta_deg": 0.7350648628888943,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989826708380676,
-    "amplitude_vertex_minimum_fidelity": 0.9983360296437823
+    "position_only_fidelity": 0.9992799735261835,
+    "amplitude_vertex_minimum_fidelity": 0.9987808919450952
    },
    {
     "radial_displacement_nm": 50.0,
@@ -619,8 +622,8 @@
     "distance_um": 3.3878459232969846,
     "theta_deg": 0.818784110579112,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989672703179036,
-    "amplitude_vertex_minimum_fidelity": 0.9983162758334148
+    "position_only_fidelity": 0.9993048895102131,
+    "amplitude_vertex_minimum_fidelity": 0.9988108111747671
    },
    {
     "radial_displacement_nm": 50.0,
@@ -628,8 +631,8 @@
     "distance_um": 3.4003676271838605,
     "theta_deg": 0.8425242607404146,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989429751387835,
-    "amplitude_vertex_minimum_fidelity": 0.9982875947875242
+    "position_only_fidelity": 0.9993189506139645,
+    "amplitude_vertex_minimum_fidelity": 0.9988274751226494
    },
    {
     "radial_displacement_nm": 50.0,
@@ -637,8 +640,8 @@
     "distance_um": 3.4128433893163046,
     "theta_deg": 0.8127864998585078,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9989059886294906,
-    "amplitude_vertex_minimum_fidelity": 0.9982461906796086
+    "position_only_fidelity": 0.9993197809541865,
+    "amplitude_vertex_minimum_fidelity": 0.9988229093402214
    },
    {
     "radial_displacement_nm": 50.0,
@@ -646,8 +649,8 @@
     "distance_um": 3.4252737116907896,
     "theta_deg": 0.7243351407550608,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9988520027313538,
-    "amplitude_vertex_minimum_fidelity": 0.9981877435957311
+    "position_only_fidelity": 0.9993042468569732,
+    "amplitude_vertex_minimum_fidelity": 0.9988019386053649
    },
    {
     "radial_displacement_nm": 50.0,
@@ -655,8 +658,8 @@
     "distance_um": 3.4376590872278188,
     "theta_deg": 0.5512207522039253,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9987763938045024,
-    "amplitude_vertex_minimum_fidelity": 0.9981076084380908
+    "position_only_fidelity": 0.9992686307772514,
+    "amplitude_vertex_minimum_fidelity": 0.9987608595626007
    },
    {
     "radial_displacement_nm": 50.0,
@@ -664,8 +667,8 @@
     "distance_um": 3.4499999999999997,
     "theta_deg": 0.0,
     "connected_component_size": 3684,
-    "position_only_fidelity": 0.9986743974933106,
-    "amplitude_vertex_minimum_fidelity": 0.9980009924062412
+    "position_only_fidelity": 0.9992088012558066,
+    "amplitude_vertex_minimum_fidelity": 0.9986955431382258
    }
   ]
  },
@@ -688,23 +691,23 @@
     "pair_defect_offset_mhz": 0.9000000000000004,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.999980594699186,
-     "fixed_reference_local_z_fidelity": 0.9978918590325323,
-     "phase_recalibrated_fidelity": 0.9982571201786706,
-     "phase_recalibrated_local_z_alpha_rad": 3.073310711678064,
-     "phase_recalibrated_local_z_beta_rad": 2.968136451520857,
-     "mean_computational_survival": 0.9991886654111815,
-     "conditional_phase_error_rad": 0.13657302358570636
+     "retained_ss_weight": 0.9999805946991849,
+     "fixed_reference_local_z_fidelity": 0.9987514119726562,
+     "phase_recalibrated_fidelity": 0.9991264147684473,
+     "phase_recalibrated_local_z_alpha_rad": 3.1117766166365994,
+     "phase_recalibrated_local_z_beta_rad": 2.910510958409269,
+     "mean_computational_survival": 0.9993041271060853,
+     "conditional_phase_error_rad": 0.05963261718530813
     },
     "fixed_yb_laser": {
      "active_modes": 52,
-     "retained_ss_weight": 0.999980594699186,
-     "fixed_reference_local_z_fidelity": 0.9364124801728355,
-     "phase_recalibrated_fidelity": 0.9887351606488266,
-     "phase_recalibrated_local_z_alpha_rad": -2.9754611968917937,
-     "phase_recalibrated_local_z_beta_rad": 2.518295698944215,
-     "mean_computational_survival": 0.9942468830249889,
-     "conditional_phase_error_rad": -0.33311698964046643
+     "retained_ss_weight": 0.9999805946991849,
+     "fixed_reference_local_z_fidelity": 0.932795197932659,
+     "phase_recalibrated_fidelity": 0.9850125816480564,
+     "phase_recalibrated_local_z_alpha_rad": -2.9434776560855203,
+     "phase_recalibrated_local_z_beta_rad": 2.4575878226581316,
+     "mean_computational_survival": 0.9928423943245277,
+     "conditional_phase_error_rad": -0.3975332728252403
     }
    },
    {
@@ -713,23 +716,23 @@
     "pair_defect_offset_mhz": -5.5,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806518988706,
-     "fixed_reference_local_z_fidelity": 0.9838605653196998,
-     "phase_recalibrated_fidelity": 0.9948254548807466,
-     "phase_recalibrated_local_z_alpha_rad": -3.0130267520675194,
-     "phase_recalibrated_local_z_beta_rad": 3.16495304068278,
-     "mean_computational_survival": 0.9981253954837129,
-     "conditional_phase_error_rad": -0.257286552002856
+     "retained_ss_weight": 0.9999806518988673,
+     "fixed_reference_local_z_fidelity": 0.9814455270360183,
+     "phase_recalibrated_fidelity": 0.9924114906108368,
+     "phase_recalibrated_local_z_alpha_rad": -2.9739056971672135,
+     "phase_recalibrated_local_z_beta_rad": 3.107977788625759,
+     "mean_computational_survival": 0.9980194086799496,
+     "conditional_phase_error_rad": -0.3355939384190134
     },
     "fixed_yb_laser": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806518988706,
-     "fixed_reference_local_z_fidelity": 0.9172662345280047,
-     "phase_recalibrated_fidelity": 0.9640582105915673,
-     "phase_recalibrated_local_z_alpha_rad": -2.7432631832855088,
-     "phase_recalibrated_local_z_beta_rad": 2.751385476624203,
-     "mean_computational_survival": 0.9953622924901724,
-     "conditional_phase_error_rad": -0.7982773763309199
+     "retained_ss_weight": 0.9999806518988673,
+     "fixed_reference_local_z_fidelity": 0.9114981459720528,
+     "phase_recalibrated_fidelity": 0.9574685035002041,
+     "phase_recalibrated_local_z_alpha_rad": -2.7057820989535744,
+     "phase_recalibrated_local_z_beta_rad": 2.6963345162435197,
+     "mean_computational_survival": 0.9948441964498418,
+     "conditional_phase_error_rad": -0.8736322851312455
     }
    },
    {
@@ -738,23 +741,23 @@
     "pair_defect_offset_mhz": 5.5,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999805479971745,
-     "fixed_reference_local_z_fidelity": 0.9724081688734534,
-     "phase_recalibrated_fidelity": 0.9879877634932409,
-     "phase_recalibrated_local_z_alpha_rad": 2.9038915654127972,
-     "phase_recalibrated_local_z_beta_rad": 2.7987443510728993,
-     "mean_computational_survival": 0.9992274442191349,
-     "conditional_phase_error_rad": 0.47542485825388986
+     "retained_ss_weight": 0.999980547997173,
+     "fixed_reference_local_z_fidelity": 0.9744684515827327,
+     "phase_recalibrated_fidelity": 0.9907734354730419,
+     "phase_recalibrated_local_z_alpha_rad": 2.9384603505552858,
+     "phase_recalibrated_local_z_beta_rad": 2.7372264911188253,
+     "mean_computational_survival": 0.9989921893224806,
+     "conditional_phase_error_rad": 0.40633201812441144
     },
     "fixed_yb_laser": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999805479971745,
-     "fixed_reference_local_z_fidelity": 0.9083614161913605,
-     "phase_recalibrated_fidelity": 0.9547704256445041,
-     "phase_recalibrated_local_z_alpha_rad": 2.668055627843334,
-     "phase_recalibrated_local_z_beta_rad": -3.0346037663925323,
-     "mean_computational_survival": 0.9987563834298347,
-     "conditional_phase_error_rad": 0.947347617826445
+     "retained_ss_weight": 0.999980547997173,
+     "fixed_reference_local_z_fidelity": 0.9120576512967562,
+     "phase_recalibrated_fidelity": 0.9607300063240194,
+     "phase_recalibrated_local_z_alpha_rad": 2.699575596829139,
+     "phase_recalibrated_local_z_beta_rad": -3.0838044237332185,
+     "mean_computational_survival": 0.9991477497866114,
+     "conditional_phase_error_rad": 0.8841126672986077
     }
    },
    {
@@ -763,23 +766,23 @@
     "pair_defect_offset_mhz": -0.9000000000000004,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806116368783,
-     "fixed_reference_local_z_fidelity": 0.9989287231954975,
-     "phase_recalibrated_fidelity": 0.9992736826450261,
-     "phase_recalibrated_local_z_alpha_rad": 3.1329425179509496,
-     "phase_recalibrated_local_z_beta_rad": 3.027758795382652,
-     "mean_computational_survival": 0.9992886835943775,
-     "conditional_phase_error_rad": 0.01730056260231929
+     "retained_ss_weight": 0.9999806116368777,
+     "fixed_reference_local_z_fidelity": 0.9988011156049318,
+     "phase_recalibrated_fidelity": 0.999152342559918,
+     "phase_recalibrated_local_z_alpha_rad": -3.1111238997687827,
+     "phase_recalibrated_local_z_beta_rad": 2.9707847322386267,
+     "mean_computational_survival": 0.9993379173817859,
+     "conditional_phase_error_rad": -0.060937032444635
     },
     "fixed_yb_laser": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806116368783,
-     "fixed_reference_local_z_fidelity": 0.9330267969259236,
-     "phase_recalibrated_fidelity": 0.9823529966297151,
-     "phase_recalibrated_local_z_alpha_rad": 2.868487189766103,
-     "phase_recalibrated_local_z_beta_rad": -2.834168010011826,
-     "mean_computational_survival": 0.9971700606920554,
-     "conditional_phase_error_rad": 0.5468060579198133
+     "retained_ss_weight": 0.9999806116368777,
+     "fixed_reference_local_z_fidelity": 0.9343700726127739,
+     "phase_recalibrated_fidelity": 0.9859490752377333,
+     "phase_recalibrated_local_z_alpha_rad": 2.9002304923390394,
+     "phase_recalibrated_local_z_beta_rad": -2.883188777419395,
+     "mean_computational_survival": 0.997537955328459,
+     "conditional_phase_error_rad": 0.4831597989395109
     }
    }
   ]
@@ -790,101 +793,101 @@
    {
     "pair_defect_offset_mhz": -5.5,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806518988706,
-    "fixed_reference_local_z_fidelity": 0.9838605653196998,
-    "phase_recalibrated_fidelity": 0.9948254548807466,
-    "phase_recalibrated_local_z_alpha_rad": -3.0130267520675194,
-    "phase_recalibrated_local_z_beta_rad": 3.16495304068278,
-    "mean_computational_survival": 0.9981253954837129,
-    "conditional_phase_error_rad": -0.257286552002856
+    "retained_ss_weight": 0.9999806518988673,
+    "fixed_reference_local_z_fidelity": 0.9814455270360183,
+    "phase_recalibrated_fidelity": 0.9924114906108368,
+    "phase_recalibrated_local_z_alpha_rad": -2.9739056971672135,
+    "phase_recalibrated_local_z_beta_rad": 3.107977788625759,
+    "mean_computational_survival": 0.9980194086799496,
+    "conditional_phase_error_rad": -0.3355939384190134
    },
    {
     "pair_defect_offset_mhz": -3.2,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806322871128,
-    "fixed_reference_local_z_fidelity": 0.9943634260303507,
-    "phase_recalibrated_fidelity": 0.9984035848860422,
-    "phase_recalibrated_local_z_alpha_rad": -3.078923121878224,
-    "phase_recalibrated_local_z_beta_rad": 3.0990671475701568,
-    "mean_computational_survival": 0.9991883442408299,
-    "conditional_phase_error_rad": -0.12534747170939697
+    "retained_ss_weight": 0.9999806322871115,
+    "fixed_reference_local_z_fidelity": 0.9930059383084588,
+    "phase_recalibrated_fidelity": 0.9970805678715351,
+    "phase_recalibrated_local_z_alpha_rad": -3.039556184834115,
+    "phase_recalibrated_local_z_beta_rad": 3.042339353442536,
+    "mean_computational_survival": 0.9991597055389848,
+    "conditional_phase_error_rad": -0.20408956640832843
    },
    {
     "pair_defect_offset_mhz": -2.0,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806216475964,
-    "fixed_reference_local_z_fidelity": 0.9975336004514957,
-    "phase_recalibrated_fidelity": 0.999177106365231,
-    "phase_recalibrated_local_z_alpha_rad": -3.1154686323220915,
-    "phase_recalibrated_local_z_beta_rad": 3.0625274365001913,
-    "mean_computational_survival": 0.9993135450065312,
-    "conditional_phase_error_rad": -0.052248272105822835
+    "retained_ss_weight": 0.999980621647596,
+    "fixed_reference_local_z_fidelity": 0.9968010817257579,
+    "phase_recalibrated_fidelity": 0.9984665468513191,
+    "phase_recalibrated_local_z_alpha_rad": -3.076160480191709,
+    "phase_recalibrated_local_z_beta_rad": 3.005741758924251,
+    "mean_computational_survival": 0.9993219813141808,
+    "conditional_phase_error_rad": -0.13086436977388738
    },
    {
     "pair_defect_offset_mhz": -1.0,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806125573829,
-    "fixed_reference_local_z_fidelity": 0.998863448141934,
-    "phase_recalibrated_fidelity": 0.9992879536144965,
-    "phase_recalibrated_local_z_alpha_rad": 3.136154752953485,
-    "phase_recalibrated_local_z_beta_rad": 3.0309705208975015,
-    "mean_computational_survival": 0.9992939098562874,
-    "conditional_phase_error_rad": 0.010875955972096807
+    "retained_ss_weight": 0.9999806125573802,
+    "fixed_reference_local_z_fidelity": 0.9986801026228601,
+    "phase_recalibrated_fidelity": 0.9991121290578141,
+    "phase_recalibrated_local_z_alpha_rad": -3.107888455281799,
+    "phase_recalibrated_local_z_beta_rad": 2.9740195853256526,
+    "mean_computational_survival": 0.9993391941983711,
+    "conditional_phase_error_rad": -0.06740782783922628
    },
    {
     "pair_defect_offset_mhz": 0.0,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999806032563099,
-    "fixed_reference_local_z_fidelity": 0.9989445403730188,
-    "phase_recalibrated_fidelity": 0.9989445403730188,
-    "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-    "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-    "mean_computational_survival": 0.9992336158115562,
-    "conditional_phase_error_rad": 0.07606348790987406
+    "retained_ss_weight": 0.9999806032563077,
+    "fixed_reference_local_z_fidelity": 0.9993184594782827,
+    "phase_recalibrated_fidelity": 0.9993184594782827,
+    "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+    "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+    "mean_computational_survival": 0.999318640265336,
+    "conditional_phase_error_rad": -0.0016406114801732485
    },
    {
     "pair_defect_offset_mhz": 1.0,
     "active_modes": 52,
-    "retained_ss_weight": 0.999980593737263,
-    "fixed_reference_local_z_fidelity": 0.9977059907225557,
-    "phase_recalibrated_fidelity": 0.9981583468936325,
-    "phase_recalibrated_local_z_alpha_rad": 3.0698937762794696,
-    "phase_recalibrated_local_z_beta_rad": 2.964720058706813,
-    "mean_computational_survival": 0.9991854107707548,
-    "conditional_phase_error_rad": 0.1434075859984765
+    "retained_ss_weight": 0.9999805937372617,
+    "fixed_reference_local_z_fidelity": 0.9986174048827714,
+    "phase_recalibrated_fidelity": 0.9990820447565774,
+    "phase_recalibrated_local_z_alpha_rad": 3.1083093652614697,
+    "phase_recalibrated_local_z_beta_rad": 2.9070443407522726,
+    "mean_computational_survival": 0.9993034764344859,
+    "conditional_phase_error_rad": 0.06656720485563762
    },
    {
     "pair_defect_offset_mhz": 2.0,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999805839928201,
-    "fixed_reference_local_z_fidelity": 0.9950459390047799,
-    "phase_recalibrated_fidelity": 0.9969124619776928,
-    "phase_recalibrated_local_z_alpha_rad": 3.03509184629434,
-    "phase_recalibrated_local_z_beta_rad": 2.9299236597785363,
-    "mean_computational_survival": 0.9991773231733883,
-    "conditional_phase_error_rad": 0.2130170889051544
+    "retained_ss_weight": 0.9999805839928166,
+    "fixed_reference_local_z_fidelity": 0.996438135214437,
+    "phase_recalibrated_fidelity": 0.9983643580151463,
+    "phase_recalibrated_local_z_alpha_rad": 3.0729175549684906,
+    "phase_recalibrated_local_z_beta_rad": 2.8716590021543213,
+    "mean_computational_survival": 0.9993066488108111,
+    "conditional_phase_error_rad": 0.1373512756230897
    },
    {
     "pair_defect_offset_mhz": 3.2,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999805719910204,
-    "fixed_reference_local_z_fidelity": 0.9897845797926893,
-    "phase_recalibrated_fidelity": 0.9947390221112183,
-    "phase_recalibrated_local_z_alpha_rad": 2.9917652654179063,
-    "phase_recalibrated_local_z_beta_rad": 2.886603979465261,
-    "mean_computational_survival": 0.9992172925393399,
-    "conditional_phase_error_rad": 0.299670558214187
+    "retained_ss_weight": 0.999980571991018,
+    "fixed_reference_local_z_fidelity": 0.9916204629581198,
+    "phase_recalibrated_fidelity": 0.9967609695211944,
+    "phase_recalibrated_local_z_alpha_rad": 3.0286738243975475,
+    "phase_recalibrated_local_z_beta_rad": 2.827423373492917,
+    "mean_computational_survival": 0.9993067135032673,
+    "conditional_phase_error_rad": 0.22583942531040813
    },
    {
     "pair_defect_offset_mhz": 5.5,
     "active_modes": 52,
-    "retained_ss_weight": 0.9999805479971745,
-    "fixed_reference_local_z_fidelity": 0.9724081688734534,
-    "phase_recalibrated_fidelity": 0.9879877634932409,
-    "phase_recalibrated_local_z_alpha_rad": 2.9038915654127972,
-    "phase_recalibrated_local_z_beta_rad": 2.7987443510728993,
-    "mean_computational_survival": 0.9992274442191349,
-    "conditional_phase_error_rad": 0.47542485825388986
+    "retained_ss_weight": 0.999980547997173,
+    "fixed_reference_local_z_fidelity": 0.9744684515827327,
+    "phase_recalibrated_fidelity": 0.9907734354730419,
+    "phase_recalibrated_local_z_alpha_rad": 2.9384603505552858,
+    "phase_recalibrated_local_z_beta_rad": 2.7372264911188253,
+    "mean_computational_survival": 0.9989921893224806,
+    "conditional_phase_error_rad": 0.40633201812441144
    }
   ]
  },
@@ -901,23 +904,23 @@
     "field_dressed_pair_defect_mhz": 17.230706210417555,
     "carrier_tracked": {
      "active_modes": 69,
-     "retained_ss_weight": 0.9999707804245602,
-     "fixed_reference_local_z_fidelity": 0.8506132718610779,
-     "phase_recalibrated_fidelity": 0.9378428643063946,
-     "phase_recalibrated_local_z_alpha_rad": 2.6035390437452097,
-     "phase_recalibrated_local_z_beta_rad": 2.4984414110066684,
-     "mean_computational_survival": 0.994337630604613,
-     "conditional_phase_error_rad": 1.0789004989640498
+     "retained_ss_weight": 0.9999707804245574,
+     "fixed_reference_local_z_fidelity": 0.8480736639870626,
+     "phase_recalibrated_fidelity": 0.9401783519721562,
+     "phase_recalibrated_local_z_alpha_rad": 2.6284533696606505,
+     "phase_recalibrated_local_z_beta_rad": 2.4272781453100047,
+     "mean_computational_survival": 0.9916985044494189,
+     "conditional_phase_error_rad": 1.030378092033
     },
     "fixed_zero_field_lasers": {
      "active_modes": 69,
-     "retained_ss_weight": 0.9999707804245602,
-     "fixed_reference_local_z_fidelity": 0.7680212231513452,
-     "phase_recalibrated_fidelity": 0.9193473230699816,
-     "phase_recalibrated_local_z_alpha_rad": 2.1875940357689427,
-     "phase_recalibrated_local_z_beta_rad": 2.7216394026504265,
-     "mean_computational_survival": 0.9909556856706314,
-     "conditional_phase_error_rad": 1.2207552508820065
+     "retained_ss_weight": 0.9999707804245574,
+     "fixed_reference_local_z_fidelity": 0.7678789458713747,
+     "phase_recalibrated_fidelity": 0.9239900858069852,
+     "phase_recalibrated_local_z_alpha_rad": 2.2149806452388616,
+     "phase_recalibrated_local_z_beta_rad": 2.657241799874598,
+     "mean_computational_survival": 0.9894887367204643,
+     "conditional_phase_error_rad": 1.1666551563013796
     }
    },
    {
@@ -927,23 +930,23 @@
     "field_dressed_pair_defect_mhz": 7.8127903893421164,
     "carrier_tracked": {
      "active_modes": 63,
-     "retained_ss_weight": 0.9999754284157476,
-     "fixed_reference_local_z_fidelity": 0.9900650303091287,
-     "phase_recalibrated_fidelity": 0.9948480093848671,
-     "phase_recalibrated_local_z_alpha_rad": 2.9937292734839343,
-     "phase_recalibrated_local_z_beta_rad": 2.888567674344121,
-     "mean_computational_survival": 0.999209857521347,
-     "conditional_phase_error_rad": 0.2957434371059294
+     "retained_ss_weight": 0.9999754284157475,
+     "fixed_reference_local_z_fidelity": 0.9919245786505826,
+     "phase_recalibrated_fidelity": 0.9968704355256582,
+     "phase_recalibrated_local_z_alpha_rad": 3.0308615973583213,
+     "phase_recalibrated_local_z_beta_rad": 2.829610745474037,
+     "mean_computational_survival": 0.99931859011195,
+     "conditional_phase_error_rad": 0.22146252744490738
     },
     "fixed_zero_field_lasers": {
      "active_modes": 63,
-     "retained_ss_weight": 0.9999754284157476,
-     "fixed_reference_local_z_fidelity": 0.9818266775625186,
-     "phase_recalibrated_fidelity": 0.9924047820263878,
-     "phase_recalibrated_local_z_alpha_rad": 2.8805537874280795,
-     "phase_recalibrated_local_z_beta_rad": 2.935875245566456,
-     "mean_computational_survival": 0.9984400353136754,
-     "conditional_phase_error_rad": 0.34812212510492585
+     "retained_ss_weight": 0.9999754284157475,
+     "fixed_reference_local_z_fidelity": 0.984044945175742,
+     "phase_recalibrated_fidelity": 0.9948210890620401,
+     "phase_recalibrated_local_z_alpha_rad": 2.917765423415071,
+     "phase_recalibrated_local_z_beta_rad": 2.8777712275974747,
+     "mean_computational_survival": 0.9985544627904336,
+     "conditional_phase_error_rad": 0.2736499477954182
     }
    },
    {
@@ -953,23 +956,23 @@
     "field_dressed_pair_defect_mhz": 4.790666575712966,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999758879748738,
-     "fixed_reference_local_z_fidelity": 0.9988651327260811,
-     "phase_recalibrated_fidelity": 0.998871313424065,
-     "phase_recalibrated_local_z_alpha_rad": 3.0996292728764914,
-     "phase_recalibrated_local_z_beta_rad": 2.9944508351112504,
-     "mean_computational_survival": 0.9992232584362202,
-     "conditional_phase_error_rad": 0.08393092323967569
+     "retained_ss_weight": 0.9999758879748757,
+     "fixed_reference_local_z_fidelity": 0.9993066725177897,
+     "phase_recalibrated_fidelity": 0.9993128664232381,
+     "phase_recalibrated_local_z_alpha_rad": 3.1384764698192393,
+     "phase_recalibrated_local_z_beta_rad": 2.9372059322029167,
+     "mean_computational_survival": 0.999314853629876,
+     "conditional_phase_error_rad": 0.006232390847165337
     },
     "fixed_zero_field_lasers": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999758879748738,
-     "fixed_reference_local_z_fidelity": 0.9988375458697556,
-     "phase_recalibrated_fidelity": 0.9988529679945113,
-     "phase_recalibrated_local_z_alpha_rad": 3.0950329860693753,
-     "phase_recalibrated_local_z_beta_rad": 2.9962745317021677,
-     "mean_computational_survival": 0.9992238179268,
-     "conditional_phase_error_rad": 0.08615625843369504
+     "retained_ss_weight": 0.9999758879748757,
+     "fixed_reference_local_z_fidelity": 0.9992948126027027,
+     "phase_recalibrated_fidelity": 0.9993102563204763,
+     "phase_recalibrated_local_z_alpha_rad": 3.1338749415733926,
+     "phase_recalibrated_local_z_beta_rad": 2.939051405359581,
+     "mean_computational_survival": 0.9993138857513584,
+     "conditional_phase_error_rad": 0.00846813500645929
     }
    },
    {
@@ -979,23 +982,23 @@
     "field_dressed_pair_defect_mhz": 4.675997252745437,
     "carrier_tracked": {
      "active_modes": 51,
-     "retained_ss_weight": 0.9999793000441214,
-     "fixed_reference_local_z_fidelity": 0.9989382293388799,
-     "phase_recalibrated_fidelity": 0.9989382699847384,
-     "phase_recalibrated_local_z_alpha_rad": 3.1032436429910315,
-     "phase_recalibrated_local_z_beta_rad": 2.998064631644723,
-     "mean_computational_survival": 0.9992322133657713,
-     "conditional_phase_error_rad": 0.07670148074572604
+     "retained_ss_weight": 0.9999793000441223,
+     "fixed_reference_local_z_fidelity": 0.999317979101814,
+     "phase_recalibrated_fidelity": 0.9993180180395977,
+     "phase_recalibrated_local_z_alpha_rad": -3.141084460985582,
+     "phase_recalibrated_local_z_beta_rad": 2.9408296462391412,
+     "mean_computational_survival": 0.999318115968624,
+     "conditional_phase_error_rad": -0.0010163872923651949
     },
     "fixed_zero_field_lasers": {
      "active_modes": 51,
-     "retained_ss_weight": 0.9999793000441214,
-     "fixed_reference_local_z_fidelity": 0.9989367731988501,
-     "phase_recalibrated_fidelity": 0.9989368853187386,
-     "phase_recalibrated_local_z_alpha_rad": 3.102829557767345,
-     "phase_recalibrated_local_z_beta_rad": 2.998228855950276,
-     "mean_computational_survival": 0.9992323686464666,
-     "conditional_phase_error_rad": 0.07690218785208217
+     "retained_ss_weight": 0.9999793000441223,
+     "fixed_reference_local_z_fidelity": 0.9993179448233788,
+     "phase_recalibrated_fidelity": 0.9993180546156817,
+     "phase_recalibrated_local_z_alpha_rad": -3.141498995883838,
+     "phase_recalibrated_local_z_beta_rad": 2.940995795732784,
+     "mean_computational_survival": 0.9993181340906149,
+     "conditional_phase_error_rad": -0.0008146912854480881
     }
    },
    {
@@ -1005,23 +1008,23 @@
     "field_dressed_pair_defect_mhz": 4.665915961546706,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999803388591519,
-     "fixed_reference_local_z_fidelity": 0.9989433432181574,
-     "phase_recalibrated_fidelity": 0.998943344719223,
-     "phase_recalibrated_local_z_alpha_rad": 3.1035013040126405,
-     "phase_recalibrated_local_z_beta_rad": 2.9983222518067807,
-     "mean_computational_survival": 0.9992333524850645,
-     "conditional_phase_error_rad": 0.07618609196208251
+     "retained_ss_weight": 0.9999803388591538,
+     "fixed_reference_local_z_fidelity": 0.9993183757397128,
+     "phase_recalibrated_fidelity": 0.9993183772097632,
+     "phase_recalibrated_local_z_alpha_rad": -3.140832993702131,
+     "phase_recalibrated_local_z_beta_rad": 2.9410810675870964,
+     "mean_computational_survival": 0.9993185388492376,
+     "conditional_phase_error_rad": -0.0015193226314749175
     },
     "fixed_zero_field_lasers": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999803388591519,
-     "fixed_reference_local_z_fidelity": 0.9989431888704765,
-     "phase_recalibrated_fidelity": 0.9989431915510447,
-     "phase_recalibrated_local_z_alpha_rad": 3.103454980597557,
-     "phase_recalibrated_local_z_beta_rad": 2.9983406975469564,
-     "mean_computational_survival": 0.9992333708929235,
-     "conditional_phase_error_rad": 0.07620863138616786
+     "retained_ss_weight": 0.9999803388591538,
+     "fixed_reference_local_z_fidelity": 0.9993183810425336,
+     "phase_recalibrated_fidelity": 0.9993183836841434,
+     "phase_recalibrated_local_z_alpha_rad": -3.1408793729629316,
+     "phase_recalibrated_local_z_beta_rad": 2.9410997292545145,
+     "mean_computational_survival": 0.9993185419101085,
+     "conditional_phase_error_rad": -0.0014966717748889913
     }
    },
    {
@@ -1031,23 +1034,23 @@
     "field_dressed_pair_defect_mhz": 4.663903708739089,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806032563099,
-     "fixed_reference_local_z_fidelity": 0.9989445403730188,
-     "phase_recalibrated_fidelity": 0.9989445403730188,
-     "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-     "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-     "mean_computational_survival": 0.9992336158115562,
-     "conditional_phase_error_rad": 0.07606348790987406
+     "retained_ss_weight": 0.9999806032563077,
+     "fixed_reference_local_z_fidelity": 0.9993184594782827,
+     "phase_recalibrated_fidelity": 0.9993184594782827,
+     "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+     "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+     "mean_computational_survival": 0.999318640265336,
+     "conditional_phase_error_rad": -0.0016406114801732485
     },
     "fixed_zero_field_lasers": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999806032563099,
-     "fixed_reference_local_z_fidelity": 0.9989445403730188,
-     "phase_recalibrated_fidelity": 0.9989445403730188,
-     "phase_recalibrated_local_z_alpha_rad": 3.103562598288294,
-     "phase_recalibrated_local_z_beta_rad": 2.998383536363663,
-     "mean_computational_survival": 0.9992336158115562,
-     "conditional_phase_error_rad": 0.07606348790987406
+     "retained_ss_weight": 0.9999806032563077,
+     "fixed_reference_local_z_fidelity": 0.9993184594782827,
+     "phase_recalibrated_fidelity": 0.9993184594782827,
+     "phase_recalibrated_local_z_alpha_rad": -3.1407723493572015,
+     "phase_recalibrated_local_z_beta_rad": 2.941141700856132,
+     "mean_computational_survival": 0.999318640265336,
+     "conditional_phase_error_rad": -0.0016406114801732485
     }
    },
    {
@@ -1057,23 +1060,23 @@
     "field_dressed_pair_defect_mhz": 4.665915961546706,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999802560033787,
-     "fixed_reference_local_z_fidelity": 0.9989425191840684,
-     "phase_recalibrated_fidelity": 0.998942527995551,
-     "phase_recalibrated_local_z_alpha_rad": 3.1034140919882347,
-     "phase_recalibrated_local_z_beta_rad": 2.9982350536111295,
-     "mean_computational_survival": 0.9992338648226106,
-     "conditional_phase_error_rad": 0.07636050421332842
+     "retained_ss_weight": 0.9999802560033801,
+     "fixed_reference_local_z_fidelity": 0.999318586833887,
+     "phase_recalibrated_fidelity": 0.9993185968097059,
+     "phase_recalibrated_local_z_alpha_rad": -3.1409303280095893,
+     "phase_recalibrated_local_z_beta_rad": 2.94098375105815,
+     "mean_computational_survival": 0.99931873078142,
+     "conditional_phase_error_rad": -0.001324653504127582
     },
     "fixed_zero_field_lasers": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999802560033787,
-     "fixed_reference_local_z_fidelity": 0.9989423634323142,
-     "phase_recalibrated_fidelity": 0.9989423743945203,
-     "phase_recalibrated_local_z_alpha_rad": 3.1033677718006945,
-     "phase_recalibrated_local_z_beta_rad": 2.998253502579764,
-     "mean_computational_survival": 0.9992338831409455,
-     "conditional_phase_error_rad": 0.0763830371769754
+     "retained_ss_weight": 0.9999802560033801,
+     "fixed_reference_local_z_fidelity": 0.9993185906019096,
+     "phase_recalibrated_fidelity": 0.9993186028275437,
+     "phase_recalibrated_local_z_alpha_rad": -3.1409767039428895,
+     "phase_recalibrated_local_z_beta_rad": 2.941002416053205,
+     "mean_computational_survival": 0.9993187338272578,
+     "conditional_phase_error_rad": -0.0013020093065905234
     }
    },
    {
@@ -1083,23 +1086,23 @@
     "field_dressed_pair_defect_mhz": 4.675997252745437,
     "carrier_tracked": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999795679886242,
-     "fixed_reference_local_z_fidelity": 0.9989356481035546,
-     "phase_recalibrated_fidelity": 0.9989357831570012,
-     "phase_recalibrated_local_z_alpha_rad": 3.102981198033463,
-     "phase_recalibrated_local_z_beta_rad": 2.9978022284376435,
-     "mean_computational_survival": 0.9992337622401264,
-     "conditional_phase_error_rad": 0.0772263342433919
+     "retained_ss_weight": 0.9999795679886254,
+     "fixed_reference_local_z_fidelity": 0.9993184926923669,
+     "phase_recalibrated_fidelity": 0.999318638971212,
+     "phase_recalibrated_local_z_alpha_rad": -3.1413772930172934,
+     "phase_recalibrated_local_z_beta_rad": 2.9405368677221113,
+     "mean_computational_survival": 0.9993186945380389,
+     "conditional_phase_error_rad": -0.0004307218768260235
     },
     "fixed_zero_field_lasers": {
      "active_modes": 52,
-     "retained_ss_weight": 0.9999795679886242,
-     "fixed_reference_local_z_fidelity": 0.9989341542459858,
-     "phase_recalibrated_fidelity": 0.998934386925737,
-     "phase_recalibrated_local_z_alpha_rad": 3.102567245297809,
-     "phase_recalibrated_local_z_beta_rad": 2.997966539073735,
-     "mean_computational_survival": 0.9992339151401213,
-     "conditional_phase_error_rad": 0.07742686858387707
+     "retained_ss_weight": 0.9999795679886254,
+     "fixed_reference_local_z_fidelity": 0.9993184171804976,
+     "phase_recalibrated_fidelity": 0.9993186633443063,
+     "phase_recalibrated_local_z_alpha_rad": -3.141791738933146,
+     "phase_recalibrated_local_z_beta_rad": 2.9407031062160502,
+     "mean_computational_survival": 0.9993187122657198,
+     "conditional_phase_error_rad": -0.0002292039688716052
     }
    },
    {
@@ -1109,23 +1112,23 @@
     "field_dressed_pair_defect_mhz": 4.790666575712966,
     "carrier_tracked": {
      "active_modes": 53,
-     "retained_ss_weight": 0.999977349285314,
-     "fixed_reference_local_z_fidelity": 0.9988522245969076,
-     "phase_recalibrated_fidelity": 0.998861577106981,
-     "phase_recalibrated_local_z_alpha_rad": 3.098724129910722,
-     "phase_recalibrated_local_z_beta_rad": 2.9935458357512514,
-     "mean_computational_survival": 0.9992288635583191,
-     "conditional_phase_error_rad": 0.08574105840811022
+     "retained_ss_weight": 0.9999773492853119,
+     "fixed_reference_local_z_fidelity": 0.9993036700806306,
+     "phase_recalibrated_fidelity": 0.9993134391167804,
+     "phase_recalibrated_local_z_alpha_rad": 3.137469251759344,
+     "phase_recalibrated_local_z_beta_rad": 2.936198898171805,
+     "mean_computational_survival": 0.9993168836411543,
+     "conditional_phase_error_rad": 0.008246826179311629
     },
     "fixed_zero_field_lasers": {
      "active_modes": 53,
-     "retained_ss_weight": 0.999977349285314,
-     "fixed_reference_local_z_fidelity": 0.9988232225987199,
-     "phase_recalibrated_fidelity": 0.9988428030106442,
-     "phase_recalibrated_local_z_alpha_rad": 3.094131078584524,
-     "phase_recalibrated_local_z_beta_rad": 2.995372768126104,
-     "mean_computational_survival": 0.9992293397142051,
-     "conditional_phase_error_rad": 0.08795991938755979
+     "retained_ss_weight": 0.9999773492853119,
+     "fixed_reference_local_z_fidelity": 0.9992902630086553,
+     "phase_recalibrated_fidelity": 0.9993103748185828,
+     "phase_recalibrated_local_z_alpha_rad": 3.1328710657806345,
+     "phase_recalibrated_local_z_beta_rad": 2.9380477128658193,
+     "mean_computational_survival": 0.9993159046300477,
+     "conditional_phase_error_rad": 0.01047588468298446
     }
    },
    {
@@ -1135,23 +1138,23 @@
     "field_dressed_pair_defect_mhz": 7.8127903893421164,
     "carrier_tracked": {
      "active_modes": 60,
-     "retained_ss_weight": 0.999976009977081,
-     "fixed_reference_local_z_fidelity": 0.9887342001254904,
-     "phase_recalibrated_fidelity": 0.9943231581930216,
-     "phase_recalibrated_local_z_alpha_rad": 2.9847709501047657,
-     "phase_recalibrated_local_z_beta_rad": 2.879610780128716,
-     "mean_computational_survival": 0.9992284183682683,
-     "conditional_phase_error_rad": 0.3136581779325767
+     "retained_ss_weight": 0.9999760099770828,
+     "fixed_reference_local_z_fidelity": 0.9905429966414256,
+     "phase_recalibrated_fidelity": 0.9963746319655332,
+     "phase_recalibrated_local_z_alpha_rad": 3.0212167104044756,
+     "phase_recalibrated_local_z_beta_rad": 2.819967626867804,
+     "mean_computational_survival": 0.9992672949952687,
+     "conditional_phase_error_rad": 0.24075852555393176
     },
     "fixed_zero_field_lasers": {
      "active_modes": 60,
-     "retained_ss_weight": 0.999976009977081,
-     "fixed_reference_local_z_fidelity": 0.9803204827599513,
-     "phase_recalibrated_fidelity": 0.9918565350271811,
-     "phase_recalibrated_local_z_alpha_rad": 2.872170197771915,
-     "phase_recalibrated_local_z_beta_rad": 2.9274931380385647,
-     "mean_computational_survival": 0.9984856802110513,
-     "conditional_phase_error_rad": 0.36488838808887386
+     "retained_ss_weight": 0.9999760099770828,
+     "fixed_reference_local_z_fidelity": 0.9824812293495832,
+     "phase_recalibrated_fidelity": 0.9943043789614338,
+     "phase_recalibrated_local_z_alpha_rad": 2.9087343177983658,
+     "phase_recalibrated_local_z_beta_rad": 2.868741689943593,
+     "mean_computational_survival": 0.9985461117422377,
+     "conditional_phase_error_rad": 0.29172037487777236
     }
    },
    {
@@ -1161,23 +1164,23 @@
     "field_dressed_pair_defect_mhz": 17.230706210417555,
     "carrier_tracked": {
      "active_modes": 66,
-     "retained_ss_weight": 0.9999705869580099,
-     "fixed_reference_local_z_fidelity": 0.8230019085176721,
-     "phase_recalibrated_fidelity": 0.9246146191453496,
-     "phase_recalibrated_local_z_alpha_rad": 2.5555228585351495,
-     "phase_recalibrated_local_z_beta_rad": 2.450433477159255,
-     "mean_computational_survival": 0.99136315472483,
-     "conditional_phase_error_rad": 1.1770670650121418
+     "retained_ss_weight": 0.9999705869580084,
+     "fixed_reference_local_z_fidelity": 0.8184221085374105,
+     "phase_recalibrated_fidelity": 0.9258970196040567,
+     "phase_recalibrated_local_z_alpha_rad": 2.577859213971665,
+     "phase_recalibrated_local_z_beta_rad": 2.376693939752914,
+     "mean_computational_survival": 0.9878370145489339,
+     "conditional_phase_error_rad": 1.1343693387105918
     },
     "fixed_zero_field_lasers": {
      "active_modes": 66,
-     "retained_ss_weight": 0.9999705869580099,
-     "fixed_reference_local_z_fidelity": 0.7457412892972309,
-     "phase_recalibrated_fidelity": 0.9093718655491546,
-     "phase_recalibrated_local_z_alpha_rad": 2.147179516759208,
-     "phase_recalibrated_local_z_beta_rad": 2.6812370429886245,
-     "mean_computational_survival": 0.9904748801536254,
-     "conditional_phase_error_rad": 1.302302217692507
+     "retained_ss_weight": 0.9999705869580084,
+     "fixed_reference_local_z_fidelity": 0.7439803729023741,
+     "phase_recalibrated_fidelity": 0.9132356688010503,
+     "phase_recalibrated_local_z_alpha_rad": 2.172244182301573,
+     "phase_recalibrated_local_z_beta_rad": 2.6145152732868104,
+     "mean_computational_survival": 0.9884177558543203,
+     "conditional_phase_error_rad": 1.2533325395340846
     }
    }
   ],
@@ -1191,29 +1194,29 @@
     "interaction_order": 4
    },
    "field_dressed_asymptotic_defect_mhz": 4.675997252745437,
-   "target_bright_splitting_mhz": 30.63591225568816,
-   "minimum_target_subspace_weight": 0.9954581627309504,
-   "nearest_spectator_gap_mhz": 48.641776703343425,
-   "largest_spectator_target_subspace_weight": 0.0023140190188646447,
+   "target_bright_splitting_mhz": 30.635912255683724,
+   "minimum_target_subspace_weight": 0.9954581627309513,
+   "nearest_spectator_gap_mhz": 48.641776703320694,
+   "largest_spectator_target_subspace_weight": 0.0023140190188632136,
    "carrier_tracked": {
     "active_modes": 57,
-    "retained_ss_weight": 0.9999731778024531,
-    "fixed_reference_local_z_fidelity": 0.9989279187370771,
-    "phase_recalibrated_fidelity": 0.998928280754335,
-    "phase_recalibrated_local_z_alpha_rad": 3.1026107030760195,
-    "phase_recalibrated_local_z_beta_rad": 2.997431792224094,
-    "mean_computational_survival": 0.9992320042513793,
-    "conditional_phase_error_rad": 0.07796742571576257
+    "retained_ss_weight": 0.9999731778024561,
+    "fixed_reference_local_z_fidelity": 0.9993174660572135,
+    "phase_recalibrated_fidelity": 0.9993178588626611,
+    "phase_recalibrated_local_z_alpha_rad": -3.141763667898093,
+    "phase_recalibrated_local_z_beta_rad": 2.9401505634939533,
+    "mean_computational_survival": 0.9993179110253874,
+    "conditional_phase_error_rad": 0.0003420293284029048
    },
    "fixed_zero_field_lasers": {
     "active_modes": 57,
-    "retained_ss_weight": 0.9999731778024531,
-    "fixed_reference_local_z_fidelity": 0.9989263719062474,
-    "phase_recalibrated_fidelity": 0.9989268684779831,
-    "phase_recalibrated_local_z_alpha_rad": 3.102196788975206,
-    "phase_recalibrated_local_z_beta_rad": 2.9975961415373775,
-    "mean_computational_survival": 0.9992321553406276,
-    "conditional_phase_error_rad": 0.07816788294299683
+    "retained_ss_weight": 0.9999731778024561,
+    "fixed_reference_local_z_fidelity": 0.9993173355600671,
+    "phase_recalibrated_fidelity": 0.9993178665508223,
+    "phase_recalibrated_local_z_alpha_rad": -3.142178063997463,
+    "phase_recalibrated_local_z_beta_rad": 2.940316851747441,
+    "mean_computational_survival": 0.9993179276244446,
+    "conditional_phase_error_rad": 0.0005434477689541202
    }
   }
  }

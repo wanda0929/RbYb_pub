@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Evaluate atomic-structure sensitivity and numerical convergence of the gate.
 
-This is a post-optimization audit of the stored bounded-minimax pulse.  The
-pulse command is never reoptimized.  A single numerical-reference local-Z
-correction is used for the fixed-calibration columns; phase-recalibrated
-columns are diagnostics that change only the two virtual local phases.
+This audits the stored pulse selected by the dedicated final-reference P0-4
+reoptimization.  This script does not reoptimize it.  A single
+numerical-reference local-Z correction is used for the fixed-calibration
+columns; phase-recalibrated columns are diagnostics that change only the two
+virtual local phases.
 
 The audit deliberately separates three questions:
 
@@ -23,18 +24,19 @@ from __future__ import annotations
 import json
 import sys
 from dataclasses import asdict, replace
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 import pairinteraction as pi
 import scipy
 
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-import optimize_hardware_aware_forster_gate as hardware  # noqa: E402
 import reproduce_forster_gate as minimax  # noqa: E402
+import optimize_hardware_aware_forster_gate as hardware  # noqa: E402
 import simulate_robust_shaped_forster_gate as shaped  # noqa: E402
 from simulate_forster_gate import (  # noqa: E402
     BasisConfig,
@@ -43,6 +45,7 @@ from simulate_forster_gate import (  # noqa: E402
     query_lifetimes,
 )
 from verify_pairinteraction_databases import verify_database_manifest  # noqa: E402
+
 
 OUT = ROOT / "data" / "forster_p0_4_uncertainty_convergence.json"
 MODE_CUTOFF = 1e-6
@@ -82,26 +85,41 @@ def _gate_metrics(
             kraus, fixed_correction
         ),
         "phase_recalibrated_fidelity": recalibrated["average_gate_fidelity"],
-        "phase_recalibrated_local_z_alpha_rad": recalibrated["optimal_local_z_alpha_rad"],
-        "phase_recalibrated_local_z_beta_rad": recalibrated["optimal_local_z_beta_rad"],
-        "mean_computational_survival": recalibrated["mean_computational_survival"],
-        "conditional_phase_error_rad": recalibrated["conditional_phase_error_rad"],
+        "phase_recalibrated_local_z_alpha_rad": recalibrated[
+            "optimal_local_z_alpha_rad"
+        ],
+        "phase_recalibrated_local_z_beta_rad": recalibrated[
+            "optimal_local_z_beta_rad"
+        ],
+        "mean_computational_survival": recalibrated[
+            "mean_computational_survival"
+        ],
+        "conditional_phase_error_rad": recalibrated[
+            "conditional_phase_error_rad"
+        ],
     }
 
 
 def _spectrum_summary(model: PairModel) -> dict[str, float]:
     target = model.spectral_diagnostics["target_eigenstates"]
     energies = [float(state["energy_mhz"]) for state in target]
-    target_weights = [float(state["ss_weight"] + state["pp_weight"]) for state in target]
-    strongest_spectators = model.spectral_diagnostics["largest_target_overlap_spectators"]
+    target_weights = [
+        float(state["ss_weight"] + state["pp_weight"]) for state in target
+    ]
+    strongest_spectators = model.spectral_diagnostics[
+        "largest_target_overlap_spectators"
+    ]
     largest_spectator_weight = max(
-        float(state["ss_weight"] + state["pp_weight"]) for state in strongest_spectators
+        float(state["ss_weight"] + state["pp_weight"])
+        for state in strongest_spectators
     )
     return {
         "field_dressed_asymptotic_defect_mhz": model.forster_defect_mhz,
         "target_bright_splitting_mhz": abs(energies[1] - energies[0]),
         "minimum_target_subspace_weight": min(target_weights),
-        "nearest_spectator_gap_mhz": model.spectral_diagnostics["nearest_spectator_gap_mhz"],
+        "nearest_spectator_gap_mhz": model.spectral_diagnostics[
+            "nearest_spectator_gap_mhz"
+        ],
         "largest_spectator_target_subspace_weight": largest_spectator_weight,
     }
 
@@ -121,7 +139,9 @@ def _population_summary(
         lifetimes,
     )
     return {
-        "maximum_transient_spectator_population": max(trajectory["blocked_spectator"]),
+        "maximum_transient_spectator_population": max(
+            trajectory["blocked_spectator"]
+        ),
         "final_spectator_population": trajectory["blocked_spectator"][-1],
         "final_computational_population": trajectory["blocked_computational"][-1],
     }
@@ -159,9 +179,15 @@ def _shift_target_pair_defect(model: PairModel, offset_mhz: float) -> PairModel:
     target_weight = np.abs(pp_overlap) ** 2 + np.abs(ss_overlap) ** 2
     target_modes = np.argsort(target_weight)[-2:]
     target_modes = target_modes[np.argsort(energies[target_modes])]
-    spectator_modes = np.setdiff1d(np.arange(len(energies)), target_modes, assume_unique=True)
-    distances = np.min(np.abs(energies[spectator_modes, None] - energies[target_modes]), axis=1)
-    strongest_spectators = spectator_modes[np.argsort(target_weight[spectator_modes])[-5:][::-1]]
+    spectator_modes = np.setdiff1d(
+        np.arange(len(energies)), target_modes, assume_unique=True
+    )
+    distances = np.min(
+        np.abs(energies[spectator_modes, None] - energies[target_modes]), axis=1
+    )
+    strongest_spectators = spectator_modes[
+        np.argsort(target_weight[spectator_modes])[-5:][::-1]
+    ]
 
     def state_summary(index: int) -> dict[str, object]:
         return {
@@ -250,14 +276,18 @@ def main() -> None:
     for label, config in variant_configs:
         print(f"basis audit: {label}", flush=True)
         model = reference_model if config == REFERENCE_BASIS else _build(config)
-        convergence_rows.append(_model_row(label, model, pulse, lifetimes, reference_correction))
+        convergence_rows.append(
+            _model_row(label, model, pulse, lifetimes, reference_correction)
+        )
 
     print("checking target-projector shift implementation", flush=True)
     shifted_models: dict[float, PairModel] = {0.0: reference_model}
 
     def shifted_model(offset_mhz: float) -> PairModel:
         if offset_mhz not in shifted_models:
-            shifted_models[offset_mhz] = _shift_target_pair_defect(reference_model, offset_mhz)
+            shifted_models[offset_mhz] = _shift_target_pair_defect(
+                reference_model, offset_mhz
+            )
         return shifted_models[offset_mhz]
 
     shifted_fast = shifted_model(1.0)
@@ -272,7 +302,8 @@ def main() -> None:
         "maximum_absolute_ss_weight_difference": float(
             np.max(
                 np.abs(
-                    np.abs(shifted_fast.ss_overlap) ** 2 - np.abs(shifted_direct.ss_overlap) ** 2
+                    np.abs(shifted_fast.ss_overlap) ** 2
+                    - np.abs(shifted_direct.ss_overlap) ** 2
                 )
             )
         ),
@@ -291,7 +322,9 @@ def main() -> None:
             )
         ),
     }
-    assert projector_shift_check["maximum_absolute_eigenenergy_difference_mhz"] < 1e-8
+    assert projector_shift_check[
+        "maximum_absolute_eigenenergy_difference_mhz"
+    ] < 1e-8
     assert abs(projector_shift_check["phase_recalibrated_fidelity_difference"]) < 1e-10
 
     print("evaluating bright-mode cutoff convergence", flush=True)
@@ -317,7 +350,9 @@ def main() -> None:
         step_rows.append(
             {
                 "maximum_step_ns": step_ns,
-                "filtered_target_duration_us": sum(segment.duration_us for segment in step_pulse),
+                "filtered_target_duration_us": sum(
+                    segment.duration_us for segment in step_pulse
+                ),
                 **_gate_metrics(
                     reference_model,
                     step_pulse,
@@ -345,7 +380,8 @@ def main() -> None:
             for cosine in minimax.VALIDATION_COSINES
         )
     reference_modes = [
-        shaped._prepare_modes(geometry.model, MODE_CUTOFF) for geometry in reference_geometries
+        shaped._prepare_modes(geometry.model, MODE_CUTOFF)
+        for geometry in reference_geometries
     ]
     reference_vertex_grid = minimax._scenario_fidelities(
         reference_modes,
@@ -366,21 +402,31 @@ def main() -> None:
     )
     worst_flat = int(np.argmin(reference_vertex_grid))
     worst_geometry_index, worst_yb_index, worst_rb_index = (
-        int(index) for index in np.unravel_index(worst_flat, reference_vertex_grid.shape)
+        int(index)
+        for index in np.unravel_index(worst_flat, reference_vertex_grid.shape)
     )
     worst_geometry = reference_geometries[worst_geometry_index]
     reference_bounded_validation = {
-        "pulse_reoptimized": False,
+        "pulse_reoptimized": True,
+        "pulse_reoptimization_provenance": (
+            "scripts/optimize_forster_p0_4_reference.py; deterministic accepted "
+            "local candidate after 400 iterations / 625 evaluations on this final "
+            "P0-4 reference model; optimizer budget exhausted, not converged/global"
+        ),
         "number_of_geometries": len(reference_geometries),
         "radii_um": list(minimax.VALIDATION_RADII_UM),
         "direction_cosines": list(minimax.VALIDATION_COSINES),
         "independent_yb_and_rb_rabi_scales": list(minimax.AMPLITUDE_VERTICES),
         "nominal_fidelity": float(reference_position_only[0]),
         "position_only_minimum_fidelity": float(np.min(reference_position_only)),
-        "position_and_amplitude_vertex_minimum_fidelity": float(np.min(reference_vertex_grid)),
+        "position_and_amplitude_vertex_minimum_fidelity": float(
+            np.min(reference_vertex_grid)
+        ),
         "worst_case": {
             "geometry_index": worst_geometry_index,
-            "radial_displacement_nm": (1000 * worst_geometry.radial_displacement_um),
+            "radial_displacement_nm": (
+                1000 * worst_geometry.radial_displacement_um
+            ),
             "direction_cosine": worst_geometry.direction_cosine,
             "delta_z_nm": 1000 * worst_geometry.delta_z_um,
             "transverse_nm": 1000 * worst_geometry.transverse_um,
@@ -388,7 +434,9 @@ def main() -> None:
             "yb_rabi_scale": minimax.AMPLITUDE_VERTICES[worst_yb_index],
             "rb_rabi_scale": minimax.AMPLITUDE_VERTICES[worst_rb_index],
             "fidelity": float(
-                reference_vertex_grid[worst_geometry_index, worst_yb_index, worst_rb_index]
+                reference_vertex_grid[
+                    worst_geometry_index, worst_yb_index, worst_rb_index
+                ]
             ),
         },
         "geometry": [
@@ -399,10 +447,12 @@ def main() -> None:
                 "theta_deg": geometry.theta_deg,
                 "connected_component_size": geometry.model.symmetry_component_size,
                 "position_only_fidelity": float(position_fidelity),
-                "amplitude_vertex_minimum_fidelity": float(np.min(reference_vertex_grid[index])),
+                "amplitude_vertex_minimum_fidelity": float(
+                    np.min(reference_vertex_grid[index])
+                ),
             }
             for index, (geometry, position_fidelity) in enumerate(
-                zip(reference_geometries, reference_position_only, strict=True)
+                zip(reference_geometries, reference_position_only)
             )
         ],
     }
@@ -417,7 +467,9 @@ def main() -> None:
         for p_shift_mhz in (-3.2, 3.2):
             defect_offset_mhz = s_shift_mhz - p_shift_mhz
             shifted_pair_model = shifted_model(defect_offset_mhz)
-            tracked_gate = _gate_metrics(shifted_pair_model, pulse, lifetimes, reference_correction)
+            tracked_gate = _gate_metrics(
+                shifted_pair_model, pulse, lifetimes, reference_correction
+            )
             fixed_laser_errors = {
                 "detuning_offset_mhz": -s_shift_mhz,
             }
@@ -473,7 +525,9 @@ def main() -> None:
                 electric_field_v_cm=electric_field_v_cm,
             )
         )
-        carrier_tracked = _gate_metrics(model, pulse, lifetimes, reference_correction)
+        carrier_tracked = _gate_metrics(
+            model, pulse, lifetimes, reference_correction
+        )
         fixed_laser = _gate_metrics(
             model,
             pulse,
@@ -519,19 +573,27 @@ def main() -> None:
     }
 
     result = {
-        "timestamp_utc": datetime.now(UTC).isoformat(),
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "software": {
             "pairinteraction": getattr(pi, "__version__", "unknown"),
             "numpy": np.__version__,
             "scipy": scipy.__version__,
         },
         "purpose": (
-            "post-optimization numerical-convergence and deterministic "
-            "atomic-structure sensitivity audit of the stored pulse"
+            "numerical-convergence and deterministic atomic-structure sensitivity "
+            "audit of the stored final-reference-reoptimized pulse"
         ),
         "fixed_inputs": {
             "pulse_parameters": minimax.SELECTED_PARAMETERS.tolist(),
-            "pulse_reoptimized": False,
+            "pulse_reoptimized": True,
+            "pulse_provenance": (
+                "selected by scripts/optimize_forster_p0_4_reference.py on the "
+                "final P0-4 numerical-reference model"
+            ),
+            "reoptimization_status": (
+                "deterministic accepted local candidate; 400-iteration / "
+                "625-evaluation budget exhausted; not a converged or global optimum"
+            ),
             "temperature_k": 0.0,
             "mode_cutoff": MODE_CUTOFF,
             "propagation_step_ns": hardware.FINAL_STEP_NS,
@@ -572,7 +634,8 @@ def main() -> None:
                 "target_neighboring_p_entry_residual_mhz": 3.16,
                 "rounded_p_sensitivity_scale_mhz": 3.2,
                 "parameter_covariance": (
-                    "no covariance matrix is reported in the article or its tabulated supplement"
+                    "no covariance matrix is reported in the article or its "
+                    "tabulated supplement"
                 ),
             },
             "interpretation": (
