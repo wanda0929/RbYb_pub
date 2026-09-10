@@ -1,0 +1,90 @@
+{
+  "scope": "Post-hoc finite-sample diagnostic and approximate budget; NOT full-D propagation",
+  "input_keys": {
+    "lifetimes": "baseline.lifetimes_us",
+    "time": "curves.population_trajectory.time_us",
+    "populations": [
+      "curves.population_trajectory.unblocked_yb_rydberg",
+      "curves.population_trajectory.blocked_computational",
+      "curves.population_trajectory.blocked_pp",
+      "curves.population_trajectory.blocked_ss",
+      "curves.population_trajectory.blocked_spectator",
+      "curves.population_trajectory.blocked_loss"
+    ]
+  },
+  "lifetimes_us": {
+    "rb_56p_us": 413.8385779142002,
+    "rb_56s_us": 191.77408087222165,
+    "yb_52p_us": 340.6825879260267,
+    "yb_53s_us": 79.52089842018661
+  },
+  "power": {
+    "formula": "P=pi*w^2*epsilon0*c*(hbar*Omega/d)^2/4",
+    "constants": {
+      "epsilon0_F_m": 8.8541878128e-12,
+      "c_m_s": 299792458,
+      "h_J_s": 6.62607015e-34,
+      "e_C": 1.602176634e-19,
+      "a0_m": 5.29177210903e-11
+    },
+    "waist_1e2_intensity_radius_m": 1.2e-05,
+    "assumed_dipole_ea0": 0.00239,
+    "command_rabi_Hz": 11778000.0,
+    "mW_before_optical_losses": 44.53055519382625,
+    "selected_pulse_command_rabi_Hz": 11778486.107199453,
+    "selected_pulse_mW_before_optical_losses": 44.53423104204839
+  },
+  "sample_count": 1286,
+  "target_window_us": 0.1600289492601458,
+  "integrated_populations_ns": {
+    "unblocked_yb_rydberg": 49.39900031815169,
+    "blocked_computational": 147.87052358676726,
+    "blocked_pp": 10.656308312477885,
+    "blocked_ss": 1.3726545558467358,
+    "blocked_spectator": 0.0558357964568512
+  },
+  "Rb10_ideal_residence_ns": 260.0289492601458,
+  "Rb_pi_pair_ideal_residence_ns": 100.0,
+  "diagnostic": {
+    "Gamma_other_per_us": 0.01778977964143129,
+    "bare_population_integral_endpoint": 0.0008535079919413452,
+    "modal_norm_loss_endpoint": 0.0009090520218978246,
+    "endpoint_modal_minus_bare": 5.554402995647939e-05,
+    "maximum_absolute_sampled_cumulative_difference": 5.57929583376597e-05,
+    "maximum_at_ns": 117.96670520304936,
+    "warning": "Not a continuous-time bound or two-propagator comparison"
+  },
+  "approx_species_by_input": {
+    "00": {
+      "Rb": 0.0,
+      "Yb": 0.0
+    },
+    "01": {
+      "Rb": 0.0,
+      "Yb": 0.0006212077743026557
+    },
+    "10": {
+      "Rb": 0.0013559128954105228,
+      "Yb": 0.0
+    },
+    "11": {
+      "Rb": 0.0013254207415205248,
+      "Yb": 4.854084405608428e-05
+    }
+  },
+  "approx_species_equal_input_mean": {
+    "Rb": 0.0006703334092327619,
+    "Yb": 0.00016743715458968498
+  },
+  "species_assumptions": [
+    "Stored no-jump target-window populations; ideal pi-pulse residence",
+    "Omit spectator species allocation and full-sequence attenuation corrections",
+    "Equal 1/4 computational-input weights; first-order population/rate estimate",
+    "Does not establish exact 6.70e-4/1.68e-4 historical budget or gate infidelity"
+  ],
+  "input_sha256": {
+    "forster_control_decay_recheck.json": "1660d53dda9fb94af58fd2af0c329a91b8e5b66a4a6f34aaaee080214da58589",
+    "forster_control_decay_driven_curves.json": "a0cce20ba7b77a632a0c56f3f684a3cc4cecdbe9b645b646a93870528e090055"
+  },
+  "script_sha256": "5fe6e679e1b6a3e19d568b97446906f0aa314e5f6d46d87066d79ed108f50ad9"
+}

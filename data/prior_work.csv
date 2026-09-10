@@ -1,5 +1,0 @@
-work,publication_type,initial_pair,final_pair,forster_defect,interaction_strength,pair_potential,gate_result,citation_key
-Zhang et al.,preprint,|rR> (symbolic),|r'R'> (symbolic),not reported,"assumed V_Rr = 2pi x 200 MHz",not reported,architecture numerics with assumed V,Zhang2025Dual
-Xu et al.,conference abstract,not reported,not reported,not reported,not reported,not reported,not reported,DAMOP2026_Xu
-This work (Forster),manuscript,"Rb 56S_1/2 + Yb S (nu=48.369927)","Rb 56P_1/2 + Yb P (nu=48.014048)","-0.764 MHz electronic; -0.694 MHz stretched HFS","Delta nu = 31.1 MHz (finite basis) at R=3.4 um",finite-basis multichannel model,"modeled composite CZ loss-aware overlap: F_avg=99.93%; sampled minimum=99.87%",this_work
-This work (vdW candidate),manuscript,"Rb 66S_1/2 + Yb S (nu=62.6823)",not a Forster pair,315 MHz (nearest partner),"U/h = 57.1 MHz at R=3.3 um","C6/h = +73.58 GHz um^6",not assigned,this_work

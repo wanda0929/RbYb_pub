@@ -1,0 +1,62 @@
+{
+  "source_repository": "https://github.com/wanda0929/draft-RbYb",
+  "source_notes_status": "Local untracked files; exact selected excerpts only. No published commit attribution.",
+  "source_export_artifact": "claim_evidence_export_2026_09_10.tar.gz",
+  "source_export_hash_method": "SHA-256 of the raw gzip archive bytes received from the local runner. Transport evidence only; the temporary archive is not redistributed. Verify retained source_excerpts.json using source_excerpts_sha256 instead.",
+  "source_export_sha256": "b69117685432894f2d87ccc4411645e026825fe6515d029a22c2d7ece928c884",
+  "source_scripts": [
+    {
+      "path": "figures/plot_control_decay_gate.py",
+      "sha256": "c4efa79b958f4969783d91df4a6b9b52bcd1dfc0f42adeb8fd8051244c4c6f35",
+      "tracked": true,
+      "imports": [
+        "import hashlib",
+        "import json",
+        "from pathlib import Path",
+        "import numpy as np",
+        "import matplotlib",
+        "import matplotlib.pyplot as plt",
+        "from matplotlib.ticker import FuncFormatter, NullFormatter",
+        "from pulseviz import cz_phase_errors, first_order_response",
+        "from style import DOUBLE_COL, SINGLE_COL, PAPER_COLORS, RB_COLOR, YB_COLOR, panel_label, use_paper_style"
+      ],
+      "exported": true
+    },
+    {
+      "path": "figures/check_manuscript_data.py",
+      "sha256": "e27a9342261f37c734fcdd331a43cca42534f8c6cdb33b7f1a3aec8db0e60d03",
+      "tracked": true,
+      "imports": [
+        "import json",
+        "from pathlib import Path",
+        "import numpy as np",
+        "from plot_control_decay_gate import load_results, endpoint_phase_errors"
+      ],
+      "exported": true
+    },
+    {
+      "path": "figures/style.py",
+      "sha256": "c543c5c3182544da139fedcec556a8148ca4ddd4c6da0fe4ab83030fdb731a6e",
+      "tracked": true,
+      "imports": [
+        "from matplotlib import rcParams",
+        "from pulseviz import paper_style, MODEL_COLORS"
+      ],
+      "exported": false
+    },
+    {
+      "path": "figures/pulseviz/__init__.py",
+      "sha256": "8cfed13df7aa432cefce243a18148e0f93f264fa48f9fea89b35ed9e1566f165",
+      "tracked": true,
+      "imports": [
+        "from pathlib import Path",
+        "import numpy as np",
+        "import matplotlib.pyplot as plt",
+        "from cycler import cycler"
+      ],
+      "exported": false
+    }
+  ],
+  "adaptation": "scripts/plot_control_decay_gate.py and scripts/check_control_decay_data.py adapted to publication paths, archive manifest validation, and corrected gate/robustness scope. The latter omits unrelated Fig.1/5 checks; missing vdw_gate_distance_sweep.json is not imported.",
+  "source_excerpts_sha256": "2e58c96338b67f4874e19d911db36b6aa7314a7f4995fc54b8d58acf849a2868"
+}

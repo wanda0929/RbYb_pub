@@ -1,0 +1,61 @@
+{
+  "source": {
+    "repository": "https://github.com/wanda0929/draft-RbYb",
+    "file": "main.tex",
+    "lines": [488, 519],
+    "sha256": "b620bdebe7c2db4a268e17ed5c7d1fd85a73d6774be0cf4e0ddff09a4e391658",
+    "status": "Local modified manuscript inspected 2026-09-10, not an immutable submitted revision"
+  },
+  "scope": "Transcription of Table II quoted inputs, not a new atomic calculation. Only the four Forster lifetimes have corresponding query outputs here. g factors, optical dipoles, vdW lifetimes and term energy remain quoted/unverified inputs.",
+  "database_manifest": "provenance/pairinteraction_database_manifest.json",
+  "forster_lifetime_record": "data/manuscript_claims_2026_09_10/simulations/forster_control_decay_recheck.json",
+  "rows": [
+    {
+      "role": "Rb Forster drive",
+      "selector": [56, 0, 0.5, 0.5],
+      "m_I": 1.5,
+      "initial_state": "5S1/2,F=2,mF=2",
+      "quoted_g_J": 2.0023,
+      "quoted_lifetime_us": 191.77,
+      "lifetime_record_key": "rb_56s_us",
+      "effective_rabi_mhz": 5.0
+    },
+    {
+      "role": "Yb Forster drive",
+      "selector": [53, 0, 1, 0.5, 0.5],
+      "nu": 48.369927,
+      "initial_state": "3P0,F=1/2,mF=-1/2",
+      "polarization": "sigma+",
+      "quoted_g_F": 2.4414,
+      "quoted_lifetime_us": 79.52,
+      "lifetime_record_key": "yb_53s_us",
+      "quoted_d_plus1_ea0": 0.00239
+    },
+    {
+      "role": "Forster PP partner",
+      "rb_selector": [56, 1, 0.5, 0.5],
+      "rb_m_I": 1.5,
+      "yb_selector": [52, 1, 0, 0.5, 0.5],
+      "yb_nu": 48.014048,
+      "quoted_rb_g_J": 0.6659,
+      "quoted_yb_g_F": 1.3112,
+      "quoted_lifetimes_us": [413.84, 340.68],
+      "lifetime_record_keys": ["rb_56p_us", "yb_52p_us"]
+    },
+    {
+      "role": "Rb vdW candidate",
+      "selector": [66, 0, 0.5, 0.5],
+      "quoted_g_J": 2.0023,
+      "quoted_lifetime_us": 323.60
+    },
+    {
+      "role": "Yb vdW candidate",
+      "selector": [67, 0, 0, 0.5, 0.5],
+      "nu": 62.682293,
+      "quoted_term_energy_cm_minus1": 50415.288,
+      "quoted_g_F": 0.4007,
+      "quoted_lifetime_us": 87.56,
+      "quoted_d_0_ea0": 0.000627
+    }
+  ]
+}

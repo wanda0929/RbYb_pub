@@ -6,6 +6,26 @@ JSON numbers are stored at full precision; values displayed in the manuscript ar
 `../provenance/manuscript_manifest.json` identifies the exact manuscript PDF
 and source commit for the original archive; the later snapshot has its own manifest.
 
+The current five-figure/five-table map and remaining evidence gaps are in
+[CODE_AVAILABILITY.md](../docs/CODE_AVAILABILITY.md). Figure/Table numbers
+below may refer to the older archive, not the current manuscript numbering.
+`working_state_inputs.json` transcribes current Table II, distinguishing
+quoted atomic inputs from independently archived lifetime-query results.
+
+## `manuscript_support_2026_09_10/`
+
+Recovered excerpts from local untracked `History_plans` notes and newly
+reconstructed post-hoc arithmetic. See the
+[methods and remaining gaps](../docs/MANUSCRIPT_SUPPORT_NOTES.md).
+
+- `source_excerpts.json`: exact selected text, original relative paths, line
+  ranges, full source-file hashes and untracked status; not a published snapshot.
+- `source_manifest.json`: original figure-script/helper hashes, excerpt integrity
+  and adaptation notes. Existing frozen helpers are reused without changes.
+- `recomputed_diagnostics.json`: newly computed optical-power conversion,
+  finite-sample bare/modal loss comparison and approximate species budget,
+  with input and reproducer hashes. Not a new propagation or exact loss budget.
+
 ## `manuscript_claims_2026_09_10/`
 
 See the [claim-to-data map](manuscript_claims_2026_09_10/README.md) for the revised
@@ -15,8 +35,8 @@ Seven corrected-decay records and eleven off-axis records are archived byte-for-
 with their source/import closure, two reference inputs, and original off-axis report.
 `manifest.json` records the source commit, manuscript hashes and every imported file hash.
 No physics was rerun during import. The old records below remain historical evidence,
-not substitutes for the corrected-decay values. The local-optimization supplement
-is a different experiment and does not replace this fixed-pulse snapshot.
+not substitutes for the corrected-decay values. The non-selected local-optimization
+experiment is excluded from the publication package.
 
 ## `forster_characterization.json`
 
@@ -58,20 +78,6 @@ are mapped separately in `manuscript_claims_2026_09_10/README.md`.
 Deterministic final-reference local refinement and exact validation. The
 accepted candidate exhausted 400 iterations / 625 evaluations and is not a
 converged or global optimum.
-
-## `forster_control_decay_convergence/`
-
-Separate corrected-decay local refinement; not a replacement for any
-manuscript-linked record. See its [README](forster_control_decay_convergence/README.md)
-for provenance, claim boundaries, and reproduction commands.
-
-- `result.json`: original optimizer termination, options, seed/baseline/best
-  parameters, final simplex, source hashes, software versions, and four
-  fixed-pulse fine-step rechecks.
-- `evaluations.jsonl`: all 3466 objective evaluations in order, with six free
-  parameters plus fixed segment duration, nine-point metrics, and timing.
-- The candidate reached local stopping tolerances; it has not passed a new
-  full-grid or continuous-domain acceptance study and is not manuscript-selected.
 
 ## `forster_p0_4_field_scan.json`
 
@@ -163,12 +169,6 @@ vdW gate calculation.
 These checks establish one-axis finite-basis stability only. They do not test
 simultaneous-expansion cross-terms, higher multipoles, driven vdW dynamics, or
 process fidelity.
-
-## `prior_work.csv`
-
-Every cell of manuscript Table II, including publication type, explicit
-`not reported` entries, and citation keys. It is curated literature data, not
-simulation output.
 
 ## Database provenance
 

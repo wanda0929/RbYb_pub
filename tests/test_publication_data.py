@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import csv
 import json
 from pathlib import Path
 
-import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -238,21 +236,6 @@ def test_p1_5_vdw_basis_convergence_record() -> None:
     assert "do not test cross-terms" in data["caveat"]
 
 
-def test_table_ii_csv_matches_current_manuscript() -> None:
-    with (DATA / "prior_work.csv").open(newline="") as stream:
-        rows = list(csv.DictReader(stream))
-    assert [row["publication_type"] for row in rows] == [
-        "preprint",
-        "conference abstract",
-        "manuscript",
-        "manuscript",
-    ]
-    assert rows[2]["forster_defect"] == "-0.764 MHz electronic; -0.694 MHz stretched HFS"
-    assert rows[2]["gate_result"].endswith("F_avg=99.93%; sampled minimum=99.87%")
-    assert rows[3]["work"] == "This work (vdW candidate)"
-    assert rows[3]["gate_result"] == "not assigned"
-
-
 def test_database_manifest_is_complete() -> None:
     primary = json.loads(
         (ROOT / "provenance" / "pairinteraction_database_manifest.json").read_text()
@@ -273,7 +256,7 @@ def test_database_manifest_is_complete() -> None:
     }
 
 
-def test_manuscript_manifest_identifies_current_pdf() -> None:
+def test_manuscript_manifest_identifies_original_pdf() -> None:
     manifest = json.loads((ROOT / "provenance" / "manuscript_manifest.json").read_text())
     assert manifest["title"] == "87Rb-171Yb Rydberg interactions and a Förster CZ gate"
     assert manifest["source_pdf_sha256"] == (
@@ -309,7 +292,8 @@ def test_archive_map_and_reproduction_entry_point_are_complete() -> None:
         "scripts/evaluate_vdw_p1_5.py",
         "scripts/plot_channel_forster.py",
         "scripts/plot_candidate_excitation.py",
-        "scripts/plot_forster_gate.py",
+        "scripts/plot_control_decay_gate.py",
+        "scripts/quick_check.py",
         "scripts/plot_channel_vdw.py",
         "docs/INDEPENDENT_VERIFICATION_GUIDE.md",
         "docs/P1_1_ROBUSTNESS_METHOD.md",
@@ -325,7 +309,7 @@ def test_archive_map_and_reproduction_entry_point_are_complete() -> None:
     ]
     assert all((ROOT / relative).is_file() for relative in expected)
     readme = (ROOT / "README.md").read_text()
-    assert "scripts/reproduce_all.py --full" in readme
+    assert "scripts/reproduce_all.py --quick-check" in readme
     assert "not a gate design or process-fidelity result" in " ".join(readme.split())
     assert "33,180-state pair basis" in readme
 

@@ -12,8 +12,9 @@ repository is not needed to read this archive.
 
 Paths below are relative to this directory. The seven corrected-decay records
 keep the selected pulse fixed and include Rb 56S decay in the control-excited
-state during the target window. They are distinct from the separately archived
-local-optimization experiment and the older pre-correction publication records.
+state during the target window. They are distinct from the older pre-correction
+publication records. The non-selected local-optimization experiment is excluded
+from this publication package; no imported file in the 41-file manifest changed.
 
 | Claim or diagnostic | Existing record under `simulations/` | Fields / source |
 | --- | --- | --- |
@@ -37,7 +38,7 @@ The corrected baseline's exact nominal fidelity is **0.999125784769183**;
 its position-only minimum is **0.9990080680690021** and joint sampled minimum is
 **0.9984994300039455**. Its nominal fixed local-Z angles are
 [-3.1407724432579953, 2.941141606972484] rad. Do not substitute the optimized
-supplement's phases or the historical archive's 0.999318459478283 nominal value.
+non-selected candidate's phases or the historical archive's 0.999318459478283 nominal value.
 
 ## Off-axis records and limits
 
