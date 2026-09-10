@@ -1,0 +1,289 @@
+{
+  "started_utc": "2026-09-10T03:24:23.558362+00:00",
+  "geometry": {
+    "dx_um": 0.0,
+    "dz_um": -0.05,
+    "distance_um": 3.35,
+    "theta_deg": 0.0
+  },
+  "sector_radius": 0,
+  "basis": {
+    "delta_n": 3,
+    "atomic_window_ghz": 80.0,
+    "pair_window_ghz": 40.0,
+    "delta_l": 2,
+    "interaction_order": 4
+  },
+  "fixed_local_z_rad": [
+    -3.1407724432579953,
+    2.941141606972484
+  ],
+  "step_ns": 0.125,
+  "lifetimes_us": {
+    "rb_56p_us": 413.8385779142002,
+    "rb_56s_us": 191.77408087222165,
+    "yb_52p_us": 340.6825879260267,
+    "yb_53s_us": 79.52089842018661
+  },
+  "scope": "frozen xz-plane geometry; fixed published pulse; secular eigenmode absorbing decay; no thermal average",
+  "population_convention": "target window initialized in control-excited state; excludes opening/closing pulse attenuation; peaks sampled at integration boundaries",
+  "software": {
+    "pairinteraction": "2.5.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "source_sha256": {
+    "evaluate_forster_off_axis.py": "6890a08356dfca00703f1ca799ae2ecc81048d0e48b64ff9beb6b057e3051549",
+    "simulate_forster_gate.py": "dfd573ba1d11319891bf44222d9c0521eab4d51956f9bb762ba6f9b81aeb9b5c",
+    "rb_rydberg_hyperfine.py": "b9d2595c3ddbc1b2aa352f39e3d9cc6ed22b7b1f8a7a2be0bccc9ad38fbf6804",
+    "evaluate_forster_p0_4.py": "688754a3ffc1b37b772a901a7cac19071ff7883f941ec9b91ae8d80966631773",
+    "optimize_hardware_aware_forster_gate.py": "7c54f0d4c6f250fd9eed647947090e034533fd4f5865e067d0d3d45ff5fdc6ff",
+    "simulate_robust_shaped_forster_gate.py": "5602f1565f2c05caea038d2332d94573e3a04451f17222996347ea8a3055ff26",
+    "optimize_bounded_minimax_forster_gate.py": "47f9ccb525be2d0043da0e5e0ccf9a069eaed69f6548a5234bf2d7c523511706",
+    "forster_control_decay_recheck.json": "1660d53dda9fb94af58fd2af0c329a91b8e5b66a4a6f34aaaee080214da58589"
+  },
+  "database": {
+    "versions": {
+      "Rb": "v1.2",
+      "Yb171_mqdt": "v1.4",
+      "misc": "v1.4"
+    },
+    "files": [
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/matrix_elements_d.parquet",
+        "size_bytes": 34116378,
+        "sha256": "b2f7b1db8b0ea5f5dec138a319d3da4d4af37d4e941fdee2c6d72930cddb724a"
+      },
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/matrix_elements_mu.parquet",
+        "size_bytes": 7968579,
+        "sha256": "2f6ba65b7db6ce611473acd71926ae65fefc7d8c9e48a109189f1e97fd55e0d5"
+      },
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/matrix_elements_o.parquet",
+        "size_bytes": 76574867,
+        "sha256": "01b641a5950e5a7684523bd7f30d25840487041811a65a5cf1a4638c043f4ff2"
+      },
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/matrix_elements_q.parquet",
+        "size_bytes": 54423247,
+        "sha256": "97e025844c709a4ab9cb95e7101887e30b05136d6233ba63573584524ebcd2a3"
+      },
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/matrix_elements_q0.parquet",
+        "size_bytes": 11119393,
+        "sha256": "b9fa1f8f57ccc4e05a6052d564c9d51c6506c607ae427f8c88f72062e7c0dd4a"
+      },
+      {
+        "species": "Rb",
+        "relative_path": "Rb_v1.2/states.parquet",
+        "size_bytes": 230390,
+        "sha256": "2fc7546606b82dc5369392cf8758775a239bb6510adfd26d86bfc248513bcfc1"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/matrix_elements_d.parquet",
+        "size_bytes": 32650371,
+        "sha256": "4c141b9e1e1378536e839f06c0b340fb99f244fdddef61a317b6647d3c8fdfe6"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/matrix_elements_mu.parquet",
+        "size_bytes": 29372919,
+        "sha256": "149c04d05f58f13276c3567b031dbdea2eba4cdb15afeabf9fe92f1397377b0a"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/matrix_elements_o.parquet",
+        "size_bytes": 71283697,
+        "sha256": "394d43582e6ffd95828b7a9c7fd46a277bbb849a6731831c033f57efe530f733"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/matrix_elements_q.parquet",
+        "size_bytes": 51898780,
+        "sha256": "ea9f8cb8816a1984a8020b5e58bf3f3905fecce16df163aca51ab219aea31cce"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/matrix_elements_q0.parquet",
+        "size_bytes": 7097505,
+        "sha256": "085865169fd4fc711a578b9a2ff05d76b3032f67ad90f6c8866d3b4531ecded5"
+      },
+      {
+        "species": "Yb171_mqdt",
+        "relative_path": "Yb171_mqdt_v1.4/states.parquet",
+        "size_bytes": 343801,
+        "sha256": "c30ac2287726d90d809f71fafd1050ca45dffe3e8b366749f35ebab4034c80f8"
+      },
+      {
+        "species": "misc",
+        "relative_path": "misc_v1.4/wigner.parquet",
+        "size_bytes": 38098809,
+        "sha256": "2e32e70e39d9ef2b08b8bf8ef6d88309ddca3c9fc1e882cf5a199726d9449b2d"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "mode_count": 128,
+      "energy_range_mhz": [
+        -1853.0791404484164,
+        1751.9060516608629
+      ],
+      "omitted_ss_weight": 0.0014920614725477677,
+      "omitted_pp_weight": 0.001256847509044201,
+      "max_eigen_residual_mhz": 1.8448028813109987e-11,
+      "orthogonality_error": 6.661338147750939e-15,
+      "scenarios": [
+        {
+          "scale_rb_and_yb": 1.0,
+          "fidelity": 0.9990080398400318,
+          "mean_survival": 0.9991207586886792,
+          "phase_error_rad": -0.02850226165771108,
+          "kraus_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9795070696469538,
+              -0.19985246713642565
+            ],
+            [
+              -0.9993222733090721,
+              0.0
+            ],
+            [
+              -0.9843551605449954,
+              -0.17177845797032573
+            ]
+          ],
+          "peak_outside_m_population": 0.0,
+          "final_outside_m_population": 0.0,
+          "peak_pair_population": 0.1446241405852009,
+          "target_window_return_probability": 0.9989836743563831,
+          "target_window_final_pair_population": 0.0001153556470571418
+        },
+        {
+          "scale_rb_and_yb": 0.99,
+          "fidelity": 0.9984993999582867,
+          "mean_survival": 0.998631441653272,
+          "phase_error_rad": -0.029195835460608777,
+          "kraus_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9794781268814833,
+              -0.1975312438451851
+            ],
+            [
+              -0.9988264324068927,
+              0.0
+            ],
+            [
+              -0.9848662026006963,
+              -0.16886116835734144
+            ]
+          ],
+          "peak_outside_m_population": 0.0,
+          "final_outside_m_population": 0.0,
+          "peak_pair_population": 0.14253866327745546,
+          "target_window_return_probability": 0.9989913907046197,
+          "target_window_final_pair_population": 0.00010874655941197706
+        }
+      ]
+    },
+    {
+      "mode_count": 256,
+      "energy_range_mhz": [
+        -2778.82249279441,
+        2793.0625708191214
+      ],
+      "omitted_ss_weight": 0.0013238043054496496,
+      "omitted_pp_weight": 0.001227941480134609,
+      "max_eigen_residual_mhz": 3.1927268528248874e-11,
+      "orthogonality_error": 5.551115123125783e-15,
+      "scenarios": [
+        {
+          "scale_rb_and_yb": 1.0,
+          "fidelity": 0.9990080462088873,
+          "mean_survival": 0.9991207586756659,
+          "phase_error_rad": -0.028501484557788007,
+          "kraus_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9795070696469538,
+              -0.19985246713642565
+            ],
+            [
+              -0.9993222733090721,
+              0.0
+            ],
+            [
+              -0.9843550270300127,
+              -0.17177922290811604
+            ]
+          ],
+          "peak_outside_m_population": 0.0,
+          "final_outside_m_population": 0.0,
+          "peak_pair_population": 0.14462409288093708,
+          "target_window_return_probability": 0.9989836743043022,
+          "target_window_final_pair_population": 0.00011535570946144766
+        },
+        {
+          "scale_rb_and_yb": 0.99,
+          "fidelity": 0.9984994067381235,
+          "mean_survival": 0.9986314416645036,
+          "phase_error_rad": -0.02919507243250896,
+          "kraus_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9794781268814833,
+              -0.1975312438451851
+            ],
+            [
+              -0.9988264324068927,
+              0.0
+            ],
+            [
+              -0.9848660737767498,
+              -0.16886191984167856
+            ]
+          ],
+          "peak_outside_m_population": 0.0,
+          "final_outside_m_population": 0.0,
+          "peak_pair_population": 0.1425386168161328,
+          "target_window_return_probability": 0.9989913907384802,
+          "target_window_final_pair_population": 0.00010874653564976077
+        }
+      ]
+    }
+  ],
+  "construction": {
+    "electronic_pair_size": 9324,
+    "nuclear_product_size": 37296,
+    "retained_size": 3684,
+    "nnz": 2146063,
+    "ss_asymptote_relative_electronic_pp_mhz": 4.68158661478404,
+    "sector_sizes": {
+      "2.5": 3684
+    }
+  },
+  "factorization_ordering": "MMD_AT_PLUS_A",
+  "wall_seconds": 26.154198264000115,
+  "completed_utc": "2026-09-10T03:24:49.674661+00:00"
+}

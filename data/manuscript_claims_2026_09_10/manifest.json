@@ -1,0 +1,173 @@
+{
+  "source_repository": "https://github.com/wanda0929/draft-RbYb",
+  "source_commit": "fd728db62804157051467b32ed4ef4a9184e29da",
+  "source_manuscript_sha256": "7e136480f73b5c9c94572cc0c14f38edf360dea31c171abc97d9feea6087fee6",
+  "source_pdf_sha256": "70012a55578a1c0be4488372856534d3a423efcc6f79fe039e19f5c5dfc0ee9d",
+  "archive_policy": "Byte-preserved existing records and final source snapshot; no numerical recomputation. Original per-run provenance is unchanged and may identify earlier source revisions.",
+  "files": {
+    "figures/pulseviz/__init__.py": {
+      "sha256": "8cfed13df7aa432cefce243a18148e0f93f264fa48f9fea89b35ed9e1566f165",
+      "size_bytes": 8910
+    },
+    "figures/style.py": {
+      "sha256": "c543c5c3182544da139fedcec556a8148ca4ddd4c6da0fe4ab83030fdb731a6e",
+      "size_bytes": 1546
+    },
+    "simulations/evaluate_forster_control_decay.py": {
+      "sha256": "b6fe418bfdd62f7a28154e05d49f680ceb52ade380b27e2573d46f31d4172cb8",
+      "size_bytes": 7171
+    },
+    "simulations/evaluate_forster_off_axis.py": {
+      "sha256": "2d2d9989aa4cf975047d876094b131030f5c7ee1c41bf3cf77b05bb8454205db",
+      "size_bytes": 14389
+    },
+    "simulations/evaluate_forster_p0_4.py": {
+      "sha256": "688754a3ffc1b37b772a901a7cac19071ff7883f941ec9b91ae8d80966631773",
+      "size_bytes": 25792
+    },
+    "simulations/evaluate_forster_p1_1.py": {
+      "sha256": "68b1c148b05336d79c27e31aa4bc00125d92ab63e9d489fc39689b0fb009697b",
+      "size_bytes": 20193
+    },
+    "simulations/evaluate_forster_p1_2.py": {
+      "sha256": "856bf46e1dd858cf6b9308dc7e6bc0b9cd5915ee5b97aff867a61ded9cbddd6c",
+      "size_bytes": 15131
+    },
+    "simulations/forster_characterization.json": {
+      "sha256": "beafb71b5fe857d65a4dc23c0b41265428c940bac597e85ecd5c2df27b76e1c1",
+      "size_bytes": 170907
+    },
+    "simulations/forster_control_decay_driven_curves.json": {
+      "sha256": "a0cce20ba7b77a632a0c56f3f684a3cc4cecdbe9b645b646a93870528e090055",
+      "size_bytes": 257136
+    },
+    "simulations/forster_control_decay_field_scan.json": {
+      "sha256": "f423498a9089504069c5461aae0a644c55215a2f9545366deece4c8fd941c0b4",
+      "size_bytes": 75639
+    },
+    "simulations/forster_control_decay_p0_4.json": {
+      "sha256": "72e5a57f4bc43b0c84cf4b72ad9afad3ce801b98ded82e94fbbcd3c4ec85d71d",
+      "size_bytes": 56553
+    },
+    "simulations/forster_control_decay_p1_1.json": {
+      "sha256": "5e9bd88a64f699ad4026c05bbe64e87f2f325b143aa8da76252932501dfcdec2",
+      "size_bytes": 81527
+    },
+    "simulations/forster_control_decay_p1_2.json": {
+      "sha256": "b4cc8045721e809b9a5b60ffd49a360765ea28facfe35ec57c4a2cebf72d152a",
+      "size_bytes": 17393
+    },
+    "simulations/forster_control_decay_recheck.json": {
+      "sha256": "1660d53dda9fb94af58fd2af0c329a91b8e5b66a4a6f34aaaee080214da58589",
+      "size_bytes": 67372
+    },
+    "simulations/forster_control_decay_tight_steps.json": {
+      "sha256": "231b44e0747406422562d76999cd5df7f7761f4445595418e39bdb7505d1e5e5",
+      "size_bytes": 5171
+    },
+    "simulations/forster_off_axis/README.md": {
+      "sha256": "80d0d9e9d72ea2bbbf97f0b871511aab1601d44839cd092df977b27ff685148e",
+      "size_bytes": 5374
+    },
+    "simulations/forster_off_axis/REPORT.md": {
+      "sha256": "54f8e79d9bc91f61ee2933bb5653969f0426579a004d4f91180b432cbea63fd3",
+      "size_bytes": 8119
+    },
+    "simulations/forster_off_axis/axial.json": {
+      "sha256": "798ae895cca953210f96bd0900af64b97ae599f5c9b7ea4e36ff93474f056e48",
+      "size_bytes": 9134
+    },
+    "simulations/forster_off_axis/axial_inward.json": {
+      "sha256": "c3635c01a94d6e848240605bbf56d70872c7d3688023ebb1355872efb5537c64",
+      "size_bytes": 9508
+    },
+    "simulations/forster_off_axis/ball_max_angle_m1.json": {
+      "sha256": "26287d07459fa577a5c794d230978e3b40c1cb344b07558d63e045225f27e16d",
+      "size_bytes": 9375
+    },
+    "simulations/forster_off_axis/ball_max_angle_m2.json": {
+      "sha256": "986bf5c3a2053b7a5230a88c93099f3dbc02b31bfcd8d53d03129765a1d914ed",
+      "size_bytes": 7343
+    },
+    "simulations/forster_off_axis/ball_max_angle_m2_512.json": {
+      "sha256": "c3907e136789bbd93e7cbded66b25b664127fe6107254fe4bbc3b8183210a1c8",
+      "size_bytes": 7619
+    },
+    "simulations/forster_off_axis/ball_max_angle_projected.json": {
+      "sha256": "37b2baae3b2b0b2fb29d1330bf7db854d6b0e08accbf2328a6ff4e9b93dc0d3f",
+      "size_bytes": 9556
+    },
+    "simulations/forster_off_axis/ball_mixed_m1.json": {
+      "sha256": "906b591fbf34844782dcae774f0ac8cbd37be74c72c7c759a7d7a5034d923f02",
+      "size_bytes": 11738
+    },
+    "simulations/forster_off_axis/ball_mixed_projected.json": {
+      "sha256": "8f18c77f20631b46ec9b35b4dd76f6eda8297c3b8ef821b60d075a0fb964f235",
+      "size_bytes": 9536
+    },
+    "simulations/forster_off_axis/thermal_m1.json": {
+      "sha256": "3d3911f8ca956c26b135c5c7d219c6e67fbb04d168055273f3bf54b8f40165fe",
+      "size_bytes": 9495
+    },
+    "simulations/forster_off_axis/thermal_m2.json": {
+      "sha256": "9156762bda76b9a69e7043dbdfaca595dca089cc0d1c9453e041d2bf0aa6551f",
+      "size_bytes": 11753
+    },
+    "simulations/forster_off_axis/thermal_projected.json": {
+      "sha256": "cc47fe7d51e7aa512b8b92132b483b89915059bedb5f1ba7429c33744f0d4ee5",
+      "size_bytes": 9312
+    },
+    "simulations/forster_p0_4_uncertainty_convergence.json": {
+      "sha256": "c1f9d09ca125b17d43d6f65cc66fed00efd0c681a6feea2e7fee6bbb49a864b9",
+      "size_bytes": 48318
+    },
+    "simulations/optimize_bounded_minimax_forster_gate.py": {
+      "sha256": "47f9ccb525be2d0043da0e5e0ccf9a069eaed69f6548a5234bf2d7c523511706",
+      "size_bytes": 64920
+    },
+    "simulations/optimize_forster_p0_4_reference.py": {
+      "sha256": "5aee6611e8d210605f904f58dc894cfc925caa4b7e0c37d0f5249a2d57235fbc",
+      "size_bytes": 28284
+    },
+    "simulations/optimize_hardware_aware_forster_gate.py": {
+      "sha256": "7c54f0d4c6f250fd9eed647947090e034533fd4f5865e067d0d3d45ff5fdc6ff",
+      "size_bytes": 22447
+    },
+    "simulations/p1_robustness.py": {
+      "sha256": "fbcaec466c08998d870a904dc9d07ccf7e8f9675838ab0ca291c55cd897eb4f4",
+      "size_bytes": 12609
+    },
+    "simulations/rb_rydberg_hyperfine.py": {
+      "sha256": "b9d2595c3ddbc1b2aa352f39e3d9cc6ed22b7b1f8a7a2be0bccc9ad38fbf6804",
+      "size_bytes": 8471
+    },
+    "simulations/replay_control_decay_audits.py": {
+      "sha256": "4a0a8af23329e0ef1f821bfee08d2d72593a5eef0c43d73168306e7a7b460dc5",
+      "size_bytes": 8809
+    },
+    "simulations/reproduce_forster_characterization.py": {
+      "sha256": "d6ba056b5c71af7f3e73bc9d94aabf0cf8cc52a7e086fcf9e69230283ca342c5",
+      "size_bytes": 28985
+    },
+    "simulations/scan_forster_p0_4_field.py": {
+      "sha256": "ba0080f5ffc05481218d284c418f1f23a1a9ea0f751eb3e5270e2d366a8981ff",
+      "size_bytes": 14940
+    },
+    "simulations/simulate_forster_gate.py": {
+      "sha256": "dfd573ba1d11319891bf44222d9c0521eab4d51956f9bb762ba6f9b81aeb9b5c",
+      "size_bytes": 43974
+    },
+    "simulations/simulate_robust_shaped_forster_gate.py": {
+      "sha256": "5602f1565f2c05caea038d2332d94573e3a04451f17222996347ea8a3055ff26",
+      "size_bytes": 23373
+    },
+    "simulations/simulate_ss_scheme.py": {
+      "sha256": "d8774f6dae1ecee5d7d115e93c565d96c14b60118395508d6d3904469746488b",
+      "size_bytes": 12434
+    },
+    "simulations/test_forster_off_axis.py": {
+      "sha256": "ba945fe68028047a670ce7c747d395ac8b55661083061c5be573de5ca7e7093f",
+      "size_bytes": 4102
+    }
+  }
+}

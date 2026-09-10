@@ -1,9 +1,22 @@
 # Data dictionary and traceability
 
-All numerical records use repository-relative provenance paths. JSON numbers
-are stored at full precision; values displayed in the manuscript are rounded.
+Adapted numerical records use repository-relative provenance paths. The frozen
+September 10 snapshot preserves its original manuscript-layout paths and hashes.
+JSON numbers are stored at full precision; values displayed in the manuscript are rounded.
 `../provenance/manuscript_manifest.json` identifies the exact manuscript PDF
-and source commit against which this map was prepared.
+and source commit for the original archive; the later snapshot has its own manifest.
+
+## `manuscript_claims_2026_09_10/`
+
+See the [claim-to-data map](manuscript_claims_2026_09_10/README.md) for the revised
+99.91% nominal / 99.85% sampled-minimum gate claims, corrected-decay convergence,
+driven curves, sensitivity and robustness, and finite-sector off-axis checks.
+Seven corrected-decay records and eleven off-axis records are archived byte-for-byte
+with their source/import closure, two reference inputs, and original off-axis report.
+`manifest.json` records the source commit, manuscript hashes and every imported file hash.
+No physics was rerun during import. The old records below remain historical evidence,
+not substitutes for the corrected-decay values. The local-optimization supplement
+is a different experiment and does not replace this fixed-pulse snapshot.
 
 ## `forster_characterization.json`
 
@@ -27,9 +40,10 @@ and source commit against which this map was prepared.
 
 ## `forster_gate_results.json`
 
-This is the current Figure 3 record. All driven panels use the final P0-4
+This is the historical, pre-control-decay-correction Figure 3 record. All driven panels use the final P0-4
 numerical-reference model; historical SCAN-basis diagnostics are nested and
-explicitly excluded from the current plot.
+explicitly excluded from that historical plot. Revised manuscript gate diagnostics
+are mapped separately in `manuscript_claims_2026_09_10/README.md`.
 
 - `parameters` and `command_segments`: selected symmetric five-segment pulse.
 - `short_minimax`: final-reference nominal overlap 0.999318459478283 and

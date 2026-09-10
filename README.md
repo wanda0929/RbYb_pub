@@ -5,9 +5,12 @@ interactions and a Förster CZ gate.”** This repository contains the reported
 numerical outputs, the scripts that produce or plot them, the settings needed
 for independent verification, and exact atomic-database provenance.
 
-The manuscript snapshot covered by this archive is identified by PDF SHA-256
-and source commit in `provenance/manuscript_manifest.json`. The manuscript PDF
-and LaTeX sources are maintained in the separate manuscript repository.
+The original manuscript snapshot is identified by PDF SHA-256 and source commit
+in `provenance/manuscript_manifest.json`. The September 10 corrected-decay and
+off-axis claims are covered by the separate
+[manuscript-claim archive](data/manuscript_claims_2026_09_10/README.md), with its
+own source/PDF hashes and byte-preserved code and data. The manuscript PDF and
+LaTeX sources are maintained in the separate manuscript repository.
 
 ## Scientific scope
 
@@ -26,12 +29,16 @@ and LaTeX sources are maintained in the separate manuscript repository.
 - **Excitation routes:** selection-rule-allowed candidate routes. They do not
   constitute complete multilevel laser-error budgets.
 
-The Figure 3 record (`data/forster_gate_results.json`) now uses the final P0-4
+The historical Figure 3 record (`data/forster_gate_results.json`) uses the final P0-4
 numerical-reference model throughout. Its nominal loss-aware overlap is
 0.999318459478283 and its sampled joint minimum is 0.998693823160795. This is
 a zero-temperature no-jump overlap, not a CPTP process fidelity. Historical
 SCAN-basis diagnostics remain explicitly nested in that record and are not
-used by the current figure.
+used by that archived figure. These pre-correction values must not be used for
+the revised manuscript's 99.91% / 99.85% claims: the
+[corrected fixed-pulse records](data/manuscript_claims_2026_09_10/README.md)
+give 0.999125784769183 and 0.9984994300039455, respectively. Both versions are
+retained; no stored numerical result was overwritten or recalculated for this import.
 
 Figure 1's own-data final P0-4 HFS scan gives a static first-exchange transfer
 of 0.9881256840811098 at the retained 3.10 G gate field and a sampled maximum
@@ -42,9 +49,11 @@ not gate fidelities.
 
 | Paper item | Data or settings | Reproducing or plotting script |
 | --- | --- | --- |
+| Revised manuscript: corrected-decay gate, convergence, sensitivity and robustness | `data/manuscript_claims_2026_09_10/simulations/forster_control_decay_*.json` | Unmodified source snapshot and claim map in `data/manuscript_claims_2026_09_10/README.md` |
+| Revised manuscript: finite-sector off-axis diagnostics | `data/manuscript_claims_2026_09_10/simulations/forster_off_axis/` | Archived `evaluate_forster_off_axis.py`; frozen points, not thermal averaging |
 | Figure 1 | `data/forster_characterization.json` | `scripts/reproduce_forster_characterization.py`, `scripts/plot_channel_forster.py` |
 | Figure 2 | candidate-route settings in the manuscript and verification guide | `scripts/plot_candidate_excitation.py` |
-| Figure 3 and Table I final-reference diagnostics | `data/forster_gate_results.json` | `scripts/reproduce_forster_gate.py` (`--plot-only` to plot) |
+| Original manuscript Figure 3 and Table I, pre-correction diagnostics | `data/forster_gate_results.json` | `scripts/reproduce_forster_gate.py` (`--plot-only` to plot the historical figure) |
 | Final-reference pulse reoptimization | `data/forster_p0_4_reoptimization.json` | `scripts/optimize_forster_p0_4_reference.py` |
 | Fixed-pulse magnetic-field study | `data/forster_p0_4_field_scan.json` | `scripts/scan_forster_p0_4_field.py` |
 | Post-optimization convergence and sensitivity audit | `data/forster_p0_4_uncertainty_convergence.json` | `scripts/evaluate_forster_p0_4.py` |
@@ -69,10 +78,10 @@ stopping tolerances, not a global or continuous-domain minimax certificate.
 
 The supplement includes Rb 56S decay in the blocked control-excited state during
 the target window, which the historical propagator omitted. This correction is
-explicitly enabled only in the supplemental runner; historical reproduction
+explicitly enabled in the supplemental runner; historical reproduction
 defaults and records remain unchanged. Both the selected baseline and the new
 candidate are reevaluated under the corrected convention. Neither the selected
-pulse nor the manuscript-linked Figure 3 data is replaced by this supplement.
+pulse nor the original manuscript's historical Figure 3 data is replaced by this supplement.
 The original budget-limited optimization record remains valid as a historical
 record; this later run does not retroactively change its termination status.
 
@@ -141,6 +150,11 @@ minutes and reached approximately 10.1 GiB peak RSS on a 16-logical-CPU Linux
 host. Runtime and peak memory depend strongly on the BLAS implementation and
 hardware. The default command deliberately tests the committed archive without
 overwriting it.
+
+The September 10 source snapshot is archival, separate from these historical
+replay workflows. Neither the default command nor `--full` launches its corrected
+audits or five-sector solves. Its new integrity tests only read files and check
+hashes, input closure, and recorded claim values; they do not rerun physics.
 
 The accepted final-reference candidate exhausted its 400-iteration,
 625-evaluation local adaptive Nelder–Mead budget and is not claimed converged

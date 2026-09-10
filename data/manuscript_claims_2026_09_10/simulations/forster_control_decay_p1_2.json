@@ -1,0 +1,419 @@
+{
+  "timestamp_utc": "2026-09-05T18:14:41.420377+00:00",
+  "software": {
+    "pairinteraction": "2.5.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "status": "axial gate-level bright-mode projection audit complete at the nominal and limiting points; hyperfine-resolved full-angular transverse propagation remains outside this audit",
+  "purpose": "gate-level bright-mode projection audit using the fixed P0-4 Hamiltonian, pulse, propagation grid, decay convention, and local Z",
+  "fixed_p0_4_inputs": {
+    "pulse_parameters": [
+      4.480374546413655,
+      9.229350329961736,
+      11.778486107199452,
+      -0.3647742336217171,
+      -1.0235176743455907,
+      2.4312627812906094,
+      0.025634115265641792
+    ],
+    "pulse_reoptimized": true,
+    "pulse_provenance": "selected by simulations/optimize_forster_p0_4_reference.py on the final P0-4 numerical-reference model",
+    "reoptimization_status": "deterministic accepted local candidate; 400-iteration / 625-evaluation budget exhausted; not a converged or global optimum",
+    "temperature_k": 0.0,
+    "mode_cutoff": 1e-06,
+    "propagation_step_ns": 0.125,
+    "field_gauss": 3.1,
+    "distance_um": 3.4,
+    "theta_deg": 0.0,
+    "numerical_reference_basis": {
+      "delta_n": 3,
+      "atomic_window_ghz": 80.0,
+      "pair_window_ghz": 40.0,
+      "delta_l": 2,
+      "interaction_order": 4
+    },
+    "fixed_reference_local_z_alpha_rad": -3.1407724432579953,
+    "fixed_reference_local_z_beta_rad": 2.941141606972484
+  },
+  "mode_cutoffs": [
+    1e-06,
+    1e-08,
+    "all modes"
+  ],
+  "points": [
+    {
+      "label": "nominal",
+      "distance_um": 3.4,
+      "theta_deg": 0.0,
+      "yb_rabi_scale": 1.0,
+      "rb_rabi_scale": 1.0,
+      "pair_basis_size": 3684,
+      "connected_component_size": 3684,
+      "cutoff_rows": [
+        {
+          "bright_mode_cutoff": 1e-06,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806032563068,
+          "omitted_ss_weight": 1.9396743693222973e-05,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9795070696469538,
+              -0.19985246713642565
+            ],
+            [
+              -0.9993222733090721,
+              0.0
+            ],
+            [
+              -0.9793966162961445,
+              -0.19815681923247577
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.9991257847692042,
+          "mean_computational_survival": 0.9991259927652899,
+          "success_weighted_conditional_overlap": 0.9999997918219652,
+          "conditional_phase_error_rad": -0.0016405819046427794,
+          "phase_recalibrated_fidelity": 0.9991257847692043,
+          "target_population": {
+            "maximum_pair": 0.16299135054009273,
+            "maximum_pp": 0.15205968137165368,
+            "maximum_ss": 0.017302886174385506,
+            "maximum_spectator": 0.0007619421846605818,
+            "final": {
+              "computational": 0.9990046215768394,
+              "pair": 8.632640134819818e-05,
+              "pp": 6.739657980781114e-05,
+              "ss": 1.854394350471949e-05,
+              "spectator": 3.858780356675467e-07,
+              "loss": 0.0009090520218123551
+            }
+          }
+        },
+        {
+          "bright_mode_cutoff": 1e-08,
+          "active_modes": 197,
+          "retained_ss_weight": 0.9999993726402568,
+          "omitted_ss_weight": 6.27359743154976e-07,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9795070696469538,
+              -0.19985246713642565
+            ],
+            [
+              -0.9993222733090721,
+              0.0
+            ],
+            [
+              -0.979396627874496,
+              -0.1981567616562441
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.9991257847248998,
+          "mean_computational_survival": 0.9991259927306285,
+          "success_weighted_conditional_overlap": 0.9999997918123137,
+          "conditional_phase_error_rad": -0.0016406406780475893,
+          "phase_recalibrated_fidelity": 0.9991257847249001,
+          "target_population": {
+            "maximum_pair": 0.16299135657812636,
+            "maximum_pp": 0.1520598227311735,
+            "maximum_ss": 0.017302887524108215,
+            "maximum_spectator": 0.0007618176876071896,
+            "final": {
+              "computational": 0.9990046214381215,
+              "pair": 8.6326537003421e-05,
+              "pp": 6.739732791127144e-05,
+              "ss": 1.854404252229469e-05,
+              "spectator": 3.8516656985487763e-07,
+              "loss": 0.0009090520248750584
+            }
+          }
+        },
+        {
+          "bright_mode_cutoff": null,
+          "active_modes": 3684,
+          "retained_ss_weight": 0.9999999999999972,
+          "omitted_ss_weight": 2.7755575615628914e-15,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9795070696469538,
+              -0.19985246713642565
+            ],
+            [
+              -0.9993222733090721,
+              0.0
+            ],
+            [
+              -0.9793966278224511,
+              -0.19815676190957804
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.9991257847245555,
+          "mean_computational_survival": 0.999125992730242,
+          "success_weighted_conditional_overlap": 0.9999997918123559,
+          "conditional_phase_error_rad": -0.0016406404192275126,
+          "phase_recalibrated_fidelity": 0.9991257847245558,
+          "target_population": {
+            "maximum_pair": 0.16299135656373137,
+            "maximum_pp": 0.15205982304753166,
+            "maximum_ss": 0.01730288752299221,
+            "maximum_spectator": 0.0007618173430666998,
+            "final": {
+              "computational": 0.9990046214365751,
+              "pair": 8.632653926354789e-05,
+              "pp": 6.739732853756306e-05,
+              "ss": 1.854404284380798e-05,
+              "spectator": 3.8516788217685317e-07,
+              "loss": 0.0009090520241613611
+            }
+          }
+        }
+      ],
+      "sparse_implementation_crosscheck": {
+        "maximum_absolute_kraus_difference": 1.8808912271052235e-13,
+        "fixed_fidelity_difference": 2.120525977034049e-14
+      },
+      "all_mode_minus_published_projection": {
+        "signed_fidelity_difference": -4.4648729158325295e-11,
+        "absolute_fidelity_difference": 4.4648729158325295e-11,
+        "maximum_absolute_kraus_difference": 5.847025182015644e-08,
+        "maximum_spectator_population_difference": -1.248415938820413e-07
+      }
+    },
+    {
+      "label": "P0-4 limiting axial vertex",
+      "distance_um": 3.35,
+      "theta_deg": 0.0,
+      "yb_rabi_scale": 0.99,
+      "rb_rabi_scale": 0.99,
+      "pair_basis_size": 3684,
+      "connected_component_size": 3684,
+      "cutoff_rows": [
+        {
+          "bright_mode_cutoff": 1e-06,
+          "active_modes": 56,
+          "retained_ss_weight": 0.999981456574337,
+          "omitted_ss_weight": 1.8543425662986834e-05,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9794781268814831,
+              -0.19753124384518522
+            ],
+            [
+              -0.9988264324068927,
+              0.0
+            ],
+            [
+              -0.9848656328309056,
+              -0.16886449269283185
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.9984994300039467,
+          "mean_computational_survival": 0.9986314417581983,
+          "success_weighted_conditional_overlap": 0.9998678073323837,
+          "conditional_phase_error_rad": -0.029192460077279936,
+          "phase_recalibrated_fidelity": 0.998588745317547,
+          "target_population": {
+            "maximum_pair": 0.14253845563712186,
+            "maximum_pp": 0.13444458689412087,
+            "maximum_ss": 0.015284026451700981,
+            "maximum_spectator": 0.0007444786852050149,
+            "final": {
+              "computational": 0.9989913910755486,
+              "pair": 0.00010874623497793262,
+              "pp": 5.8564573227502083e-05,
+              "ss": 4.968083295561177e-05,
+              "spectator": 5.008287948187704e-07,
+              "loss": 0.0008998626894734937
+            }
+          }
+        },
+        {
+          "bright_mode_cutoff": 1e-08,
+          "active_modes": 209,
+          "retained_ss_weight": 0.9999993864320152,
+          "omitted_ss_weight": 6.135679847529829e-07,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9794781268814831,
+              -0.19753124384518522
+            ],
+            [
+              -0.9988264324068927,
+              0.0
+            ],
+            [
+              -0.9848656453633315,
+              -0.1688644189333692
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.998499429283544,
+          "mean_computational_survival": 0.9986314417019003,
+          "success_weighted_conditional_overlap": 0.9998678066673613,
+          "conditional_phase_error_rad": -0.02919253495086416,
+          "phase_recalibrated_fidelity": 0.99858874504298,
+          "target_population": {
+            "maximum_pair": 0.14253846196461303,
+            "maximum_pp": 0.13444472830344326,
+            "maximum_ss": 0.015284027580324122,
+            "maximum_spectator": 0.0007443457949518851,
+            "final": {
+              "computational": 0.9989913908512736,
+              "pair": 0.00010874645685170626,
+              "pp": 5.8565246935821033e-05,
+              "ss": 4.968103274568679e-05,
+              "spectator": 5.001771701984394e-07,
+              "loss": 0.0008998626918746519
+            }
+          }
+        },
+        {
+          "bright_mode_cutoff": null,
+          "active_modes": 3684,
+          "retained_ss_weight": 1.0000000000000004,
+          "omitted_ss_weight": 0.0,
+          "kraus_diagonal_re_im": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.9794781268814831,
+              -0.19753124384518522
+            ],
+            [
+              -0.9988264324068927,
+              0.0
+            ],
+            [
+              -0.984865645308317,
+              -0.16886441925397097
+            ]
+          ],
+          "fixed_reference_local_z_fidelity": 0.9984994292864096,
+          "mean_computational_survival": 0.9986314417018786,
+          "success_weighted_conditional_overlap": 0.9998678066702527,
+          "conditional_phase_error_rad": -0.029192534625328115,
+          "phase_recalibrated_fidelity": 0.9985887450439075,
+          "target_population": {
+            "maximum_pair": 0.14253846194589007,
+            "maximum_pp": 0.13444472871373758,
+            "maximum_ss": 0.015284027578050485,
+            "maximum_spectator": 0.0007443453583685766,
+            "final": {
+              "computational": 0.9989913908511814,
+              "pair": 0.00010874645709443083,
+              "pp": 5.856524717266873e-05,
+              "ss": 4.9681032584216894e-05,
+              "spectator": 5.001773375452073e-07,
+              "loss": 0.0008998626917241869
+            }
+          }
+        }
+      ],
+      "sparse_implementation_crosscheck": {
+        "maximum_absolute_kraus_difference": 1.113571957437499e-13,
+        "fixed_fidelity_difference": 1.2212453270876722e-15
+      },
+      "all_mode_minus_published_projection": {
+        "signed_fidelity_difference": -7.175371408152387e-10,
+        "absolute_fidelity_difference": 7.175371408152387e-10,
+        "maximum_absolute_kraus_difference": 7.449128864327753e-08,
+        "maximum_spectator_population_difference": -1.33326836438373e-07
+      }
+    }
+  ],
+  "maximum_absolute_all_mode_projection_fidelity_difference": 7.175371408152387e-10,
+  "phase_and_frame_convention": {
+    "hamiltonian_units": "cyclic frequencies H/h in MHz",
+    "propagator": "exp[-2 pi i (H/h) t]",
+    "target_rabi_frequency": "real field-amplitude envelope; common optical phase fixed to zero",
+    "target_detuning": "rotating-frame diagonal -Delta; modeled as instantaneous optical frequency, with optical phase continuous rather than reset at segments",
+    "rb_pulses": "two positive 5 MHz pi pulses with the same optical phase phi=0",
+    "aom": "independent first-order field-amplitude and detuning responses with 10 ns 10-to-90 rise time; an effective model, not a measured transfer function",
+    "local_z": {
+      "basis_order": [
+        "00",
+        "01",
+        "10",
+        "11"
+      ],
+      "alpha_on_rb_rad": -3.1407724432579953,
+      "beta_on_yb_rad": 2.941141606972484,
+      "held_fixed": true
+    }
+  },
+  "angular_scope": {
+    "axial_points": "hyperfine-resolved exact M_tot=5/2 block; no angular projection error",
+    "transverse_reference_model": "retains angle-dependent Delta-M=0 terms but omits Delta-M=+/-1,+/-2",
+    "existing_full_angle_control": {
+      "model": "electronic-only dipole-dipole pulse-search model",
+      "geometries": 19,
+      "gate_values": 76,
+      "maximum_absolute_fidelity_difference": 4.97e-06,
+      "limiting_vertices_axial_in_both_models": true
+    },
+    "claim_limit": "the all-mode audit closes bright-mode projection at the axial headline points; it does not upgrade the existing transverse control to a hyperfine-resolved full-angular P0-4 calculation"
+  },
+  "control_decay_recheck_provenance": {
+    "decay_convention": "radiative no-jump including Rb56S control-excited target state",
+    "reoptimized_during_decay_recheck": false,
+    "source_sha256": {
+      "evaluate_forster_control_decay.py": "b6fe418bfdd62f7a28154e05d49f680ceb52ade380b27e2573d46f31d4172cb8",
+      "evaluate_forster_p0_4.py": "688754a3ffc1b37b772a901a7cac19071ff7883f941ec9b91ae8d80966631773",
+      "evaluate_forster_p1_1.py": "68b1c148b05336d79c27e31aa4bc00125d92ab63e9d489fc39689b0fb009697b",
+      "evaluate_forster_p1_2.py": "856bf46e1dd858cf6b9308dc7e6bc0b9cd5915ee5b97aff867a61ded9cbddd6c",
+      "evaluate_forster_p1_4.py": "807a20e8097f1e63e39818e7a1c329c875920aab0ef70fbedc9e0d57899cad19",
+      "evaluate_vdw_p1_5.py": "7b13f0076e6dd46b5ba0fce6a8acd2658190837e2eb5e3d771f124dde9c5adac",
+      "fine_revival_scan.py": "3d79d39f6b44545aa773f54be33c674389cd6709f9a09af7d0a6d590e118b6fc",
+      "optimize_bounded_minimax_forster_gate.py": "47f9ccb525be2d0043da0e5e0ccf9a069eaed69f6548a5234bf2d7c523511706",
+      "optimize_forster_gate.py": "12e283d88d12fc261f36f6b1fcd4898ccba945b1d3d40297344cc7d06275a0fb",
+      "optimize_forster_p0_4_reference.py": "5aee6611e8d210605f904f58dc894cfc925caa4b7e0c37d0f5249a2d57235fbc",
+      "optimize_hardware_aware_forster_gate.py": "7c54f0d4c6f250fd9eed647947090e034533fd4f5865e067d0d3d45ff5fdc6ff",
+      "p1_robustness.py": "fbcaec466c08998d870a904dc9d07ccf7e8f9675838ab0ca291c55cd897eb4f4",
+      "rb_rydberg_hyperfine.py": "b9d2595c3ddbc1b2aa352f39e3d9cc6ed22b7b1f8a7a2be0bccc9ad38fbf6804",
+      "replay_control_decay_audits.py": "4a0a8af23329e0ef1f821bfee08d2d72593a5eef0c43d73168306e7a7b460dc5",
+      "reproduce_forster_characterization.py": "d6ba056b5c71af7f3e73bc9d94aabf0cf8cc52a7e086fcf9e69230283ca342c5",
+      "reproduce_vdw_dense.py": "25decb35033d99b45adfa2cc5533465f8e184d3482a488a1b54e084f70f7f9d9",
+      "robustness_ss_scheme.py": "a6ed615459b24eab6259007105a32d7fa6d5673f38a773827ffa0b632082c7e4",
+      "scan_allm_field_extension.py": "12b320083e43fa05783b31a09d55f7c919b53641f8f0e8317ca9bc1f81122386",
+      "scan_forster_p0_4_field.py": "ba0080f5ffc05481218d284c418f1f23a1a9ea0f751eb3e5270e2d366a8981ff",
+      "simulate_forster_gate.py": "dfd573ba1d11319891bf44222d9c0521eab4d51956f9bb762ba6f9b81aeb9b5c",
+      "simulate_robust_shaped_forster_gate.py": "5602f1565f2c05caea038d2332d94573e3a04451f17222996347ea8a3055ff26",
+      "simulate_ss_scheme.py": "d8774f6dae1ecee5d7d115e93c565d96c14b60118395508d6d3904469746488b",
+      "simulate_vdw_gate.py": "9f3e5f3f837a87b4a5d9276c5b724575a5f7846f7b94c3f35d8006fdff49d517",
+      "ss_population_transfer.py": "00086d1ff94533cc24ff44b05ae9d5558386bfd90a9caaf1c6a8ce9fed55207c",
+      "test_forster_characterization.py": "944e35208d2470b6625e76c4b32ae9d242395685bd13910c1188b7967ec28123",
+      "test_forster_p0_4_field.py": "9805652796ec250901e0759e8cf78a5682cdc381b842044b942c14a973e08f11",
+      "test_forster_p0_4_reoptimization.py": "b3e2720feac512f913240c82a934337154c47472c0f7b797b68cf41bbbde6cb0",
+      "test_p1_projection.py": "4b25d78779055276c957c611114df7e1db539dea235f6d399880162d032c6e7e",
+      "test_p1_robustness.py": "376094e2ad56ef3d24ac448af97c89581d6e3b0b4bcca60f80ff62bca7ea3a6e",
+      "test_rb_rydberg_hyperfine.py": "c00a3515a163d2ab95747bac5dfbabb074fb975309abb1b9d94b21130f106fe3",
+      "test_vdw_p1_5.py": "86382654062571412fc3944201658817ae4d5ebeb7af464dc298f4e8346c15c3",
+      "forster_characterization.json": "beafb71b5fe857d65a4dc23c0b41265428c940bac597e85ecd5c2df27b76e1c1"
+    },
+    "baseline_signature": "820b284a715600e874c6ee84cbe50bc54d6b3a50a141bf2aecff57a925e72c4f",
+    "baseline_sha256": "1660d53dda9fb94af58fd2af0c329a91b8e5b66a4a6f34aaaee080214da58589",
+    "corrected_p0_sha256": "72e5a57f4bc43b0c84cf4b72ad9afad3ce801b98ded82e94fbbcd3c4ec85d71d"
+  }
+}

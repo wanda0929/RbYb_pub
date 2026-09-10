@@ -1,0 +1,2515 @@
+{
+  "pulse_parameters": [
+    4.480374546413655,
+    9.229350329961736,
+    11.778486107199452,
+    -0.3647742336217171,
+    -1.0235176743455907,
+    2.4312627812906094,
+    0.025634115265641792
+  ],
+  "basis": {
+    "delta_n": 3,
+    "atomic_window_ghz": 80.0,
+    "pair_window_ghz": 40.0,
+    "delta_l": 2,
+    "interaction_order": 4
+  },
+  "cutoff": 1e-06,
+  "step_ns": 0.125,
+  "temperature_k": 0,
+  "scope": "Fixed pulse, carrier-tracked local atomic transitions. Zero-T no-jump loss-aware overlap, not CPTP process fidelity. Sampled finite retained angular block; no continuous/global optimum or fixed-laser magnetic-noise prediction.",
+  "versions": {
+    "python": "3.11.6",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "pairinteraction": "2.5.0"
+  },
+  "fields": {
+    "3.10000000/40": {
+      "field_gauss": 3.1,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.1407724432579953,
+        2.941141606972484
+      ],
+      "nominal": 0.999125784769183,
+      "survival": 0.9991259927652685,
+      "fixed_3_10G_nominal": 0.999125784769183,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999806032563068,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 52.054880747000425
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806032563068,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.054880747000425,
+          "position": 0.999125784769183,
+          "vertices": [
+            [
+              0.9986363738032689,
+              0.9986363757371735
+            ],
+            [
+              0.9986349420663505,
+              0.9986349439797817
+            ]
+          ]
+        },
+        "0.025/-1": {
+          "radius_um": 0.025,
+          "cosine": -1.0,
+          "distance_um": 3.375,
+          "theta_deg": 0.0,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999819929487749,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.11028127999998,
+          "position": 0.9990852164128438,
+          "vertices": [
+            [
+              0.9985857793160131,
+              0.9985857813172412
+            ],
+            [
+              0.9986048208956418,
+              0.9986048228977792
+            ]
+          ]
+        },
+        "0.025/-0.75": {
+          "radius_um": 0.025,
+          "cosine": -0.75,
+          "distance_um": 3.381290434139014,
+          "theta_deg": 0.2802018027030779,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999804222548134,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.57130550900001,
+          "position": 0.9990993097450879,
+          "vertices": [
+            [
+              0.9986023507579841,
+              0.9986023527347591
+            ],
+            [
+              0.9986163302927675,
+              0.9986163322648565
+            ]
+          ]
+        },
+        "0.025/-0.5": {
+          "radius_um": 0.025,
+          "cosine": -0.5,
+          "distance_um": 3.387569187485327,
+          "theta_deg": 0.3661913281591445,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999809328151628,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 60.16982996000115,
+          "position": 0.9991109398308549,
+          "vertices": [
+            [
+              0.9986164940989907,
+              0.9986164960561753
+            ],
+            [
+              0.9986253408232759,
+              0.9986253427703293
+            ]
+          ]
+        },
+        "0.025/-0.25": {
+          "radius_um": 0.025,
+          "cosine": -0.25,
+          "distance_um": 3.3938363248689525,
+          "theta_deg": 0.40865899988760923,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999813957877332,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 58.72190513500027,
+          "position": 0.999119898080124,
+          "vertices": [
+            [
+              0.9986279940363991,
+              0.998627995979124
+            ],
+            [
+              0.9986316511293498,
+              0.9986316530566371
+            ]
+          ]
+        },
+        "0.025/0": {
+          "radius_um": 0.025,
+          "cosine": 0.0,
+          "distance_um": 3.40009191052242,
+          "theta_deg": 0.4212849041685975,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806061584434,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.364891303999684,
+          "position": 0.9991259176875806,
+          "vertices": [
+            [
+              0.9986365782141334,
+              0.9986365801478563
+            ],
+            [
+              0.9986350005203517,
+              0.9986350024334583
+            ]
+          ]
+        },
+        "0.025/0.25": {
+          "radius_um": 0.025,
+          "cosine": 0.25,
+          "distance_um": 3.406336008088456,
+          "theta_deg": 0.40715938441329624,
+          "active_modes": 52,
+          "retained_ss_weight": 0.999980489435446,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 57.20129334200101,
+          "position": 0.9991286787029792,
+          "vertices": [
+            [
+              0.9986419222412428,
+              0.9986419241718034
+            ],
+            [
+              0.9986350740890375,
+              0.9986350759939209
+            ]
+          ]
+        },
+        "0.025/0.5": {
+          "radius_um": 0.025,
+          "cosine": 0.5,
+          "distance_um": 3.4125686806275417,
+          "theta_deg": 0.36350868006076353,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815346454035,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 57.083499698001106,
+          "position": 0.9991278132796386,
+          "vertices": [
+            [
+              0.998643654884189,
+              0.9986436568178558
+            ],
+            [
+              0.9986315080104002,
+              0.9986315099134405
+            ]
+          ]
+        },
+        "0.025/0.75": {
+          "radius_um": 0.025,
+          "cosine": 0.75,
+          "distance_um": 3.418789990625338,
+          "theta_deg": 0.277128339357471,
+          "active_modes": 53,
+          "retained_ss_weight": 0.999981882687931,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.31285708799987,
+          "position": 0.9991229111606806,
+          "vertices": [
+            [
+              0.9986413634459644,
+              0.9986413653894777
+            ],
+            [
+              0.9986238951303819,
+              0.9986238970384258
+            ]
+          ]
+        },
+        "0.025/1": {
+          "radius_um": 0.025,
+          "cosine": 1.0,
+          "distance_um": 3.425,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812136244772,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.25970791000145,
+          "position": 0.9991135250909412,
+          "vertices": [
+            [
+              0.9986345991461528,
+              0.9986346011067632
+            ],
+            [
+              0.9986117904031051,
+              0.9986117923235065
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.999981456574337,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.42286502299976,
+          "position": 0.9990080680690021,
+          "vertices": [
+            [
+              0.9984994300039455,
+              0.9984994321448981
+            ],
+            [
+              0.998537275314311,
+              0.9985372774798694
+            ]
+          ]
+        },
+        "0.05/-0.75": {
+          "radius_um": 0.05,
+          "cosine": -0.75,
+          "distance_um": 3.362662635472075,
+          "theta_deg": 0.5635148546698273,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999812539593929,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.3428512419996,
+          "position": 0.9990517740428123,
+          "vertices": [
+            [
+              0.9985477146155672,
+              0.9985477166765946
+            ],
+            [
+              0.9985762006561961,
+              0.9985762027293441
+            ]
+          ]
+        },
+        "0.05/-0.5": {
+          "radius_um": 0.05,
+          "cosine": -0.5,
+          "distance_um": 3.3752777663475344,
+          "theta_deg": 0.7350648628888943,
+          "active_modes": 54,
+          "retained_ss_weight": 0.999981030560848,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.447857786000895,
+          "position": 0.9990864826103131,
+          "vertices": [
+            [
+              0.9985872499668608,
+              0.9985872519658731
+            ],
+            [
+              0.9986058737686998,
+              0.9986058757681529
+            ]
+          ]
+        },
+        "0.05/-0.25": {
+          "radius_um": 0.05,
+          "cosine": -0.25,
+          "distance_um": 3.3878459232969846,
+          "theta_deg": 0.818784110579112,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999809802651372,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.658791338999436,
+          "position": 0.9991118092079807,
+          "vertices": [
+            [
+              0.9986175740065646,
+              0.9986175759623261
+            ],
+            [
+              0.998625990683528,
+              0.998625992628711
+            ]
+          ]
+        },
+        "0.05/0": {
+          "radius_um": 0.05,
+          "cosine": 0.0,
+          "distance_um": 3.4003676271838605,
+          "theta_deg": 0.8425242607404146,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806119036136,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.01176867200047,
+          "position": 0.9991263014690958,
+          "vertices": [
+            [
+              0.9986371765784774,
+              0.9986371785116835
+            ],
+            [
+              0.9986351608071897,
+              0.9986351627193489
+            ]
+          ]
+        },
+        "0.05/0.25": {
+          "radius_um": 0.05,
+          "cosine": 0.25,
+          "distance_um": 3.4128433893163046,
+          "theta_deg": 0.8127864998585078,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815698541371,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.33522381799958,
+          "position": 0.9991275843473513,
+          "vertices": [
+            [
+              0.9986436433239694,
+              0.9986436452581768
+            ],
+            [
+              0.9986310530877173,
+              0.9986310549908831
+            ]
+          ]
+        },
+        "0.05/0.5": {
+          "radius_um": 0.05,
+          "cosine": 0.5,
+          "distance_um": 3.4252737116907896,
+          "theta_deg": 0.7243351407550608,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812453399382,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.595894344000044,
+          "position": 0.9991125250442288,
+          "vertices": [
+            [
+              0.9986338186700987,
+              0.9986338206324918
+            ],
+            [
+              0.9986105627013748,
+              0.9986105646231577
+            ]
+          ]
+        },
+        "0.05/0.75": {
+          "radius_um": 0.05,
+          "cosine": 0.75,
+          "distance_um": 3.4376590872278188,
+          "theta_deg": 0.5512207522039253,
+          "active_modes": 49,
+          "retained_ss_weight": 0.999978950682743,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.09707075500046,
+          "position": 0.9990774068898647,
+          "vertices": [
+            [
+              0.9986039773092502,
+              0.9986039793312343
+            ],
+            [
+              0.9985699871601623,
+              0.9985699891323719
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999778217954616,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.358053157999166,
+          "position": 0.9990180992633195,
+          "vertices": [
+            [
+              0.9985499919584047,
+              0.9985499940760343
+            ],
+            [
+              0.9985051982222257,
+              0.9985052002813177
+            ]
+          ]
+        }
+      },
+      "full_grid": {
+        "nominal": 0.999125784769183,
+        "position_minimum": 0.9990080680690021,
+        "joint_minimum": 0.9984994300039455,
+        "endpoint_objective": 0.0015287709199429916,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      },
+      "endpoints": {
+        "nominal": 0.999125784769183,
+        "position_minimum": 0.9990080680690021,
+        "joint_minimum": 0.9984994300039455,
+        "endpoint_objective": 0.0015287709199429916,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "0.00000000/40": {
+      "field_gauss": 0.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -2.977880490959778,
+        3.1040037703566328
+      ],
+      "nominal": 0.9925611343338607,
+      "survival": 0.9979071756907238,
+      "fixed_3_10G_nominal": 0.9821068042527734,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 51,
+        "retained_ss_weight": 0.9999760418947367,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 52.53654048200042
+      },
+      "rows": {}
+    },
+    "0.50000000/40": {
+      "field_gauss": 0.5,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.0016770317236476,
+        3.0802115590719743
+      ],
+      "nominal": 0.9945581030244851,
+      "survival": 0.9984648557528243,
+      "fixed_3_10G_nominal": 0.9869033170036134,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999772448611322,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 53.31956815900048
+      },
+      "rows": {}
+    },
+    "1.00000000/40": {
+      "field_gauss": 1.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.026430947589021,
+        3.055462185103041
+      ],
+      "nominal": 0.996187479715428,
+      "survival": 0.9988353970496108,
+      "fixed_3_10G_nominal": 0.9909968910322936,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 49,
+        "retained_ss_weight": 0.9999770632456457,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 52.63886151299994
+      },
+      "rows": {}
+    },
+    "1.50000000/40": {
+      "field_gauss": 1.5,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.0521239094972996,
+        3.0297739306041884
+      ],
+      "nominal": 0.9974450572877437,
+      "survival": 0.9990439353295124,
+      "fixed_3_10G_nominal": 0.9943165742612479,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 53,
+        "retained_ss_weight": 0.999981903677346,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 53.66585848000068
+      },
+      "rows": {}
+    },
+    "2.00000000/40": {
+      "field_gauss": 2.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.078754432568381,
+        3.0031482810914083
+      ],
+      "nominal": 0.998342547877143,
+      "survival": 0.9991315535176647,
+      "fixed_3_10G_nominal": 0.9968083261791,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 54,
+        "retained_ss_weight": 0.9999827201625169,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 52.35440602699964
+      },
+      "rows": {}
+    },
+    "2.50000000/40": {
+      "field_gauss": 2.5,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.1063427384810987,
+        2.975565019642865
+      ],
+      "nominal": 0.998897258510195,
+      "survival": 0.9991456443869676,
+      "fixed_3_10G_nominal": 0.9984238204405947,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 53,
+        "retained_ss_weight": 0.9999813194301531,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 51.277977939000266
+      },
+      "rows": {}
+    },
+    "3.00000000/40": {
+      "field_gauss": 3.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.1349301769112614,
+        2.9469828057068037
+      ],
+      "nominal": 0.9991208017119195,
+      "survival": 0.9991297459628032,
+      "fixed_3_10G_nominal": 0.9991071626895724,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 53,
+        "retained_ss_weight": 0.9999806521365692,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 49.50459070699981
+      },
+      "rows": {}
+    },
+    "3.50000000/40": {
+      "field_gauss": 3.5,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        3.1186111019010294,
+        2.9173441944945315
+      ],
+      "nominal": 0.9990092246788489,
+      "survival": 0.999114855263722,
+      "fixed_3_10G_nominal": 0.9987829018718738,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999799394480994,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 49.97545159800029
+      },
+      "rows": {}
+    },
+    "4.00000000/40": {
+      "field_gauss": 4.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        3.087846842257949,
+        2.8865855588650167
+      ],
+      "nominal": 0.9985364166568479,
+      "survival": 0.9991136853878607,
+      "fixed_3_10G_nominal": 0.9973482448773199,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 53,
+        "retained_ss_weight": 0.9999797414036816,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 49.08480550400054
+      },
+      "rows": {}
+    },
+    "4.50000000/40": {
+      "field_gauss": 4.5,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        3.055903203532884,
+        2.854647764498452
+      ],
+      "nominal": 0.9976518995203598,
+      "survival": 0.9991186183082845,
+      "fixed_3_10G_nominal": 0.9946714983137003,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 51,
+        "retained_ss_weight": 0.9999772991064763,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 50.3404516669998
+      },
+      "rows": {}
+    },
+    "5.00000000/40": {
+      "field_gauss": 5.0,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        3.0227370771690265,
+        2.8214877147845625
+      ],
+      "nominal": 0.9962831783965681,
+      "survival": 0.9991033506136621,
+      "fixed_3_10G_nominal": 0.9905974002521859,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999774572511543,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 51.408178102999955
+      },
+      "rows": {}
+    },
+    "3.05000000/40": {
+      "field_gauss": 3.05,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.137846018410741,
+        2.9440674970461296
+      ],
+      "nominal": 0.9991249669999533,
+      "survival": 0.9991278456127833,
+      "fixed_3_10G_nominal": 0.9991215448451071,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999797944234042,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 51.740194512000016
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999797944234042,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.740194512000016,
+          "position": 0.9991249669999533,
+          "vertices": [
+            [
+              0.9986348131332725,
+              0.9986348150978772
+            ],
+            [
+              0.998634975088831,
+              0.9986349770529251
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999815557362031,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.35974451899892,
+          "position": 0.9989941232756319,
+          "vertices": [
+            [
+              0.9984860202386463,
+              0.9984860225221034
+            ],
+            [
+              0.9985228603249657,
+              0.9985228626580115
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999778815714446,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.74222896500032,
+          "position": 0.9990350685583504,
+          "vertices": [
+            [
+              0.9985649986173005,
+              0.9985650006346617
+            ],
+            [
+              0.998524279311402,
+              0.9985242812851396
+            ]
+          ]
+        }
+      },
+      "endpoints": {
+        "nominal": 0.9991249669999533,
+        "position_minimum": 0.9989941232756319,
+        "joint_minimum": 0.9984860202386463,
+        "endpoint_objective": 0.001542154666704403,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.07500000/40": {
+      "field_gauss": 3.075,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.139307886963378,
+        2.9426058956604035
+      ],
+      "nominal": 0.9991257953488896,
+      "survival": 0.9991269119749682,
+      "fixed_3_10G_nominal": 0.999124938236075,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.999980215425803,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 50.285389824999584
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.999980215425803,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.285389824999584,
+          "position": 0.9991257953488896,
+          "vertices": [
+            [
+              0.9986360007174173,
+              0.9986360026601154
+            ],
+            [
+              0.9986353914451518,
+              0.9986353933771521
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999815054985307,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.07105125999988,
+          "position": 0.9990014697388373,
+          "vertices": [
+            [
+              0.9984930885834125,
+              0.9984930907896654
+            ],
+            [
+              0.9985304535877815,
+              0.9985304558309458
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999778567735911,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.20467090599959,
+          "position": 0.999027164383343,
+          "vertices": [
+            [
+              0.9985580613710097,
+              0.9985580634311411
+            ],
+            [
+              0.9985153347750124,
+              0.9985153367838352
+            ]
+          ]
+        }
+      },
+      "endpoints": {
+        "nominal": 0.9991257953488896,
+        "position_minimum": 0.9990014697388373,
+        "joint_minimum": 0.9984930885834125,
+        "endpoint_objective": 0.0015350899043615573,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.12500000/40": {
+      "field_gauss": 3.125,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.1422396887412316,
+        2.9396746296367398
+      ],
+      "nominal": 0.9991249329938837,
+      "survival": 0.9991250904388495,
+      "fixed_3_10G_nominal": 0.9991240727319235,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999807623549225,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 52.78570064899941
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999807623549225,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.78570064899941,
+          "position": 0.9991249329938837,
+          "vertices": [
+            [
+              0.9986359299689911,
+              0.9986359319072857
+            ],
+            [
+              0.9986336248331543,
+              0.998633626741612
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999814084404629,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.09286442099983,
+          "position": 0.9990139175865972,
+          "vertices": [
+            [
+              0.9985050437512752,
+              0.9985050458388958
+            ],
+            [
+              0.9985433248830589,
+              0.9985433269833516
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999777742476964,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 49.76582348100055,
+          "position": 0.9990078686136948,
+          "vertices": [
+            [
+              0.998540785554427,
+              0.9985407877443606
+            ],
+            [
+              0.998493865306919,
+              0.9984938674315419
+            ]
+          ]
+        }
+      },
+      "endpoints": {
+        "nominal": 0.9991249329938837,
+        "position_minimum": 0.9990078686136948,
+        "joint_minimum": 0.998493865306919,
+        "endpoint_objective": 0.0015343769586638877,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "yb_scale": 1.01,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.15000000/40": {
+      "field_gauss": 3.15,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        3.1394757303854433,
+        2.9382050101672363
+      ],
+      "nominal": 0.9991232376505387,
+      "survival": 0.999124207314884,
+      "fixed_3_10G_nominal": 0.9991197904150632,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999807406875192,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 53.36656588900041
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999807406875192,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.36656588900041,
+          "position": 0.9991232376505387,
+          "vertices": [
+            [
+              0.9986346666672257,
+              0.9986346686231651
+            ],
+            [
+              0.9986314375429071,
+              0.9986314394600591
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999813606884012,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.47228453900061,
+          "position": 0.9990190173728374,
+          "vertices": [
+            [
+              0.9985099288369197,
+              0.9985099308832425
+            ],
+            [
+              0.9985486014350238,
+              0.9985486034824588
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.999977710632231,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.48871304000022,
+          "position": 0.998996468201342,
+          "vertices": [
+            [
+              0.9985304376362221,
+              0.9985304399133417
+            ],
+            [
+              0.9984813320862733,
+              0.9984813342917663
+            ]
+          ]
+        }
+      },
+      "endpoints": {
+        "nominal": 0.9991232376505387,
+        "position_minimum": 0.998996468201342,
+        "joint_minimum": 0.9984813320862733,
+        "endpoint_objective": 0.0015469704776915972,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "yb_scale": 1.01,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.08500000/40": {
+      "field_gauss": 3.085,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.1398933887326734,
+        2.9420205008189577
+      ],
+      "nominal": 0.999125891914009,
+      "survival": 0.9991265424197623,
+      "fixed_3_10G_nominal": 0.999125583128041,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999803887937371,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 49.606367271000636
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999803887937371,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 49.606367271000636,
+          "position": 0.999125891914009,
+          "vertices": [
+            [
+              0.9986362478265033,
+              0.9986362497641064
+            ],
+            [
+              0.9986353156983837,
+              0.9986353176213294
+            ]
+          ]
+        },
+        "0.025/-1": {
+          "radius_um": 0.025,
+          "cosine": -1.0,
+          "distance_um": 3.375,
+          "theta_deg": 0.0,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999820477016386,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 48.31485079799859,
+          "position": 0.9990831415458539,
+          "vertices": [
+            [
+              0.9985836646008186,
+              0.9985836666234802
+            ],
+            [
+              0.9986028127463447,
+              0.9986028147765017
+            ]
+          ]
+        },
+        "0.025/-0.75": {
+          "radius_um": 0.025,
+          "cosine": -0.75,
+          "distance_um": 3.381290434139014,
+          "theta_deg": 0.2802018027030779,
+          "active_modes": 54,
+          "retained_ss_weight": 0.9999814796329166,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.745056507999834,
+          "position": 0.9990977518908807,
+          "vertices": [
+            [
+              0.9986007040684939,
+              0.9986007060623496
+            ],
+            [
+              0.9986148897927016,
+              0.9986148917882633
+            ]
+          ]
+        },
+        "0.025/-0.5": {
+          "radius_um": 0.025,
+          "cosine": -0.5,
+          "distance_um": 3.387569187485327,
+          "theta_deg": 0.3661913281591445,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999809734934116,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.62484335099907,
+          "position": 0.9991099212185048,
+          "vertices": [
+            [
+              0.998615337820475,
+              0.9986153397903115
+            ],
+            [
+              0.9986244900374148,
+              0.9986244920033187
+            ]
+          ]
+        },
+        "0.025/-0.25": {
+          "radius_um": 0.025,
+          "cosine": -0.25,
+          "distance_um": 3.3938363248689525,
+          "theta_deg": 0.40865899988760923,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999813719077577,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 57.580980306998754,
+          "position": 0.999119440169952,
+          "vertices": [
+            [
+              0.9986273498811717,
+              0.998627351832045
+            ],
+            [
+              0.9986314112561636,
+              0.998631413197604
+            ]
+          ]
+        },
+        "0.025/0": {
+          "radius_um": 0.025,
+          "cosine": 0.0,
+          "distance_um": 3.40009191052242,
+          "theta_deg": 0.4212849041685975,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999803866133172,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.29540671699942,
+          "position": 0.9991260413305845,
+          "vertices": [
+            [
+              0.9986364673825863,
+              0.998636469319879
+            ],
+            [
+              0.9986353920491652,
+              0.9986353939716522
+            ]
+          ]
+        },
+        "0.025/0.25": {
+          "radius_um": 0.025,
+          "cosine": 0.25,
+          "distance_um": 3.406336008088456,
+          "theta_deg": 0.40715938441329624,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999802463620715,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.542983552000806,
+          "position": 0.9991294042986878,
+          "vertices": [
+            [
+              0.9986423655783956,
+              0.998642367507872
+            ],
+            [
+              0.9986361169590363,
+              0.9986361188684534
+            ]
+          ]
+        },
+        "0.025/0.5": {
+          "radius_um": 0.025,
+          "cosine": 0.5,
+          "distance_um": 3.4125686806275417,
+          "theta_deg": 0.36350868006076353,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815279950702,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.40188222500001,
+          "position": 0.999129160955528,
+          "vertices": [
+            [
+              0.9986446730542069,
+              0.9986446749820601
+            ],
+            [
+              0.9986332217949139,
+              0.9986332236975664
+            ]
+          ]
+        },
+        "0.025/0.75": {
+          "radius_um": 0.025,
+          "cosine": 0.75,
+          "distance_um": 3.418789990625338,
+          "theta_deg": 0.277128339357471,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999818786181761,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.13714597100079,
+          "position": 0.9991249009789399,
+          "vertices": [
+            [
+              0.9986429771304216,
+              0.9986429790633163
+            ],
+            [
+              0.9986262992519747,
+              0.9986263011546344
+            ]
+          ]
+        },
+        "0.025/1": {
+          "radius_um": 0.025,
+          "cosine": 1.0,
+          "distance_um": 3.425,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812116530027,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.704090953999184,
+          "position": 0.9991161772581089,
+          "vertices": [
+            [
+              0.9986368292542964,
+              0.9986368311994059
+            ],
+            [
+              0.9986149043423496,
+              0.9986149062522944
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999814858041457,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.844884838001235,
+          "position": 0.9990041988923872,
+          "vertices": [
+            [
+              0.9984957124315288,
+              0.9984957146102292
+            ],
+            [
+              0.9985332749054292,
+              0.9985332771160745
+            ]
+          ]
+        },
+        "0.05/-0.75": {
+          "radius_um": 0.05,
+          "cosine": -0.75,
+          "distance_um": 3.362662635472075,
+          "theta_deg": 0.5635148546698273,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999812926862462,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.87721954799963,
+          "position": 0.999048773234397,
+          "vertices": [
+            [
+              0.9985447679050672,
+              0.9985447699956612
+            ],
+            [
+              0.9985731694442153,
+              0.9985731715538865
+            ]
+          ]
+        },
+        "0.05/-0.5": {
+          "radius_um": 0.05,
+          "cosine": -0.5,
+          "distance_um": 3.3752777663475344,
+          "theta_deg": 0.7350648628888943,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999820857829287,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 58.63595656599864,
+          "position": 0.9990844498577024,
+          "vertices": [
+            [
+              0.9985851732552424,
+              0.99858517527533
+            ],
+            [
+              0.9986039119833341,
+              0.9986039140104328
+            ]
+          ]
+        },
+        "0.05/-0.25": {
+          "radius_um": 0.05,
+          "cosine": -0.25,
+          "distance_um": 3.3878459232969846,
+          "theta_deg": 0.818784110579112,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999810198978067,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.08133571300095,
+          "position": 0.9991108365719839,
+          "vertices": [
+            [
+              0.9986164596017897,
+              0.9986164615698309
+            ],
+            [
+              0.9986251901148415,
+              0.9986251920784872
+            ]
+          ]
+        },
+        "0.05/0": {
+          "radius_um": 0.05,
+          "cosine": 0.0,
+          "distance_um": 3.4003676271838605,
+          "theta_deg": 0.8425242607404146,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999803787835867,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.94711278199975,
+          "position": 0.9991264747086703,
+          "vertices": [
+            [
+              0.998637111285826,
+              0.9986371132222154
+            ],
+            [
+              0.9986356061270929,
+              0.9986356080482303
+            ]
+          ]
+        },
+        "0.05/0.25": {
+          "radius_um": 0.05,
+          "cosine": 0.25,
+          "distance_um": 3.4128433893163046,
+          "theta_deg": 0.8127864998585078,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815634271738,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.65526497600149,
+          "position": 0.9991289851019343,
+          "vertices": [
+            [
+              0.9986447105934385,
+              0.9986447125214315
+            ],
+            [
+              0.9986328240647697,
+              0.9986328259671309
+            ]
+          ]
+        },
+        "0.05/0.5": {
+          "radius_um": 0.05,
+          "cosine": 0.5,
+          "distance_um": 3.4252737116907896,
+          "theta_deg": 0.7243351407550608,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812436127642,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.77658258500014,
+          "position": 0.9991152337784435,
+          "vertices": [
+            [
+              0.9986361014751182,
+              0.9986361034215943
+            ],
+            [
+              0.9986137372092061,
+              0.9986137391201009
+            ]
+          ]
+        },
+        "0.05/0.75": {
+          "radius_um": 0.05,
+          "cosine": 0.75,
+          "distance_um": 3.4376590872278188,
+          "theta_deg": 0.5512207522039253,
+          "active_modes": 49,
+          "retained_ss_weight": 0.9999789767581599,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.36836485399908,
+          "position": 0.9990815062819625,
+          "vertices": [
+            [
+              0.9986075614673876,
+              0.9986075634634405
+            ],
+            [
+              0.9985746446307218,
+              0.9985746465816524
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999778441189642,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.09078272399893,
+          "position": 0.9990236778887585,
+          "vertices": [
+            [
+              0.9985549697218825,
+              0.998554971803242
+            ],
+            [
+              0.9985114234200034,
+              0.9985114254471077
+            ]
+          ]
+        }
+      },
+      "full_grid": {
+        "nominal": 0.999125891914009,
+        "position_minimum": 0.9990041988923872,
+        "joint_minimum": 0.9984957124315288,
+        "endpoint_objective": 0.00153247276542786,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.10250000/40": {
+      "field_gauss": 3.1025,
+      "pair_window_ghz": 40.0,
+      "correction": [
+        -3.140919047184695,
+        2.940995029822517
+      ],
+      "nominal": 0.9991257374841602,
+      "survival": 0.9991259017334676,
+      "fixed_3_10G_nominal": 0.9991257288956625,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 52,
+        "retained_ss_weight": 0.9999806314445472,
+        "connected_component_size": 3684,
+        "pair_basis_size": 3684,
+        "model_seconds": 50.229606054001124
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806314445472,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.229606054001124,
+          "position": 0.9991257374841602,
+          "vertices": [
+            [
+              0.9986363662227407,
+              0.9986363681564896
+            ],
+            [
+              0.9986348494325032,
+              0.9986348513448237
+            ]
+          ]
+        },
+        "0.025/-1": {
+          "radius_um": 0.025,
+          "cosine": -1.0,
+          "distance_um": 3.375,
+          "theta_deg": 0.0,
+          "active_modes": 55,
+          "retained_ss_weight": 0.999981984189931,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.49508608799988,
+          "position": 0.9990855353327929,
+          "vertices": [
+            [
+              0.9985861056700601,
+              0.9985861076681537
+            ],
+            [
+              0.9986051278218516,
+              0.998605129819771
+            ]
+          ]
+        },
+        "0.025/-0.75": {
+          "radius_um": 0.025,
+          "cosine": -0.75,
+          "distance_um": 3.381290434139014,
+          "theta_deg": 0.2802018027030779,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999804170968924,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.80050103400026,
+          "position": 0.9990995420398597,
+          "vertices": [
+            [
+              0.9986025986652123,
+              0.9986026006395843
+            ],
+            [
+              0.9986165421398574,
+              0.9986165441084918
+            ]
+          ]
+        },
+        "0.025/-0.5": {
+          "radius_um": 0.025,
+          "cosine": -0.5,
+          "distance_um": 3.387569187485327,
+          "theta_deg": 0.3661913281591445,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999809257659088,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.39917469200009,
+          "position": 0.9991110816755929,
+          "vertices": [
+            [
+              0.9986166597092032,
+              0.9986166616647282
+            ],
+            [
+              0.9986254537931283,
+              0.9986254557375032
+            ]
+          ]
+        },
+        "0.025/-0.25": {
+          "radius_um": 0.025,
+          "cosine": -0.25,
+          "distance_um": 3.3938363248689525,
+          "theta_deg": 0.40865899988760923,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999813944545698,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 55.10374689999844,
+          "position": 0.9991199457727904,
+          "vertices": [
+            [
+              0.9986280736058673,
+              0.9986280755476891
+            ],
+            [
+              0.9986316615634457,
+              0.9986316634888434
+            ]
+          ]
+        },
+        "0.025/0": {
+          "radius_um": 0.025,
+          "cosine": 0.0,
+          "distance_um": 3.40009191052242,
+          "theta_deg": 0.4212849041685975,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806351495116,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.833135107999624,
+          "position": 0.9991258676271505,
+          "vertices": [
+            [
+              0.9986365680841661,
+              0.9986365700177554
+            ],
+            [
+              0.9986349048775324,
+              0.9986349067895508
+            ]
+          ]
+        },
+        "0.025/0.25": {
+          "radius_um": 0.025,
+          "cosine": 0.25,
+          "distance_um": 3.406336008088456,
+          "theta_deg": 0.40715938441329624,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999805328732847,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.453926460999355,
+          "position": 0.9991285273621113,
+          "vertices": [
+            [
+              0.9986418188109234,
+              0.9986418207421321
+            ],
+            [
+              0.9986348689181348,
+              0.9986348708227444
+            ]
+          ]
+        },
+        "0.025/0.5": {
+          "radius_um": 0.025,
+          "cosine": 0.5,
+          "distance_um": 3.4125686806275417,
+          "theta_deg": 0.36350868006076353,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815356475987,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 54.66145679700094,
+          "position": 0.9991275571760045,
+          "vertices": [
+            [
+              0.9986434545822925,
+              0.9986434565174018
+            ],
+            [
+              0.9986311899210666,
+              0.99863119182466
+            ]
+          ]
+        },
+        "0.025/0.75": {
+          "radius_um": 0.025,
+          "cosine": 0.75,
+          "distance_um": 3.418789990625338,
+          "theta_deg": 0.277128339357471,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999818832540655,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.57752165999955,
+          "position": 0.9991225468234063,
+          "vertices": [
+            [
+              0.9986410626991086,
+              0.9986410646448721
+            ],
+            [
+              0.9986234607577581,
+              0.9986234626671951
+            ]
+          ]
+        },
+        "0.025/1": {
+          "radius_um": 0.025,
+          "cosine": 1.0,
+          "distance_um": 3.425,
+          "theta_deg": 0.0,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812138329077,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 49.870507065999846,
+          "position": 0.9991130490260123,
+          "vertices": [
+            [
+              0.9986341943439347,
+              0.9986341963076159
+            ],
+            [
+              0.9986112363736233,
+              0.99861123829627
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 56,
+          "retained_ss_weight": 0.9999814517339447,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 52.248390816999745,
+          "position": 0.9990086867314503,
+          "vertices": [
+            [
+              0.9985000241392219,
+              0.9985000262743016
+            ],
+            [
+              0.998537915031472,
+              0.9985379171899474
+            ]
+          ]
+        },
+        "0.05/-0.75": {
+          "radius_um": 0.05,
+          "cosine": -0.75,
+          "distance_um": 3.362662635472075,
+          "theta_deg": 0.5635148546698273,
+          "active_modes": 55,
+          "retained_ss_weight": 0.9999812476396412,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.83437701999901,
+          "position": 0.9990522478321318,
+          "vertices": [
+            [
+              0.998548180155342,
+              0.9985481822118698
+            ],
+            [
+              0.9985766786663888,
+              0.9985766807338908
+            ]
+          ]
+        },
+        "0.05/-0.5": {
+          "radius_um": 0.05,
+          "cosine": -0.5,
+          "distance_um": 3.3752777663475344,
+          "theta_deg": 0.7350648628888943,
+          "active_modes": 54,
+          "retained_ss_weight": 0.9999810219013004,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.32874522400016,
+          "position": 0.9990867944782413,
+          "vertices": [
+            [
+              0.998587569955545,
+              0.998587571951483
+            ],
+            [
+              0.9986061729330171,
+              0.9986061749283147
+            ]
+          ]
+        },
+        "0.05/-0.25": {
+          "radius_um": 0.05,
+          "cosine": -0.25,
+          "distance_um": 3.3878459232969846,
+          "theta_deg": 0.818784110579112,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999809732057561,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.08558323999932,
+          "position": 0.9991119433335148,
+          "vertices": [
+            [
+              0.9986177325826537,
+              0.9986177345368181
+            ],
+            [
+              0.9986260952260342,
+              0.998626097168604
+            ]
+          ]
+        },
+        "0.05/0": {
+          "radius_um": 0.05,
+          "cosine": 0.0,
+          "distance_um": 3.4003676271838605,
+          "theta_deg": 0.8425242607404146,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999806436156321,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.44162123899878,
+          "position": 0.9991262430639608,
+          "vertices": [
+            [
+              0.998637158781474,
+              0.998637160714611
+            ],
+            [
+              0.9986350561191639,
+              0.9986350580303028
+            ]
+          ]
+        },
+        "0.05/0.25": {
+          "radius_um": 0.05,
+          "cosine": 0.25,
+          "distance_um": 3.4128433893163046,
+          "theta_deg": 0.8127864998585078,
+          "active_modes": 53,
+          "retained_ss_weight": 0.9999815708186579,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 53.96688345899929,
+          "position": 0.9991273192962238,
+          "vertices": [
+            [
+              0.9986434347392938,
+              0.9986434366750115
+            ],
+            [
+              0.998630725363715,
+              0.9986307272675041
+            ]
+          ]
+        },
+        "0.05/0.5": {
+          "radius_um": 0.05,
+          "cosine": 0.5,
+          "distance_um": 3.4252737116907896,
+          "theta_deg": 0.7243351407550608,
+          "active_modes": 52,
+          "retained_ss_weight": 0.9999812455069051,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 50.48110242599978,
+          "position": 0.9991120394275192,
+          "vertices": [
+            [
+              0.9986334049627658,
+              0.9986334069282996
+            ],
+            [
+              0.9986099984515363,
+              0.998610000375637
+            ]
+          ]
+        },
+        "0.05/0.75": {
+          "radius_um": 0.05,
+          "cosine": 0.75,
+          "distance_um": 3.4376590872278188,
+          "theta_deg": 0.5512207522039253,
+          "active_modes": 49,
+          "retained_ss_weight": 0.9999789456796292,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 56.68626851699992,
+          "position": 0.999076686430004,
+          "vertices": [
+            [
+              0.9986033436814438,
+              0.9986033457082524
+            ],
+            [
+              0.998569172645559,
+              0.9985691746218329
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 47,
+          "retained_ss_weight": 0.9999778176532113,
+          "connected_component_size": 3684,
+          "pair_basis_size": 3684,
+          "model_seconds": 51.01500211199891,
+          "position": 0.9990171287199876,
+          "vertices": [
+            [
+              0.9985491225600762,
+              0.9985491246842688
+            ],
+            [
+              0.9985041188352032,
+              0.99850412090016
+            ]
+          ]
+        }
+      },
+      "full_grid": {
+        "nominal": 0.9991257374841602,
+        "position_minimum": 0.9990086867314503,
+        "joint_minimum": 0.9985000241392219,
+        "endpoint_objective": 0.001528180067225188,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.10000000/60": {
+      "field_gauss": 3.1,
+      "pair_window_ghz": 60.0,
+      "correction": [
+        -3.1411597024080704,
+        2.940754418564121
+      ],
+      "nominal": 0.9991251026422632,
+      "survival": 0.9991252138451587,
+      "fixed_3_10G_nominal": 0.999125042714385,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 58,
+        "retained_ss_weight": 0.999975385790828,
+        "connected_component_size": 5212,
+        "pair_basis_size": 5212,
+        "model_seconds": 177.32873529300014
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 58,
+          "retained_ss_weight": 0.999975385790828,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 177.32873529300014,
+          "position": 0.9991251026422632,
+          "vertices": [
+            [
+              0.9986357296231578,
+              0.9986357315575708
+            ],
+            [
+              0.9986342014237918,
+              0.9986342033350857
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.999125042714385,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9986361910241863,
+              0.9986361929585852
+            ],
+            [
+              0.9986336179188371,
+              0.9986336198315999
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 61,
+          "retained_ss_weight": 0.9999759329968256,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 175.06573390799895,
+          "position": 0.9990103321067494,
+          "vertices": [
+            [
+              0.9985016526064481,
+              0.9985016547312944
+            ],
+            [
+              0.998539565316743,
+              0.9985395674629599
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.9990144332276005,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9985062129615081,
+              0.998506215091685
+            ],
+            [
+              0.9985432008047684,
+              0.998543202957956
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 50,
+          "retained_ss_weight": 0.9999710850913748,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 186.13984214599986,
+          "position": 0.9990167917922026,
+          "vertices": [
+            [
+              0.9985486209129778,
+              0.9985486230471402
+            ],
+            [
+              0.9985039308330693,
+              0.998503932906211
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.999012249003904,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9985446607482554,
+              0.9985446628766385
+            ],
+            [
+              0.9984988078463249,
+              0.9984988099150167
+            ]
+          ]
+        }
+      },
+      "fixed_same_field_40GHz_nominal": 0.999125042714385,
+      "endpoints": {
+        "nominal": 0.9991251026422632,
+        "position_minimum": 0.9990103321067494,
+        "joint_minimum": 0.9985016526064481,
+        "endpoint_objective": 0.0015265415036427978,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    },
+    "3.10250000/60": {
+      "field_gauss": 3.1025,
+      "pair_window_ghz": 60.0,
+      "correction": [
+        -3.141306488639468,
+        2.940607659157767
+      ],
+      "nominal": 0.9991250368981557,
+      "survival": 0.9991251270265055,
+      "fixed_3_10G_nominal": 0.999124922930459,
+      "nominal_model": {
+        "radius_um": 0.0,
+        "cosine": 0.0,
+        "distance_um": 3.4,
+        "theta_deg": 0.0,
+        "active_modes": 58,
+        "retained_ss_weight": 0.9999753874991619,
+        "connected_component_size": 5212,
+        "pair_basis_size": 5212,
+        "model_seconds": 189.85692966999886
+      },
+      "rows": {
+        "0/0": {
+          "radius_um": 0.0,
+          "cosine": 0.0,
+          "distance_um": 3.4,
+          "theta_deg": 0.0,
+          "active_modes": 58,
+          "retained_ss_weight": 0.9999753874991619,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 189.85692966999886,
+          "position": 0.9991250368981557,
+          "vertices": [
+            [
+              0.9986357034461356,
+              0.9986357053807391
+            ],
+            [
+              0.9986340904027966,
+              0.9986340923133337
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.9991249769138507,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9986361657834577,
+              0.9986361677178704
+            ],
+            [
+              0.9986335058677428,
+              0.9986335077795712
+            ]
+          ]
+        },
+        "0.05/-1": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "active_modes": 61,
+          "retained_ss_weight": 0.9999759238506631,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 182.97518710300028,
+          "position": 0.9990109330630016,
+          "vertices": [
+            [
+              0.9985022294395914,
+              0.9985022315588822
+            ],
+            [
+              0.9985401868465512,
+              0.998540188986011
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.9990150402199346,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9985067967502527,
+              0.9985067988747056
+            ],
+            [
+              0.9985438274634438,
+              0.9985438296097044
+            ]
+          ]
+        },
+        "0.05/1": {
+          "radius_um": 0.05,
+          "cosine": 1.0,
+          "distance_um": 3.4499999999999997,
+          "theta_deg": 0.0,
+          "active_modes": 50,
+          "retained_ss_weight": 0.999971069085222,
+          "connected_component_size": 5212,
+          "pair_basis_size": 5212,
+          "model_seconds": 189.0494539150004,
+          "position": 0.9990157780722486,
+          "vertices": [
+            [
+              0.9985477078741297,
+              0.9985477100152613
+            ],
+            [
+              0.9985028087066764,
+              0.9985028107860972
+            ]
+          ],
+          "fixed_same_field_40GHz_position": 0.9990112284921395,
+          "fixed_same_field_40GHz_vertices": [
+            [
+              0.9985437419830155,
+              0.9985437441181825
+            ],
+            [
+              0.9984976778895309,
+              0.9984976799643148
+            ]
+          ]
+        }
+      },
+      "fixed_same_field_40GHz_nominal": 0.9991249769138507,
+      "endpoints": {
+        "nominal": 0.9991250368981557,
+        "position_minimum": 0.9990109330630016,
+        "joint_minimum": 0.9985022294395914,
+        "endpoint_objective": 0.0015259685357166598,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        }
+      }
+    }
+  },
+  "runs": [
+    {
+      "wall_seconds": 4920.604287239999,
+      "command": [
+        "simulations/replay_control_decay_audits.py",
+        "field"
+      ],
+      "peak_rss_kib": 4828396,
+      "maximum_child_peak_rss_kib": 0
+    },
+    {
+      "wall_seconds": 782.2004413899995,
+      "command": [
+        "simulations/replay_control_decay_audits.py",
+        "field"
+      ],
+      "peak_rss_kib": 4675228,
+      "maximum_child_peak_rss_kib": 0
+    }
+  ],
+  "lifetimes": {
+    "rb_56p_us": 413.8385779142002,
+    "rb_56s_us": 191.77408087222165,
+    "yb_52p_us": 340.6825879260267,
+    "yb_53s_us": 79.52089842018661
+  },
+  "database_assets": {
+    "Rb": "Rb_v1.2",
+    "Yb171_mqdt": "Yb171_mqdt_v1.4",
+    "misc": "misc_v1.4"
+  },
+  "control_decay_recheck_provenance": {
+    "decay_convention": "radiative no-jump including Rb56S control-excited target state",
+    "reoptimized_during_decay_recheck": false,
+    "source_sha256": {
+      "evaluate_forster_control_decay.py": "b6fe418bfdd62f7a28154e05d49f680ceb52ade380b27e2573d46f31d4172cb8",
+      "evaluate_forster_p0_4.py": "688754a3ffc1b37b772a901a7cac19071ff7883f941ec9b91ae8d80966631773",
+      "evaluate_forster_p1_1.py": "68b1c148b05336d79c27e31aa4bc00125d92ab63e9d489fc39689b0fb009697b",
+      "evaluate_forster_p1_2.py": "856bf46e1dd858cf6b9308dc7e6bc0b9cd5915ee5b97aff867a61ded9cbddd6c",
+      "evaluate_forster_p1_4.py": "807a20e8097f1e63e39818e7a1c329c875920aab0ef70fbedc9e0d57899cad19",
+      "evaluate_vdw_p1_5.py": "7b13f0076e6dd46b5ba0fce6a8acd2658190837e2eb5e3d771f124dde9c5adac",
+      "fine_revival_scan.py": "3d79d39f6b44545aa773f54be33c674389cd6709f9a09af7d0a6d590e118b6fc",
+      "optimize_bounded_minimax_forster_gate.py": "47f9ccb525be2d0043da0e5e0ccf9a069eaed69f6548a5234bf2d7c523511706",
+      "optimize_forster_gate.py": "12e283d88d12fc261f36f6b1fcd4898ccba945b1d3d40297344cc7d06275a0fb",
+      "optimize_forster_p0_4_reference.py": "5aee6611e8d210605f904f58dc894cfc925caa4b7e0c37d0f5249a2d57235fbc",
+      "optimize_hardware_aware_forster_gate.py": "7c54f0d4c6f250fd9eed647947090e034533fd4f5865e067d0d3d45ff5fdc6ff",
+      "p1_robustness.py": "fbcaec466c08998d870a904dc9d07ccf7e8f9675838ab0ca291c55cd897eb4f4",
+      "rb_rydberg_hyperfine.py": "b9d2595c3ddbc1b2aa352f39e3d9cc6ed22b7b1f8a7a2be0bccc9ad38fbf6804",
+      "replay_control_decay_audits.py": "4a0a8af23329e0ef1f821bfee08d2d72593a5eef0c43d73168306e7a7b460dc5",
+      "reproduce_forster_characterization.py": "d6ba056b5c71af7f3e73bc9d94aabf0cf8cc52a7e086fcf9e69230283ca342c5",
+      "reproduce_vdw_dense.py": "25decb35033d99b45adfa2cc5533465f8e184d3482a488a1b54e084f70f7f9d9",
+      "robustness_ss_scheme.py": "a6ed615459b24eab6259007105a32d7fa6d5673f38a773827ffa0b632082c7e4",
+      "scan_allm_field_extension.py": "12b320083e43fa05783b31a09d55f7c919b53641f8f0e8317ca9bc1f81122386",
+      "scan_forster_p0_4_field.py": "ba0080f5ffc05481218d284c418f1f23a1a9ea0f751eb3e5270e2d366a8981ff",
+      "simulate_forster_gate.py": "dfd573ba1d11319891bf44222d9c0521eab4d51956f9bb762ba6f9b81aeb9b5c",
+      "simulate_robust_shaped_forster_gate.py": "5602f1565f2c05caea038d2332d94573e3a04451f17222996347ea8a3055ff26",
+      "simulate_ss_scheme.py": "d8774f6dae1ecee5d7d115e93c565d96c14b60118395508d6d3904469746488b",
+      "simulate_vdw_gate.py": "9f3e5f3f837a87b4a5d9276c5b724575a5f7846f7b94c3f35d8006fdff49d517",
+      "ss_population_transfer.py": "00086d1ff94533cc24ff44b05ae9d5558386bfd90a9caaf1c6a8ce9fed55207c",
+      "test_forster_characterization.py": "944e35208d2470b6625e76c4b32ae9d242395685bd13910c1188b7967ec28123",
+      "test_forster_p0_4_field.py": "9805652796ec250901e0759e8cf78a5682cdc381b842044b942c14a973e08f11",
+      "test_forster_p0_4_reoptimization.py": "b3e2720feac512f913240c82a934337154c47472c0f7b797b68cf41bbbde6cb0",
+      "test_p1_projection.py": "4b25d78779055276c957c611114df7e1db539dea235f6d399880162d032c6e7e",
+      "test_p1_robustness.py": "376094e2ad56ef3d24ac448af97c89581d6e3b0b4bcca60f80ff62bca7ea3a6e",
+      "test_rb_rydberg_hyperfine.py": "c00a3515a163d2ab95747bac5dfbabb074fb975309abb1b9d94b21130f106fe3",
+      "test_vdw_p1_5.py": "86382654062571412fc3944201658817ae4d5ebeb7af464dc298f4e8346c15c3",
+      "forster_characterization.json": "beafb71b5fe857d65a4dc23c0b41265428c940bac597e85ecd5c2df27b76e1c1"
+    },
+    "baseline_signature": "820b284a715600e874c6ee84cbe50bc54d6b3a50a141bf2aecff57a925e72c4f",
+    "baseline_sha256": "1660d53dda9fb94af58fd2af0c329a91b8e5b66a4a6f34aaaee080214da58589"
+  },
+  "started_utc": "2026-09-05T20:32:21.318860+00:00",
+  "corrected_baseline_reproduced": true,
+  "assessment": {
+    "baseline": {
+      "nominal": 0.999125784769183,
+      "position_minimum": 0.9990080680690021,
+      "joint_minimum": 0.9984994300039455,
+      "endpoint_objective": 0.0015287709199429916,
+      "worst": {
+        "radius_um": 0.05,
+        "cosine": -1.0,
+        "distance_um": 3.35,
+        "theta_deg": 0.0,
+        "yb_scale": 0.99,
+        "rb_scale": 0.99
+      }
+    },
+    "alternatives": [
+      {
+        "field_gauss": 3.085,
+        "nominal": 0.999125891914009,
+        "position_minimum": 0.9990041988923872,
+        "joint_minimum": 0.9984957124315288,
+        "endpoint_objective": 0.00153247276542786,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        },
+        "nominal_change": 1.071448260114849e-07,
+        "joint_minimum_change": -3.717572416683801e-06,
+        "endpoint_objective_change": 3.7018454848683664e-06
+      },
+      {
+        "field_gauss": 3.1025,
+        "nominal": 0.9991257374841602,
+        "position_minimum": 0.9990086867314503,
+        "joint_minimum": 0.9985000241392219,
+        "endpoint_objective": 0.001528180067225188,
+        "worst": {
+          "radius_um": 0.05,
+          "cosine": -1.0,
+          "distance_um": 3.35,
+          "theta_deg": 0.0,
+          "yb_scale": 0.99,
+          "rb_scale": 0.99
+        },
+        "nominal_change": -4.728502278616986e-08,
+        "joint_minimum_change": 5.941352764216035e-07,
+        "endpoint_objective_change": -5.908527178036683e-07
+      }
+    ],
+    "pair_window_checks": [
+      {
+        "field_gauss": 3.1,
+        "nominal_fixed_40GHz_z": 0.999125042714385,
+        "joint_minimum_fixed_40GHz_z": 0.9984988078463249,
+        "nominal_recalibrated_60GHz_z": 0.9991251026422632,
+        "joint_minimum_recalibrated_60GHz_z": 0.9985016526064481,
+        "nominal_window_change_fixed_z": -7.420547980530046e-07,
+        "joint_minimum_window_change_fixed_z": -6.221576205334145e-07
+      },
+      {
+        "field_gauss": 3.1025,
+        "nominal_fixed_40GHz_z": 0.9991249769138507,
+        "joint_minimum_fixed_40GHz_z": 0.9984976778895309,
+        "nominal_recalibrated_60GHz_z": 0.9991250368981557,
+        "joint_minimum_recalibrated_60GHz_z": 0.9985022294395914,
+        "nominal_window_change_fixed_z": -7.605703095103777e-07,
+        "joint_minimum_window_change_fixed_z": -2.3462496909765207e-06
+      }
+    ],
+    "robust_candidate_joint_change_at_60GHz_fixed_z": -1.1299567940215027e-06,
+    "recommendation": "retain 3.10 G",
+    "interpretation": "The 40-to-60 GHz differences are deterministic basis sensitivities, not statistical error bars. No pulse optimization was performed; this is not a joint pulse/field optimum.",
+    "adoption_dependencies": [
+      "P0-4 basis/sensitivity/convergence and fixed-Z calibration",
+      "P1-1 grid/Sobol/local checks",
+      "P1-2 projection audit",
+      "P1-4 static spectrum at changed field",
+      "all Fig. 3 curves and associated manuscript values"
+    ]
+  },
+  "completed_utc": "2026-09-05T20:45:14.577155+00:00"
+}
