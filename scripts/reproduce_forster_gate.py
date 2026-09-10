@@ -167,6 +167,8 @@ def _scenario_kraus(
     lifetimes,
     target_scales: tuple[float, ...] = AMPLITUDE_VERTICES,
     control_scales: tuple[float, ...] = AMPLITUDE_VERTICES,
+    *,
+    include_blocked_control_decay: bool = False,
 ) -> np.ndarray:
     duration = sum(segment.duration_us for segment in pulse)
     control_lifetime = None if lifetimes is None else lifetimes.rb_56s_us
@@ -194,6 +196,7 @@ def _scenario_kraus(
                 pulse,
                 lifetimes,
                 amplitude_scale=target_scale,
+                include_blocked_control_decay=include_blocked_control_decay,
             )
             for control_index, (control_pi, control_only) in enumerate(
                 control_data
@@ -230,6 +233,8 @@ def _scenario_fidelities(
     correction: tuple[float, float],
     target_scales: tuple[float, ...] = AMPLITUDE_VERTICES,
     control_scales: tuple[float, ...] = AMPLITUDE_VERTICES,
+    *,
+    include_blocked_control_decay: bool = False,
 ) -> np.ndarray:
     return _fidelities_from_kraus(
         _scenario_kraus(
@@ -238,6 +243,7 @@ def _scenario_fidelities(
             lifetimes,
             target_scales=target_scales,
             control_scales=control_scales,
+            include_blocked_control_decay=include_blocked_control_decay,
         ),
         correction,
     )

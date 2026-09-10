@@ -175,18 +175,27 @@ def _training_metrics(
     optimization_geometries: Sequence[PreparedGeometry],
     lifetimes,
     step_ns: float,
+    *,
+    include_blocked_control_decay: bool = False,
 ) -> dict[str, object]:
     pulse = _pulse(parameters, step_ns)
     nominal_mode = optimization_geometries[0].modes
     endpoint_modes = [item.modes for item in optimization_geometries[1:]]
-    correction = hardware._correction(nominal_mode, pulse, lifetimes)
+    correction = hardware._correction(
+        nominal_mode, pulse, lifetimes,
+        include_blocked_control_decay=include_blocked_control_decay,
+    )
     endpoint_grid = minimax._scenario_fidelities(
         endpoint_modes,
         pulse,
         lifetimes,
         correction,
+        include_blocked_control_decay=include_blocked_control_decay,
     )
-    nominal = hardware._fidelity(nominal_mode, pulse, lifetimes, correction)
+    nominal = hardware._fidelity(
+        nominal_mode, pulse, lifetimes, correction,
+        include_blocked_control_decay=include_blocked_control_decay,
+    )
     return {
         "nominal_fidelity": float(nominal),
         "endpoint_vertex_minimum": float(np.min(endpoint_grid)),

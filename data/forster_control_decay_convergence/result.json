@@ -1,0 +1,336 @@
+{
+  "started_utc": "2026-09-08T08:22:36.811088+00:00",
+  "status": "finished",
+  "decay_convention": "includes Rb56S control-excited target-window decay",
+  "seed_parameters": [
+    4.480374546413655,
+    9.229350329961736,
+    11.778486107199452,
+    -0.3647742336217171,
+    -1.0235176743455907,
+    2.4312627812906094,
+    0.025634115265641792
+  ],
+  "baseline_parameters": [
+    4.480374546413655,
+    9.229350329961736,
+    11.778486107199452,
+    -0.3647742336217171,
+    -1.0235176743455907,
+    2.4312627812906094,
+    0.025634115265641792
+  ],
+  "source_sha256": {
+    "evaluate_forster_control_decay.py": "b6fe418bfdd62f7a28154e05d49f680ceb52ade380b27e2573d46f31d4172cb8",
+    "evaluate_forster_p0_4.py": "688754a3ffc1b37b772a901a7cac19071ff7883f941ec9b91ae8d80966631773",
+    "evaluate_forster_p1_1.py": "68b1c148b05336d79c27e31aa4bc00125d92ab63e9d489fc39689b0fb009697b",
+    "evaluate_forster_p1_2.py": "856bf46e1dd858cf6b9308dc7e6bc0b9cd5915ee5b97aff867a61ded9cbddd6c",
+    "evaluate_forster_p1_4.py": "807a20e8097f1e63e39818e7a1c329c875920aab0ef70fbedc9e0d57899cad19",
+    "evaluate_vdw_p1_5.py": "7b13f0076e6dd46b5ba0fce6a8acd2658190837e2eb5e3d771f124dde9c5adac",
+    "fine_revival_scan.py": "3d79d39f6b44545aa773f54be33c674389cd6709f9a09af7d0a6d590e118b6fc",
+    "optimize_bounded_minimax_forster_gate.py": "47f9ccb525be2d0043da0e5e0ccf9a069eaed69f6548a5234bf2d7c523511706",
+    "optimize_forster_gate.py": "12e283d88d12fc261f36f6b1fcd4898ccba945b1d3d40297344cc7d06275a0fb",
+    "optimize_forster_p0_4_reference.py": "5aee6611e8d210605f904f58dc894cfc925caa4b7e0c37d0f5249a2d57235fbc",
+    "optimize_hardware_aware_forster_gate.py": "7c54f0d4c6f250fd9eed647947090e034533fd4f5865e067d0d3d45ff5fdc6ff",
+    "p1_robustness.py": "fbcaec466c08998d870a904dc9d07ccf7e8f9675838ab0ca291c55cd897eb4f4",
+    "rb_rydberg_hyperfine.py": "b9d2595c3ddbc1b2aa352f39e3d9cc6ed22b7b1f8a7a2be0bccc9ad38fbf6804",
+    "replay_control_decay_audits.py": "4a0a8af23329e0ef1f821bfee08d2d72593a5eef0c43d73168306e7a7b460dc5",
+    "reproduce_forster_characterization.py": "d6ba056b5c71af7f3e73bc9d94aabf0cf8cc52a7e086fcf9e69230283ca342c5",
+    "reproduce_vdw_dense.py": "25decb35033d99b45adfa2cc5533465f8e184d3482a488a1b54e084f70f7f9d9",
+    "robustness_ss_scheme.py": "a6ed615459b24eab6259007105a32d7fa6d5673f38a773827ffa0b632082c7e4",
+    "run_control_decay_convergence.py": "2c971ce564613ea25c7006ce052ef941b4a1ef52524b0e058db7e4243ca07d77",
+    "scan_allm_field_extension.py": "12b320083e43fa05783b31a09d55f7c919b53641f8f0e8317ca9bc1f81122386",
+    "scan_forster_p0_4_field.py": "ba0080f5ffc05481218d284c418f1f23a1a9ea0f751eb3e5270e2d366a8981ff",
+    "simulate_forster_gate.py": "dfd573ba1d11319891bf44222d9c0521eab4d51956f9bb762ba6f9b81aeb9b5c",
+    "simulate_robust_shaped_forster_gate.py": "5602f1565f2c05caea038d2332d94573e3a04451f17222996347ea8a3055ff26",
+    "simulate_ss_scheme.py": "d8774f6dae1ecee5d7d115e93c565d96c14b60118395508d6d3904469746488b",
+    "simulate_vdw_gate.py": "9f3e5f3f837a87b4a5d9276c5b724575a5f7846f7b94c3f35d8006fdff49d517",
+    "ss_population_transfer.py": "00086d1ff94533cc24ff44b05ae9d5558386bfd90a9caaf1c6a8ce9fed55207c",
+    "test_forster_characterization.py": "944e35208d2470b6625e76c4b32ae9d242395685bd13910c1188b7967ec28123",
+    "test_forster_p0_4_field.py": "9805652796ec250901e0759e8cf78a5682cdc381b842044b942c14a973e08f11",
+    "test_forster_p0_4_reoptimization.py": "b3e2720feac512f913240c82a934337154c47472c0f7b797b68cf41bbbde6cb0",
+    "test_p1_projection.py": "4b25d78779055276c957c611114df7e1db539dea235f6d399880162d032c6e7e",
+    "test_p1_robustness.py": "376094e2ad56ef3d24ac448af97c89581d6e3b0b4bcca60f80ff62bca7ea3a6e",
+    "test_rb_rydberg_hyperfine.py": "c00a3515a163d2ab95747bac5dfbabb074fb975309abb1b9d94b21130f106fe3",
+    "test_vdw_p1_5.py": "86382654062571412fc3944201658817ae4d5ebeb7af464dc298f4e8346c15c3"
+  },
+  "software": {
+    "python": "3.11.6",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "pairinteraction": "2.5.0"
+  },
+  "basis": {
+    "delta_n": 3,
+    "atomic_window_ghz": 80.0,
+    "pair_window_ghz": 40.0,
+    "delta_l": 2,
+    "interaction_order": 4
+  },
+  "training_specs": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.05,
+      -1.0
+    ],
+    [
+      0.05,
+      1.0
+    ]
+  ],
+  "training_configurations": 9,
+  "optimization_step_ns": 1.0,
+  "options": {
+    "maxiter": 3000,
+    "xatol": 2e-08,
+    "fatol": 2e-11,
+    "adaptive": true
+  },
+  "evaluations": 3466,
+  "lifetimes_us": {
+    "rb_56p_us": 413.8385779142002,
+    "rb_56s_us": 191.77408087222165,
+    "yb_52p_us": 340.6825879260267,
+    "yb_53s_us": 79.52089842018661
+  },
+  "model_build_seconds": 276.6338310359997,
+  "best_objective": 0.0015199301197641089,
+  "best_parameters": [
+    4.476032211118227,
+    9.123625724427399,
+    11.962425034050701,
+    0.13754729923557296,
+    -1.218256715092022,
+    2.561900748795744,
+    0.025634115265641792
+  ],
+  "best_metrics": {
+    "nominal_fidelity": 0.9991397824485391,
+    "endpoint_vertex_minimum": 0.998508092856099,
+    "endpoint_objective": 0.0015199301197641089,
+    "local_z_alpha_rad": -3.1419401611353086,
+    "local_z_beta_rad": 2.941186900259895,
+    "endpoint_vertex_fidelities": [
+      [
+        [
+          0.998508092856099,
+          0.9985080950269744
+        ],
+        [
+          0.9985847372232881,
+          0.9985847392145233
+        ]
+      ],
+      [
+        [
+          0.9985240120429028,
+          0.998524014295883
+        ],
+        [
+          0.9985080928560999,
+          0.9985080948972991
+        ]
+      ]
+    ]
+  },
+  "wall_seconds": 37018.007508767994,
+  "peak_rss_mib": 3436.7109375,
+  "optimizer": {
+    "success": true,
+    "status": 0,
+    "message": "Optimization terminated successfully.",
+    "nit": 2091,
+    "nfev": 3466,
+    "final_simplex": [
+      [
+        [
+          4.476032211118227,
+          9.123625724427399,
+          11.962425034050701,
+          0.13754729923557296,
+          -1.218256715092022,
+          2.561900748795744
+        ],
+        [
+          4.476032211046004,
+          9.12362572213938,
+          11.962425039474486,
+          0.13754730679322405,
+          -1.218256720446545,
+          2.5619007539944696
+        ],
+        [
+          4.476032211724066,
+          9.1236257234836,
+          11.962425034881218,
+          0.13754730889050737,
+          -1.2182567181547859,
+          2.5619007541191974
+        ],
+        [
+          4.476032211598144,
+          9.12362572874769,
+          11.962425025501972,
+          0.13754728030496796,
+          -1.2182567128264388,
+          2.561900745433867
+        ],
+        [
+          4.476032210243392,
+          9.12362572725555,
+          11.96242503134173,
+          0.1375472832499655,
+          -1.2182567099013053,
+          2.561900745466953
+        ],
+        [
+          4.476032211927803,
+          9.12362572228922,
+          11.96242503601826,
+          0.1375473157702076,
+          -1.2182567188191413,
+          2.561900754240397
+        ],
+        [
+          4.476032211498293,
+          9.123625722686578,
+          11.96242503692383,
+          0.137547304358444,
+          -1.2182567207120785,
+          2.561900751596465
+        ]
+      ],
+      [
+        0.0015199301197641089,
+        0.001519930119766229,
+        0.001519930119778547,
+        0.0015199301197799918,
+        0.0015199301197820162,
+        0.001519930119784322,
+        0.001519930119788135
+      ]
+    ]
+  },
+  "fine_step_recheck": {
+    "baseline_0.125ns": {
+      "nominal_fidelity": 0.999125784769183,
+      "endpoint_vertex_minimum": 0.9984994300039455,
+      "endpoint_objective": 0.0015287709199429916,
+      "local_z_alpha_rad": -3.1407724432579953,
+      "local_z_beta_rad": 2.941141606972484,
+      "endpoint_vertex_fidelities": [
+        [
+          [
+            0.9984994300039455,
+            0.9984994321448981
+          ],
+          [
+            0.998537275314311,
+            0.9985372774798694
+          ]
+        ],
+        [
+          [
+            0.9985499919584047,
+            0.9985499940760343
+          ],
+          [
+            0.9985051982222257,
+            0.9985052002813177
+          ]
+        ]
+      ]
+    },
+    "baseline_0.0625ns": {
+      "nominal_fidelity": 0.9991257839998615,
+      "endpoint_vertex_minimum": 0.9984994230238966,
+      "endpoint_objective": 0.0015287779146971453,
+      "local_z_alpha_rad": -3.140772070224343,
+      "local_z_beta_rad": 2.9411410299871417,
+      "endpoint_vertex_fidelities": [
+        [
+          [
+            0.9984994230238966,
+            0.9984994251648838
+          ],
+          [
+            0.9985372752345738,
+            0.9985372774001349
+          ]
+        ],
+        [
+          [
+            0.9985499903836768,
+            0.9985499925013084
+          ],
+          [
+            0.998505203932709,
+            0.9985052059917681
+          ]
+        ]
+      ]
+    },
+    "candidate_0.125ns": {
+      "nominal_fidelity": 0.9991397592210811,
+      "endpoint_vertex_minimum": 0.9985074897139139,
+      "endpoint_objective": 0.0015205336822432082,
+      "local_z_alpha_rad": -3.141909484399405,
+      "local_z_beta_rad": 2.941142792929055,
+      "endpoint_vertex_fidelities": [
+        [
+          [
+            0.9985074897139139,
+            0.9985074918878937
+          ],
+          [
+            0.998584878314807,
+            0.9985848803055875
+          ]
+        ],
+        [
+          [
+            0.9985238074566134,
+            0.9985238097100559
+          ],
+          [
+            0.9985086765407682,
+            0.9985086785785813
+          ]
+        ]
+      ]
+    },
+    "candidate_0.0625ns": {
+      "nominal_fidelity": 0.9991397589660671,
+      "endpoint_vertex_minimum": 0.9985074824055115,
+      "endpoint_objective": 0.0015205409958427055,
+      "local_z_alpha_rad": -3.141909112391965,
+      "local_z_beta_rad": 2.9411422577964617,
+      "endpoint_vertex_fidelities": [
+        [
+          [
+            0.9985074824055115,
+            0.9985074845795292
+          ],
+          [
+            0.9985848800439294,
+            0.9985848820347044
+          ]
+        ],
+        [
+          [
+            0.9985238049369898,
+            0.9985238071904385
+          ],
+          [
+            0.9985086835978423,
+            0.9985086856356136
+          ]
+        ]
+      ]
+    }
+  },
+  "scope": "single local search and nine-point time-step recheck; no global certificate or full-grid acceptance"
+}

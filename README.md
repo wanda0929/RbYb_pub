@@ -59,6 +59,23 @@ not gate fidelities.
 See `data/README.md` for field-level traceability and
 `docs/P1_1_ROBUSTNESS_METHOD.md` for the robustness protocol.
 
+## Supplemental local convergence experiment
+
+[`data/forster_control_decay_convergence/README.md`](data/forster_control_decay_convergence/README.md)
+documents a separate nine-point local refinement, including all 3466 objective
+evaluations and the final simplex. It terminated successfully at 2091 iterations
+within a 3000-iteration budget. This establishes the specified Nelder–Mead
+stopping tolerances, not a global or continuous-domain minimax certificate.
+
+The supplement includes Rb 56S decay in the blocked control-excited state during
+the target window, which the historical propagator omitted. This correction is
+explicitly enabled only in the supplemental runner; historical reproduction
+defaults and records remain unchanged. Both the selected baseline and the new
+candidate are reevaluated under the corrected convention. Neither the selected
+pulse nor the manuscript-linked Figure 3 data is replaced by this supplement.
+The original budget-limited optimization record remains valid as a historical
+record; this later run does not retroactively change its termination status.
+
 ## Environment
 
 Python dependencies are locked with [`uv`](https://docs.astral.sh/uv/):

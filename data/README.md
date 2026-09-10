@@ -45,6 +45,20 @@ Deterministic final-reference local refinement and exact validation. The
 accepted candidate exhausted 400 iterations / 625 evaluations and is not a
 converged or global optimum.
 
+## `forster_control_decay_convergence/`
+
+Separate corrected-decay local refinement; not a replacement for any
+manuscript-linked record. See its [README](forster_control_decay_convergence/README.md)
+for provenance, claim boundaries, and reproduction commands.
+
+- `result.json`: original optimizer termination, options, seed/baseline/best
+  parameters, final simplex, source hashes, software versions, and four
+  fixed-pulse fine-step rechecks.
+- `evaluations.jsonl`: all 3466 objective evaluations in order, with six free
+  parameters plus fixed segment duration, nine-point metrics, and timing.
+- The candidate reached local stopping tolerances; it has not passed a new
+  full-grid or continuous-domain acceptance study and is not manuscript-selected.
+
 ## `forster_p0_4_field_scan.json`
 
 Checkpointed fixed-pulse field study, fine peak scans, full-grid comparisons,

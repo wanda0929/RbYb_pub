@@ -174,6 +174,8 @@ def _target_returns(
     lifetimes,
     amplitude_scale: float = 1.0,
     detuning_offset_mhz: float = 0.0,
+    *,
+    include_blocked_control_decay: bool = False,
 ) -> tuple[complex, complex]:
     unblocked = np.array([1.0, 0.0], dtype=complex)
     blocked = np.zeros(len(modes.energies_rel_mhz) + 1, dtype=complex)
@@ -204,6 +206,9 @@ def _target_returns(
         h_blocked[1:, 0] = omega * modes.ss_amplitudes / 2
         diagonal = modes.energies_rel_mhz - detuning
         if mode_rates is not None:
+            if include_blocked_control_decay:
+                # Supplemental model: Rb is excited even before Yb excitation.
+                h_blocked[0, 0] = -0.5j / (2 * np.pi * lifetimes.rb_56s_us)
             diagonal = diagonal - 0.5j * mode_rates / (2 * np.pi)
         h_blocked[1:, 1:] = np.diag(diagonal)
         blocked = expm_multiply(-2j * np.pi * h_blocked * segment.duration_us, blocked)
@@ -219,6 +224,8 @@ def _kraus(
     detuning_offset_mhz: float = 0.0,
     control_amplitude_scale: float = 1.0,
     control_detuning_offset_mhz: float = 0.0,
+    *,
+    include_blocked_control_decay: bool = False,
 ) -> np.ndarray:
     unblocked, blocked = _target_returns(
         modes,
@@ -226,6 +233,7 @@ def _kraus(
         lifetimes,
         amplitude_scale=target_amplitude_scale,
         detuning_offset_mhz=detuning_offset_mhz,
+        include_blocked_control_decay=include_blocked_control_decay,
     )
     duration = sum(segment.duration_us for segment in pulse)
     control_lifetime = None if lifetimes is None else lifetimes.rb_56s_us
@@ -240,8 +248,12 @@ def _kraus(
     return np.array([1.0, unblocked, control_only, both], dtype=complex)
 
 
-def _correction(modes, pulse, lifetimes) -> tuple[float, float]:
-    metrics = shaped._local_z_metrics(_kraus(modes, pulse, lifetimes))
+def _correction(
+    modes, pulse, lifetimes, *, include_blocked_control_decay: bool = False,
+) -> tuple[float, float]:
+    metrics = shaped._local_z_metrics(_kraus(
+        modes, pulse, lifetimes, include_blocked_control_decay=include_blocked_control_decay,
+    ))
     return (
         float(metrics["optimal_local_z_alpha_rad"]),
         float(metrics["optimal_local_z_beta_rad"]),
